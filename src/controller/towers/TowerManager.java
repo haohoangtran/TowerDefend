@@ -1,6 +1,4 @@
-package controller.manager;
-
-import controller.TowerController;
+package controller.towers;
 
 import java.awt.*;
 import java.util.Vector;
@@ -22,6 +20,7 @@ public class TowerManager {
         System.out.println(towerControllers.size());
 
     }
+
 
     public void run() {
         for (int i = 0; i < towerControllers.size(); i++) {

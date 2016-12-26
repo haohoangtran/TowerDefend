@@ -1,7 +1,8 @@
-package controller;
+package controller.towers;
 
-import controller.manager.EnemyManager;
-import models.CheckPoint;
+import controller.Controller;
+import controller.enemies.EnemyController;
+import controller.enemies.EnemyManager;
 import models.Model;
 import utils.Utils;
 import views.Animation;
@@ -17,6 +18,30 @@ import java.util.Vector;
 public class TowerController extends Controller {
     private Vector<BulletTower> bulletTowers;
     private static int timeCount = 0;
+    private boolean isAlive;
+    private int money;
+    private int radiusFire;
+
+    public int getRadiusFire() {
+        return radiusFire;
+    }
+    public boolean intersectsCircle(Model other){
+        double distance = Math.sqrt(Math.pow(Math.abs(model.getMidX()-other.getMidX()),2)+Math.pow(Math.abs(model.getMidY()-other.getMidY()),2));
+        return  distance<radiusFire;
+
+    }
+
+    public void setRadiusFire(int radiusFire) {
+        this.radiusFire = radiusFire;
+    }
+
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    public void setAlive(boolean alive) {
+        isAlive = alive;
+    }
 
     public boolean isFire() {
         return isFire;
@@ -39,8 +64,17 @@ public class TowerController extends Controller {
     }
 
     public int sell() {
-        this.model.setAlive(false);
-        return (int) (this.model.getMoney() * 0.6);
+        setAlive(false);
+        return (int) (getMoney() * 0.6);
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
+    private int getMoney() {
+        return money;
+
     }
 
     @Override
@@ -86,7 +120,7 @@ public class TowerController extends Controller {
             BulletTower bulletTower = iterator.next();
             int a=bulletTower.getModel().getX();
             int b=bulletTower.getModel().getY();
-            if (!bulletTower.model.isAlive() || !bulletTower.getEnemyController().getModel().isAlive()) {
+            if (!bulletTower.isAlive() || !bulletTower.getEnemyController().isAlive()) {
                 iterator.remove();
             } else {
                 bulletTower.run();
@@ -97,7 +131,7 @@ public class TowerController extends Controller {
 
 
     public static TowerController createTower(int x, int y) {
-        return new TowerController(new Model(x, y, 50, 50, 7, 1), new View(
+        return new TowerController(new Model(x, y, 50, 50), new View(
                 Utils.loadImage("res/PNG/Towers (grey)/TowersLever2.png")));
     }
 

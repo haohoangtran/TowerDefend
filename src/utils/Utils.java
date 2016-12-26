@@ -1,8 +1,6 @@
 package utils;
 
-import controller.Body;
-import controller.EnemyController;
-import controller.TowerController;
+import controller.enemies.EnemyController;
 import models.CheckPoint;
 
 import javax.imageio.ImageIO;

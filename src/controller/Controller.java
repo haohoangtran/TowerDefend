@@ -15,6 +15,17 @@ public class Controller {
     protected Animation animation;
     protected View view;
 
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    public void setAlive(boolean alive) {
+        isAlive = alive;
+    }
+
+    protected boolean isAlive;
+
+
     public Controller(Model model, Animation animation) {
         this.model = model;
         this.animation = animation;
@@ -29,14 +40,22 @@ public class Controller {
         return model;
     }
 
+    public void setAnimation(Animation animation) {
+        this.animation = animation;
+    }
+
+    public Animation getAnimation() {
+
+        return animation;
+    }
+
     public void run() {
 
     }
 
     public void drawAnimation(Graphics g) {
-        if (animation != null) {
+        if(animation!=null)
             animation.draw(g, model);
-        }
     }
 
     public void drawView(Graphics g) {

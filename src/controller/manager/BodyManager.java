@@ -40,7 +40,7 @@ public class BodyManager {
         Iterator<Body> iterator = bodies.iterator();
         while (iterator.hasNext()) {
             Body body = iterator.next();
-            if (!body.getModel().isAlive()) {
+            if (!body.isAlive()) {
                 iterator.remove();
             }
         }

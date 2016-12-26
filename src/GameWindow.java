@@ -1,12 +1,12 @@
 import controller.*;
+import controller.enemies.EnemyController;
 import controller.manager.BodyManager;
 import controller.manager.CellManager;
-import controller.manager.EnemyManager;
-import controller.manager.TowerManager;
+import controller.enemies.EnemyManager;
+import controller.towers.TowerController;
+import controller.towers.TowerManager;
 import models.Circle;
-import models.Model;
 import utils.Utils;
-import views.View;
 
 import javax.swing.*;
 import java.awt.*;
@@ -110,7 +110,7 @@ public class GameWindow extends Frame implements Runnable {
                 cellController = cellManager.findCell(e.getX(), e.getY());
                 if (cellController != null && cellController.getModel().isCanBuild()) {
                     t = TowerController.createTower(cellController.getModel().getX(), cellController.getModel().getY());
-                    t.getModel().setRadiusFire(100);
+                    t.setRadiusFire(100);
                     cellController.setTowerController(t);
                     towerManager.add(t);
                 }
@@ -126,7 +126,7 @@ public class GameWindow extends Frame implements Runnable {
                 cellController = cellManager.findCell(e.getX(), e.getY());
                if (cellController != null && cellController.getModel().isCanBuild()&&circle != null) {
                    t = TowerController.createTower(cellController.getModel().getX(), cellController.getModel().getY());
-                   t.getModel().setRadiusFire(100);
+                   t.setRadiusFire(100);
                    cellController.setTowerController(t);
                   towerManager.add(t);
                }

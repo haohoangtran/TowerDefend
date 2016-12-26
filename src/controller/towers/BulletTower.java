@@ -1,17 +1,39 @@
-package controller;
+package controller.towers;
 
+import controller.Body;
+import controller.Controller;
+import controller.enemies.EnemyController;
 import controller.manager.BodyManager;
 import models.Model;
 import utils.Utils;
 import views.View;
 
 import java.awt.*;
-import java.util.Iterator;
 
 /**
  * Created by tranh on 12/17/2016.
  */
 public class BulletTower extends Controller implements Body {
+    private int atk;
+
+    public BulletTower(Model model, View view, int atk) {
+        super(model, view);
+        this.atk = atk;
+    }
+
+    public int getAtk() {
+
+        return atk;
+    }
+
+    public void setAtk(int atk) {
+        this.atk = atk;
+    }
+
+    public void setAlive(boolean alive) {
+        isAlive = alive;
+    }
+
     public EnemyController getEnemyController() {
         return enemyController;
     }
@@ -24,6 +46,7 @@ public class BulletTower extends Controller implements Body {
 
     public BulletTower(Model model, View view) {
         super(model, view);
+        isAlive=true;
         BodyManager.instance.register(this);
     }
 
@@ -33,18 +56,18 @@ public class BulletTower extends Controller implements Body {
     @Override
     public void run() {
         if (enemyController != null) {
-            if (enemyController.getModel().isAlive()) {
-                int xE = enemyController.getModel().getX() + enemyController.model.getWidth() / 2;
-                int yE = enemyController.getModel().getY() + enemyController.model.getHeight() / 2;
+                int xE = enemyController.getModel().getX() + enemyController.getModel().getWidth() / 2;
+                int yE = enemyController.getModel().getY() + enemyController.getModel().getHeight() / 2;
                 int x = (xE - this.model.getX());
                 int y = (yE - this.model.getY());
                 this.model.move(x / numberRun, y / numberRun);
-            }
         }
     }
 
     public static BulletTower createBullet(int x, int y) {
-        return new BulletTower(new Model(x, y, 12, 12, 20, 1), new View(Utils.loadImage("res/bullet.png")));
+        BulletTower b= new BulletTower(new Model(x, y, 12, 12), new View(Utils.loadImage("res/bullet.png")));
+        b.setAtk(10);
+        return b;
     }
 
     @Override
@@ -55,7 +78,12 @@ public class BulletTower extends Controller implements Body {
     @Override
     public void onContact(Body other) {
         if (other instanceof EnemyController) {
-            this.model.setAlive(false);
+            setAlive(false);
+            ((EnemyController) other).setHp(((EnemyController) other).getHp()-atk);
+            if (((EnemyController) other).getHp() <= 0) {
+                ((EnemyController) other).setAnimation(null);
+                ((EnemyController) other).setAlive(false);
+            }
         }
     }
 
@@ -63,4 +91,6 @@ public class BulletTower extends Controller implements Body {
     public Model getModel() {
         return this.model;
     }
+
+
 }

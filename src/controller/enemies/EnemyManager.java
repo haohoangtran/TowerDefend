@@ -1,11 +1,10 @@
-package controller.manager;
+package controller.enemies;
 
 import controller.Controller;
-import controller.EnemyController;
-import controller.TowerController;
+import controller.towers.TowerController;
+import controller.manager.Manager;
 
 import java.util.Iterator;
-import java.util.Vector;
 
 /**
  * Created by Songt on 12/18/2016.
@@ -16,7 +15,7 @@ public class EnemyManager extends Manager {
             Iterator<Controller> iterator =controllers.iterator();
             while (iterator.hasNext()){
                 Controller controller = iterator.next();
-                if(towerController.getModel().intersectsCircle(controller.getModel())){
+                if(towerController.intersectsCircle(controller.getModel())){
                     return (EnemyController) controller;
                 }
                 //iterator.remove();
@@ -42,7 +41,7 @@ public class EnemyManager extends Manager {
         while (iterator.hasNext()) {
             Controller controller = iterator.next();
 
-            if (!controller.getModel().isAlive())
+            if (!controller.isAlive())
                 iterator.remove();
         }
 

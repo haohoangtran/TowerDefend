@@ -1,10 +1,7 @@
 package controller;
 
+import controller.towers.TowerController;
 import models.CellModel;
-import models.Model;
-import utils.Utils;
-import views.CellView;
-import views.View;
 
 import java.awt.*;
 

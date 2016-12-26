@@ -8,4 +8,5 @@ import models.Model;
 public interface Body {
     void onContact(Body other);
     Model getModel();
+    boolean isAlive();
 }

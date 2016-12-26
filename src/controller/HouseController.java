@@ -1,5 +1,6 @@
 package controller;
 
+import controller.enemies.EnemyController;
 import controller.manager.BodyManager;
 import models.Model;
 import utils.Utils;
@@ -21,6 +22,7 @@ public class HouseController extends Controller implements Body{
 
     public HouseController(Model model, Animation animation) {
         super(model, animation);
+        isAlive=true;
         BodyManager.instance.register(this);
     }
 
@@ -32,7 +34,7 @@ public class HouseController extends Controller implements Body{
 
     @Override
     public void drawView(Graphics g) {
-        if (this.model.isAlive()) {
+        if (isAlive) {
             view.draw(g, this.model);
         } else {
             g.drawImage(Utils.loadImage("res/gameOver.png"),300,200,300,300,null);
@@ -55,8 +57,10 @@ public class HouseController extends Controller implements Body{
 
 
     public static HouseController createHpFull(int x, int y) {
-        return new HouseController(new Model(x, y, 100, 140, false, 0, 10, 0, 0),
+        HouseController h= new HouseController(new Model(x, y, 100, 140),
                 new View(Utils.loadImage("res/Hp/houseHpFull.png")));
+        h.setAlive(true);
+        return h;
     }
 
     @Override
@@ -74,7 +78,7 @@ public class HouseController extends Controller implements Body{
             }
             if (this.hp == 0) {
                 this.animation = new Animation("res/Hp/explosion1.png,res/Hp/explosion2.png,res/Hp/explosion3.png,res/Hp/explosion4.png");
-                this.model.setAlive(false);
+                setAlive(false);
             }
         }
     }
