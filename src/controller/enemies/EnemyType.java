@@ -9,4 +9,5 @@ public enum  EnemyType {
     FLY,
     SPEED,
     TANK,
+    HORSE,
 }

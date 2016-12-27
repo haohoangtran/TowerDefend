@@ -51,7 +51,7 @@ public class BulletTower extends Controller implements Body {
     }
 
 
-    public static int numberRun = 15;
+    public static int numberRun = 6;
 
     @Override
     public void run() {

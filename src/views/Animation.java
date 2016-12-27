@@ -39,7 +39,7 @@ public class Animation {
             Image image = imageVector.get(index);
             g.drawImage(image, model.getX(), model.getY(), width, height, null);
             time++;
-            if (time / 10 == 1) {
+            if (time >10) {
                 time = 0;
                 index++;
                 if (index == imageVector.size()) {
