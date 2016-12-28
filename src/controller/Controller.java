@@ -3,6 +3,7 @@ package controller;
 import models.CheckPoint;
 import models.Model;
 import views.Animation;
+import views.SingleView;
 import views.View;
 
 import java.awt.*;
@@ -13,7 +14,7 @@ import java.awt.*;
 public class Controller {
     protected Model model;
     protected Animation animation;
-    protected View view;
+    protected SingleView view;
 
     public boolean isAlive() {
         return isAlive;
@@ -31,7 +32,7 @@ public class Controller {
         this.animation = animation;
     }
 
-    public Controller(Model model, View view) {
+    public Controller(Model model, SingleView view) {
         this.model = model;
         this.view = view;
     }

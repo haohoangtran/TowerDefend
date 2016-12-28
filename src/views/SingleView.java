@@ -1,15 +1,18 @@
 package views;
 
-import models.CellModel;
 import models.Model;
 
 import java.awt.*;
 
 /**
- * Created by tranh on 12/19/2016.
+ * Created by Hieu It on 12/28/2016.
  */
-public class CellView {
+public class SingleView implements View {
     private Image image;
+
+    public SingleView(Image image) {
+        this.image = image;
+    }
 
     public Image getImage() {
         return image;
@@ -19,12 +22,8 @@ public class CellView {
         this.image = image;
     }
 
-    public CellView(Image image) {
-
-        this.image = image;
-    }
-
-    public void draw(Graphics g, CellModel model) {
+    public void draw(Graphics g, Model model) {
         g.drawImage(image, model.getX(), model.getY(), model.getWidth(), model.getHeight(), null);
     }
+
 }

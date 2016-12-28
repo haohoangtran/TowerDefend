@@ -8,6 +8,7 @@ import java.awt.*;
  * Created by DUC THANG on 12/17/2016.
  */
 public class Model {
+
     private int x, y;
     private int width, height;
 
@@ -61,7 +62,6 @@ public class Model {
         this.width = width;
         this.height = height;
     }
-
 
     public int getMidY(){
         return this.y+height/2;

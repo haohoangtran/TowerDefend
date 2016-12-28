@@ -6,6 +6,7 @@ import controller.enemies.EnemyManager;
 import models.Model;
 import utils.Utils;
 import views.Animation;
+import views.SingleView;
 import views.View;
 
 import java.awt.*;
@@ -21,6 +22,7 @@ public class TowerController extends Controller {
     private boolean isAlive;
     private int money;
     private int radiusFire;
+    private TowerType towerType;
 
     public int getRadiusFire() {
         return radiusFire;
@@ -28,7 +30,6 @@ public class TowerController extends Controller {
     public boolean intersectsCircle(Model other){
         double distance = Math.sqrt(Math.pow(Math.abs(model.getMidX()-other.getMidX()),2)+Math.pow(Math.abs(model.getMidY()-other.getMidY()),2));
         return  distance<radiusFire;
-
     }
 
     public void setRadiusFire(int radiusFire) {
@@ -58,7 +59,7 @@ public class TowerController extends Controller {
         //bulletTowers = new Vector<>();
     }
 
-    public TowerController(Model model, View view) {
+    public TowerController(Model model, SingleView view) {
         super(model, view);
         bulletTowers = new Vector<>();
     }
@@ -92,29 +93,6 @@ public class TowerController extends Controller {
             }
         }
 
-
-        /*
-            if (e != null) {
-                timeCount++;
-                if (timeCount > 30) {
-                    BulletTower bulletTower = BulletTower.createBullet(this.model.getMidX(), this.model.getY());
-                    bulletTower.setEnemyController(e);
-                    bulletTowers.add(bulletTower);
-                    System.out.println("Tao");
-                    timeCount = 0;
-                }
-            } else{
-                Iterator<BulletTower> iterator = bulletTowers.iterator();
-                while (iterator.hasNext()) {
-                    BulletTower bulletTower = iterator.next();
-                    if (!bulletTower.model.isAlive()) {
-                        iterator.remove();
-                    } else {
-                        bulletTower.run();
-                    }
-                }
-            }
-            */
         Iterator<BulletTower> iterator = bulletTowers.iterator();
         while (iterator.hasNext()) {
             BulletTower bulletTower = iterator.next();
@@ -131,7 +109,7 @@ public class TowerController extends Controller {
 
 
     public static TowerController createTower(int x, int y) {
-        return new TowerController(new Model(x, y, 50, 50), new View(
+        return new TowerController(new Model(x, y, 50, 50), new SingleView(
                 Utils.loadImage("res/PNG/Towers (grey)/TowersLever2.png")));
     }
 

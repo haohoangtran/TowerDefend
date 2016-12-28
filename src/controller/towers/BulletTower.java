@@ -6,6 +6,7 @@ import controller.enemies.EnemyController;
 import controller.manager.BodyManager;
 import models.Model;
 import utils.Utils;
+import views.SingleView;
 import views.View;
 
 import java.awt.*;
@@ -16,7 +17,7 @@ import java.awt.*;
 public class BulletTower extends Controller implements Body {
     private int atk;
 
-    public BulletTower(Model model, View view, int atk) {
+    public BulletTower(Model model, SingleView view, int atk) {
         super(model, view);
         this.atk = atk;
     }
@@ -44,14 +45,14 @@ public class BulletTower extends Controller implements Body {
 
     private EnemyController enemyController;
 
-    public BulletTower(Model model, View view) {
+    public BulletTower(Model model, SingleView view) {
         super(model, view);
         isAlive=true;
         BodyManager.instance.register(this);
     }
 
 
-    public static int numberRun = 15;
+    public static int numberRun = 6;
 
     @Override
     public void run() {
@@ -65,7 +66,7 @@ public class BulletTower extends Controller implements Body {
     }
 
     public static BulletTower createBullet(int x, int y) {
-        BulletTower b= new BulletTower(new Model(x, y, 12, 12), new View(Utils.loadImage("res/bullet.png")));
+        BulletTower b= new BulletTower(new Model(x, y, 12, 12), new SingleView(Utils.loadImage("res/bullet.png")));
         b.setAtk(10);
         return b;
     }

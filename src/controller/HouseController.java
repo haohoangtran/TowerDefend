@@ -5,6 +5,7 @@ import controller.manager.BodyManager;
 import models.Model;
 import utils.Utils;
 import views.Animation;
+import views.SingleView;
 import views.View;
 
 import java.awt.*;
@@ -26,7 +27,7 @@ public class HouseController extends Controller implements Body{
         BodyManager.instance.register(this);
     }
 
-    public HouseController(Model model, View view) {
+    public HouseController(Model model, SingleView view) {
         super(model, view);
         this.hp=100;
         BodyManager.instance.register(this);
@@ -45,12 +46,12 @@ public class HouseController extends Controller implements Body{
     @Override
     public void drawAnimation(Graphics g) {
         if (animation != null) {
-            model.setX(830);
-            model.setY(330);
-            animation.setWidth(120);
-            animation.setHeight(120);
-            animation.drawExplosion(g, model);
-            //animation = null;
+//            model.setX(830);
+//            model.setY(330);
+//            animation.setWidth(120);
+//            animation.setHeight(120);
+//            animation.drawExplosion(g, model);
+//            //animation = null;
             this.gameOn=false;
         }
     }
@@ -58,7 +59,7 @@ public class HouseController extends Controller implements Body{
 
     public static HouseController createHpFull(int x, int y) {
         HouseController h= new HouseController(new Model(x, y, 100, 140),
-                new View(Utils.loadImage("res/Hp/houseHpFull.png")));
+                new SingleView(Utils.loadImage("res/Hp/houseHpFull.png")));
         h.setAlive(true);
         return h;
     }

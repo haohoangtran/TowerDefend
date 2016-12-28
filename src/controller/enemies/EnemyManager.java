@@ -18,14 +18,7 @@ public class EnemyManager extends Manager {
                 if(towerController.intersectsCircle(controller.getModel())){
                     return (EnemyController) controller;
                 }
-                //iterator.remove();
             }
-
-//            for (Controller controller : controllers) {
-//                if(towerController.getModel().intersectsCircle(controller.getModel())){
-//                    return (EnemyController) controller;
-//                }
-//            }
         }
         return null;
     }

@@ -1,5 +1,6 @@
 import controller.*;
 import controller.enemies.EnemyController;
+import controller.enemies.EnemyType;
 import controller.manager.BodyManager;
 import controller.manager.CellManager;
 import controller.enemies.EnemyManager;
@@ -23,7 +24,6 @@ public class GameWindow extends Frame implements Runnable {
     Image background;
     BufferedImage backBuffer;
     EnemyManager enemyManager;
-    EnemyController e;
     HouseController houseController;
     TowerManager towerManager;
     Image backgroundBot;
@@ -51,9 +51,7 @@ public class GameWindow extends Frame implements Runnable {
         setTitle("Mùa đông năm ấy - Amita Team");
         setSize(930, 900);
         // cỡ ảnh 930x690
-        e = EnemyController.createEnemy();
         store = new Store();
-        enemyManager.add(e);
         houseController = HouseController.createHpFull(830, 325);
 
         backBuffer = new BufferedImage(930, 900, BufferedImage.TYPE_3BYTE_BGR);
@@ -95,6 +93,7 @@ public class GameWindow extends Frame implements Runnable {
 
             }
         });
+        System.out.println(background.getHeight(null));
         addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -171,10 +170,20 @@ public class GameWindow extends Frame implements Runnable {
                 this.repaint();
                 Thread.sleep(17);
                 timeCount++;
-                if (timeCount > 60) {
-                    enemyManager.add(EnemyController.createEnemy());
-                    timeCount = 0;
+                if (timeCount == 60) {
+                    enemyManager.add(EnemyController.createEnemy(EnemyType.FLY));
                 }
+                if(timeCount==80){
+                    enemyManager.add(EnemyController.createEnemy(EnemyType.NORMAL));
+                }
+                if(timeCount==100){
+                    enemyManager.add(EnemyController.createEnemy(EnemyType.HORSE));
+                }
+                if(timeCount==130){
+                    enemyManager.add(EnemyController.createEnemy(EnemyType.TANK));
+                    timeCount=0;
+                }
+
 
                 enemyManager.run();
                 towerManager.run();
