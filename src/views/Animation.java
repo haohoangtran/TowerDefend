@@ -39,6 +39,22 @@ public class Animation implements View{
 
     @Override
     public void draw(Graphics g, Model model) {
+<<<<<<< HEAD
+=======
+        if (imageVector != null) {
+            Image image = imageVector.get(index);
+            g.drawImage(image, model.getX(), model.getY(), width, height, null);
+            time++;
+            if (time >10) {
+                time = 0;
+                index++;
+                if (index == imageVector.size()) {
+                    index = 0;
+                }
+            }
+        }
+    }
+>>>>>>> 70f79ee73bb5f3079ae53a6e3096c1eee75466b3
 
         BufferedImage image = images.get(imageCount);
         g.drawImage(image,
