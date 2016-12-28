@@ -16,11 +16,10 @@ import java.awt.*;
  * Created by Khuong Duy on 12/17/2016.
  */
 public class EnemyController extends Controller implements Body {
-    public static double hpMax;
+    private final double hpMax;
     protected int hp;
     protected EnemyType enemyType;
     private static CheckPoint[] checkPoints = Utils.createCheckpoint();
-
     private static int speedFly = 2;
     private static int speedNormal = 1;
     private static int speedWalk = 2;
@@ -29,6 +28,8 @@ public class EnemyController extends Controller implements Body {
     private static int speedSpeed = 4;
     private static int WIDTH = 25;
     private static int HEIGHT = 35;
+    private static int hpNormal=100;
+
 
     public int getHp() {
         return hp;
@@ -146,7 +147,7 @@ public class EnemyController extends Controller implements Body {
                 return new EnemyController(
                         new Model(checkPoints[0].getX(),
                                 checkPoints[0].getY(), 40, 40),
-                        AnimationManager.normalRight, EnemyType.NORMAL, 100);
+                        AnimationManager.normalRight, EnemyType.NORMAL, hpNormal);
             case FLY:
                 return new EnemyController(
                         new Model(checkPoints[0].getX(),

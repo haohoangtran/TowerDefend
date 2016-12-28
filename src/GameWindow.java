@@ -35,10 +35,10 @@ public class GameWindow extends Frame implements Runnable {
     Circle circle;
     CellController cellController;
     TowerController t;
+    boolean checkDescription=false;
 
 
     public GameWindow() {
-
         cellManager = new CellManager();
         enemyManager = new EnemyManager();
         towerManager = new TowerManager();
@@ -115,7 +115,6 @@ public class GameWindow extends Frame implements Runnable {
                 }
 
 
-
             }
 
             @Override
@@ -123,12 +122,12 @@ public class GameWindow extends Frame implements Runnable {
                 check = false;
                 System.out.println("relase");
                 cellController = cellManager.findCell(e.getX(), e.getY());
-               if (cellController != null && cellController.getModel().isCanBuild()&&circle != null) {
-                   t = TowerController.createTower(cellController.getModel().getX(), cellController.getModel().getY());
-                   t.setRadiusFire(100);
-                   cellController.setTowerController(t);
-                  towerManager.add(t);
-               }
+                if (cellController != null && cellController.getModel().isCanBuild() && circle != null) {
+                    t = TowerController.createTower(cellController.getModel().getX(), cellController.getModel().getY());
+                    t.setRadiusFire(100);
+                    cellController.setTowerController(t);
+                    towerManager.add(t);
+                }
 
             }
 
@@ -158,6 +157,12 @@ public class GameWindow extends Frame implements Runnable {
             cellManager.draw(backBufferGraphics);
             cellManager.drawPos(backBufferGraphics);
 
+        }if (circle!=null){
+            if (!checkDescription){
+                backBufferGraphics.setColor(Color.red);
+                backBufferGraphics.drawString(circle.getDescription(),100,600);
+                checkDescription=true;
+            }
         }
         store.draw(backBufferGraphics);
         g.drawImage(backBuffer, 0, 0, 930, 900, null);
@@ -173,15 +178,15 @@ public class GameWindow extends Frame implements Runnable {
                 if (timeCount == 60) {
                     enemyManager.add(EnemyController.createEnemy(EnemyType.FLY));
                 }
-                if(timeCount==80){
+                if (timeCount == 80) {
                     enemyManager.add(EnemyController.createEnemy(EnemyType.NORMAL));
                 }
-                if(timeCount==100){
+                if (timeCount == 100) {
                     enemyManager.add(EnemyController.createEnemy(EnemyType.HORSE));
                 }
-                if(timeCount==130){
+                if (timeCount == 130) {
                     enemyManager.add(EnemyController.createEnemy(EnemyType.TANK));
-                    timeCount=0;
+                    timeCount = 0;
                 }
 
 
@@ -192,19 +197,13 @@ public class GameWindow extends Frame implements Runnable {
                 if (!houseController.isGameOn()) {
                     break;
                 }
-//                System.out.println("(" + MouseInfo.getPointerInfo().getLocation().x +
-//                        ", " +
-//                        MouseInfo.getPointerInfo().getLocation().y + ")");
-//                rectangle=store.checkMouse(MouseInfo.getPointerInfo().getLocation().x,MouseInfo.getPointerInfo().getLocation().y);
-//                if(rectangle!=null){
-//                    System.out.println("Vao day");
-//                }
-                circle = store.checkMouse(MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y);
+                Point p = getLocationOnScreen();
+                circle = store.checkMouse(MouseInfo.getPointerInfo().getLocation().x - (int) p.getX(),
+                        MouseInfo.getPointerInfo().getLocation().y - (int) p.getY());
                 if (circle != null) {
                     System.out.println(circle.getDescription());
+                    checkDescription=false;
                 }
-
-
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
