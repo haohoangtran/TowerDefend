@@ -4,6 +4,7 @@ import controller.Body;
 import controller.Controller;
 import controller.HouseController;
 import controller.manager.BodyManager;
+import controller.manager.Manager;
 import models.CheckPoint;
 import models.Model;
 import utils.AnimationManager;
@@ -20,7 +21,6 @@ public class EnemyController extends Controller implements Body {
     protected int hp;
     protected EnemyType enemyType;
     private static CheckPoint[] checkPoints = Utils.createCheckpoint();
-
     private static int speedFly = 2;
     private static int speedNormal = 1;
     private static int speedWalk = 2;
@@ -47,40 +47,42 @@ public class EnemyController extends Controller implements Body {
         this.hp = hp;
         hpMax = hp;
         BodyManager.instance.register(this);
+        EnemyManager.instance.add(this);
+
     }
+
 
     public void moveEnemy(int speed, Animation animationRight, Animation animationLeft, Animation animationDown, Animation animationUp) {
         if (this.getModel().getX() < checkPoints[1].getX() && this.model.getY() < checkPoints[2].getY()) {
             this.model.move(speed, 0);
             if (isAlive) {
-                this.animation = animationRight;
+                this.view = animationRight;
             }
         } else if (this.getModel().getY() < checkPoints[2].getY() && this.model.getX() < checkPoints[3].getX()) {
             this.model.move(0, speed);
             if (isAlive) {
-                this.animation = animationDown;
+                this.view = animationDown;
             }
 
         } else if (this.getModel().getX() < checkPoints[3].getX()) {
             this.model.move(speed, 0);
             if (isAlive) {
-                this.animation = animationRight;
+                this.view = animationRight;
             }
 
         } else if (this.getModel().getY() > checkPoints[4].getY() && this.getModel().getX() > checkPoints[3].getX()) {
             this.model.move(0, -speed);
             if (isAlive) {
-                this.animation = animationUp;
+                this.view = animationUp;
             }
         } else {
             this.model.move(speed, 0);
             if (isAlive) {
-                this.animation = animationRight;
+                this.view = animationRight;
             }
         }
 
     }
-
     public void run() {
         switch (enemyType) {
             case FLY:
@@ -121,11 +123,13 @@ public class EnemyController extends Controller implements Body {
             case WALK:
                 break;
 
+
         }
+
     }
 
-    public void drawAnimation(Graphics g) {
-        super.drawAnimation(g);
+    public void draw(Graphics g) {
+        super.draw(g);
         // vẽ máu lại rất đẹp :v
 
         double leng = this.getModel().getWidth() * 0.8;
@@ -138,15 +142,14 @@ public class EnemyController extends Controller implements Body {
         g.fillRect(this.model.getX(), this.model.getY(), (int) ((hp / hpMax) * leng), 3);
     }
 
-
     public static EnemyController createEnemy(EnemyType type) {
         CheckPoint[] checkPoints = Utils.createCheckpoint();
         switch (type) {
             case NORMAL:
                 return new EnemyController(
                         new Model(checkPoints[0].getX(),
-                                checkPoints[0].getY(), 40, 40),
-                        AnimationManager.normalRight, EnemyType.NORMAL, 100);
+                                checkPoints[0].getY(), 35, 35),
+                        AnimationManager.normalRight, EnemyType.NORMAL,100);
             case FLY:
                 return new EnemyController(
                         new Model(checkPoints[0].getX(),
@@ -155,12 +158,12 @@ public class EnemyController extends Controller implements Body {
             case TANK:
                 return new EnemyController(
                         new Model(checkPoints[0].getX(),
-                                checkPoints[0].getY(), 35, 35),
+                                checkPoints[0].getY(), 40, 35),
                         AnimationManager.tankRight, EnemyType.TANK, 100);
             case HORSE:
                 return new EnemyController(
                         new Model(checkPoints[0].getX(),
-                                checkPoints[0].getY(), 30, 40),
+                                checkPoints[0].getY(), 30, 35),
                         AnimationManager.horseRight, EnemyType.HORSE, 100);
             case SPEED:
                 return new EnemyController(
@@ -170,16 +173,16 @@ public class EnemyController extends Controller implements Body {
         }
         return null;
     }
-        @Override
-        public void onContact (Body other){
-            if (other instanceof HouseController) {
-                this.animation = null;
-                this.isAlive = false;
-            }
-        }
 
-        @Override
-        public Model getModel () {
-            return this.model;
+    @Override
+    public void onContact(Body other) {
+        if (other instanceof HouseController) {
+            this.isAlive = false;
         }
     }
+
+    @Override
+    public Model getModel() {
+        return this.model;
+    }
+}

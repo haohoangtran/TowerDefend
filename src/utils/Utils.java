@@ -12,6 +12,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Vector;
 
+import static controller.enemies.EnemyType.*;
+import static controller.towers.TowerType.NORMAL;
+
 /**
  * Created by DUC THANG on 12/17/2016.
  */
@@ -110,6 +113,5 @@ public class Utils {
 
         return imageVector;
     }
-
 
 }

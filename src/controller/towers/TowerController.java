@@ -108,16 +108,24 @@ public class TowerController extends Controller {
     }
 
 
-    public static TowerController createTower(int x, int y) {
-        return new TowerController(new Model(x, y, 50, 50), new SingleView(
-                Utils.loadImage("res/PNG/Towers (grey)/TowersLever2.png")));
+    public static TowerController createTower(int x, int y,TowerType towerType) {
+        switch (towerType){
+            case NORMAL:
+                return new TowerController(new Model(x, y, 50, 50), new SingleView(
+                    Utils.loadImage("res/PNG/Towers (grey)/TowersLever2.png")));
+//            case DAME:
+//                System.out.println("Tao");
+//                return new TowerController(new Model(x, y, 50, 50),
+//                        new Animation("res/PNG/TowerDaw1.png,res/PNG/TowerDaw2.png,res/PNG/TowerDaw3.png,res/PNG/TowerDaw4.png"));
+        }
+        return null;
     }
 
     @Override
-    public void drawView(Graphics g) {
-        super.drawView(g);
+    public void draw(Graphics g) {
+        super.draw(g);
         for (int i = 0; i < bulletTowers.size(); i++) {
-            bulletTowers.get(i).drawView(g);
+            bulletTowers.get(i).draw(g);
         }
     }
 

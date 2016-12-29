@@ -1,21 +1,25 @@
 package controller.towers;
 
+import controller.BaseController;
+
 import java.awt.*;
 import java.util.Vector;
 
 /**
  * Created by Songt on 12/18/2016.
  */
-public class TowerManager {
+public class TowerManager implements BaseController{
     private Vector<TowerController> towerControllers;
 
-    public TowerManager() {
+    public static final TowerManager instance = new TowerManager();
+
+    private TowerManager() {
         towerControllers = new Vector<>();
     }
 
     public void draw(Graphics g) {
         for (int i = 0; i < towerControllers.size(); i++) {
-            towerControllers.get(i).drawView(g);
+            towerControllers.get(i).draw(g);
         }
         System.out.println(towerControllers.size());
 

@@ -11,10 +11,10 @@ import java.awt.*;
 /**
  * Created by Khuong Duy on 12/17/2016.
  */
-public class Controller {
+public class Controller implements BaseController{
     protected Model model;
-    protected Animation animation;
-    protected SingleView view;
+    //protected Animation animation;
+    protected View view;
 
     public boolean isAlive() {
         return isAlive;
@@ -29,8 +29,9 @@ public class Controller {
 
     public Controller(Model model, Animation animation) {
         this.model = model;
-        this.animation = animation;
+        this.view = animation;
     }
+
 
     public Controller(Model model, SingleView view) {
         this.model = model;
@@ -41,25 +42,11 @@ public class Controller {
         return model;
     }
 
-    public void setAnimation(Animation animation) {
-        this.animation = animation;
-    }
-
-    public Animation getAnimation() {
-
-        return animation;
-    }
-
     public void run() {
 
     }
 
-    public void drawAnimation(Graphics g) {
-        if(animation!=null)
-            animation.draw(g, model);
-    }
-
-    public void drawView(Graphics g) {
+    public void draw(Graphics g) {
         view.draw(g, model);
     }
 

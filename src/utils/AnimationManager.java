@@ -70,4 +70,5 @@ public class AnimationManager {
 
     public static final Animation flyUp =
             new Animation(Utils.loadSheetEnemy(EnemyType.FLY, 3));
+
 }

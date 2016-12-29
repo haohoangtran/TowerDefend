@@ -10,6 +10,8 @@ import java.util.Iterator;
  * Created by Songt on 12/18/2016.
  */
 public class EnemyManager extends Manager {
+    public static final EnemyManager instance = new EnemyManager();
+
     public static EnemyController chooseFire(TowerController towerController) {
         if(!towerController.isFire()){
             Iterator<Controller> iterator =controllers.iterator();

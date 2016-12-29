@@ -32,7 +32,7 @@ public class CellController {
 
     }
 
-    public void drawView(Graphics g) {
+    public void draw(Graphics g) {
         if (model.isRoad())
             g.setColor(Color.red);
         else if (model.isCanBuild())
@@ -51,7 +51,7 @@ public class CellController {
     public void drawTower(Graphics g) {
         //view.draw(g, model);
         if(towerController!=null)
-        towerController.drawView(g);
+        towerController.draw(g);
     }
 
     public static CellController createCell(int x, int y) {
