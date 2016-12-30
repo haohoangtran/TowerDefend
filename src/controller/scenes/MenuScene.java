@@ -1,5 +1,7 @@
 package controller.scenes;
 
+import views.Animation;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -8,8 +10,11 @@ import java.awt.event.MouseEvent;
  * Created by DUC THANG on 12/28/2016.
  */
 public class MenuScene extends GameScene{
-
+    Image background;
+    Image setting;
+    Animation play;
     public MenuScene() {
+
 
     }
 

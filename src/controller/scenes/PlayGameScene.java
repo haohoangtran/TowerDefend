@@ -16,8 +16,11 @@ import controller.towers.TowerType;
 import models.Circle;
 import utils.Utils;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Vector;
 
 import static utils.Utils.loadImage;
@@ -31,11 +34,17 @@ public class PlayGameScene extends GameScene {
     Image backgroundBot;
     Image backgroundTop;
     boolean check;
+    Image snow;
     CellController cellController;
     TowerController tower;
     Vector<BaseController> controllers;
 
     public PlayGameScene() {
+        try {
+            snow=new ImageIcon(new URL("http://i.imgur.com/2nr0tS3.gif")).getImage();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
         controllers = new Vector<>();
         controllers.add(EnemyManager.instance);
         controllers.add(TowerManager.instance);
@@ -60,6 +69,7 @@ public class PlayGameScene extends GameScene {
             CellManager.instance.draw(g);
             CellManager.instance.drawPos(g);
         }
+        g.drawImage(snow,0,0,930,900,null);
     }
 
     @Override
@@ -80,12 +90,11 @@ public class PlayGameScene extends GameScene {
         }
 
 
-        for (BaseController controller : controllers) {
-            controller.run();
+        for (int i = 0; i < controllers.size(); i++) {
+            controllers.get(i).run();
         }
         BodyManager.instance.checkContact();
     }
-
 
     @Override
     public void mousePressed(MouseEvent e) {
