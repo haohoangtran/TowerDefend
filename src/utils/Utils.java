@@ -19,7 +19,7 @@ import static controller.towers.TowerType.NORMAL;
  * Created by DUC THANG on 12/17/2016.
  */
 public class Utils {
-    public static Vector<EnemyController> enemyControllers = new Vector<>();
+    public static Point point = new Point();
 
     public static BufferedImage loadImage(String url) {
         try {
@@ -57,9 +57,6 @@ public class Utils {
         return checkPoints;
     }
 
-    public static void register(EnemyController enemyController) {
-        enemyControllers.add(enemyController);
-    }
 
     public static void playSound(String audioUrl, boolean repeat) {
 
@@ -114,4 +111,7 @@ public class Utils {
         return imageVector;
     }
 
+    public static void getLocation(int x, int y) {
+        point = new Point(x, y);
+    }
 }

@@ -18,7 +18,7 @@ import java.awt.*;
 public class HouseController extends Controller implements Body{
     private int hp;
     public boolean gameOn = true;
-    public static final HouseController instance = HouseController.createHpFull(830, 325);
+    public static  HouseController instance = HouseController.createHpFull(830, 325);
     public boolean isGameOn() {
         return gameOn;
     }
@@ -40,8 +40,6 @@ public class HouseController extends Controller implements Body{
     public void draw(Graphics g) {
         if (isAlive) {
             view.draw(g, this.model);
-        } else {
-            g.drawImage(Utils.loadImage("res/gameOver.png"),300,200,300,300,null);
         }
     }
 
@@ -51,6 +49,14 @@ public class HouseController extends Controller implements Body{
                 new SingleView(Utils.loadImage("res/Hp/houseHpFull.png")));
         h.setAlive(true);
         return h;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
     }
 
     @Override

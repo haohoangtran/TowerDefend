@@ -9,6 +9,7 @@ import controller.enemies.EnemyManager;
 import controller.enemies.EnemyType;
 import controller.manager.BodyManager;
 import controller.manager.CellManager;
+import controller.manager.Manager;
 import controller.towers.TowerController;
 import controller.towers.TowerManager;
 import controller.towers.TowerType;
@@ -25,12 +26,11 @@ import static utils.Utils.loadImage;
 /**
  * Created by DUC THANG on 12/28/2016.
  */
-public class PlayGameScene extends GameScene{
+public class PlayGameScene extends GameScene {
     public static int timeCount = 0;
     Image background;
     Image backgroundBot;
     Image backgroundTop;
-    CellManager cellManager;
     boolean check;
     CellController cellController;
     TowerController tower;
@@ -38,8 +38,6 @@ public class PlayGameScene extends GameScene{
 
     public PlayGameScene() {
         controllers = new Vector<>();
-        controllers.add(CellManager.instance);
-
         controllers.add(EnemyManager.instance);
         controllers.add(TowerManager.instance);
 
@@ -49,6 +47,7 @@ public class PlayGameScene extends GameScene{
         controllers.add(HouseController.instance);
         background = loadImage("res/Map1.png");
     }
+
     @Override
     public void update(Graphics g) {
         g.drawImage(background, 0, 100, 930, 690, null);
@@ -60,9 +59,8 @@ public class PlayGameScene extends GameScene{
         }
 
         if (check) {
-            cellManager.draw(g);
-            cellManager.drawPos(g);
-
+            CellManager.instance.draw(g);
+            CellManager.instance.drawPos(g);
         }
     }
 
@@ -72,22 +70,26 @@ public class PlayGameScene extends GameScene{
         if (timeCount == 60) {
             EnemyManager.instance.add(EnemyController.createEnemy(EnemyType.FLY));
         }
-        if(timeCount==80){
+        if (timeCount == 80) {
             EnemyManager.instance.add(EnemyController.createEnemy(EnemyType.NORMAL));
         }
-        if(timeCount==100){
+        if (timeCount == 100) {
             EnemyManager.instance.add(EnemyController.createEnemy(EnemyType.HORSE));
         }
-        if(timeCount==130){
+        if (timeCount == 130) {
             EnemyManager.instance.add(EnemyController.createEnemy(EnemyType.TANK));
-            timeCount=0;
+            timeCount = 0;
         }
 
-
-        for (BaseController controller : controllers) {
-            controller.run();
-        }
         BodyManager.instance.checkContact();
+
+        for (int i = 0; i < controllers.size(); i++) {
+            controllers.get(i).run();
+        }
+
+        if(!HouseController.instance.isAlive()) {
+            this.sceneListener.replaceScene(new GameOverScene(), false);
+        }
     }
 
 
@@ -102,11 +104,10 @@ public class PlayGameScene extends GameScene{
             cellController.setTowerController(tower);
             controllers.add(tower);
         }
+        CellManager.instance.run();
     }
 
     public void mouseClicked(MouseEvent e) {
-        System.out.println("click");
-        System.out.println(e.getX() + " " + e.getY());
 
     }
 
@@ -115,4 +116,5 @@ public class PlayGameScene extends GameScene{
         check = false;
         System.out.println("relase");
     }
+
 }

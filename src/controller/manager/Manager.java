@@ -28,4 +28,7 @@ public class Manager implements BaseController{
             controller.run();
         }
     }
+    public void removeAll(){
+        controllers=new Vector<>();
+    }
 }

@@ -41,7 +41,6 @@ public class EnemyController extends Controller implements Body {
 
     public EnemyController(Model model, Animation animation, EnemyType enemyType, int hp) {
         super(model, animation);
-        Utils.register(this);
         isAlive = true;
         this.enemyType = enemyType;
         this.hp = hp;

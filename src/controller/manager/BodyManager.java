@@ -45,4 +45,12 @@ public class BodyManager {
             }
         }
     }
+
+    public Vector<Body> getBodies() {
+        return bodies;
+    }
+
+    public void setBodies(Vector<Body> bodies) {
+        this.bodies = bodies;
+    }
 }
