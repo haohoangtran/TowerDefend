@@ -33,15 +33,10 @@ public class CellController {
     }
 
     public void draw(Graphics g) {
-        if (model.isRoad())
-            g.setColor(Color.red);
-        else if (model.isCanBuild())
-            g.setColor(Color.green);
-        else if (model.isCreate())
-            return;
-        else
-            g.setColor(Color.BLUE);
-        g.drawRect(model.getX(), model.getY(), model.getWidth(), model.getHeight());
+            if (model.isCanBuild()) {
+                g.setColor(Color.green);
+                g.drawRect(model.getX(), model.getY(), model.getWidth(), model.getHeight());
+            }
     }
     public void drawPos(Graphics g,int i){
         g.drawString(i+"",model.getX()+10,model.getY()+10);

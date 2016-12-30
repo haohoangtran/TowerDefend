@@ -9,8 +9,16 @@ public class CellModel {
     private int width;
     private int height;
     private boolean isRoad;
-    private boolean isCreate;
     private String describe;
+    private boolean isUtil;
+
+    public boolean isUtil() {
+        return isUtil;
+    }
+
+    public void setUtil(boolean util) {
+        isUtil = util;
+    }
 
     public String getDescribe() {
         return describe;
@@ -20,13 +28,6 @@ public class CellModel {
         this.describe = describe;
     }
 
-    public boolean isCreate() {
-        return isCreate;
-    }
-
-    public void setCreate(boolean create) {
-        isCreate = create;
-    }
 
     public boolean isRoad() {
         return isRoad;
@@ -96,7 +97,6 @@ public class CellModel {
                 ", width=" + width +
                 ", height=" + height +
                 ", isRoad=" + isRoad +
-                ", isCreate=" + isCreate +
                 ", canBuild=" + canBuild +
                 '}';
     }
