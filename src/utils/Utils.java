@@ -29,6 +29,21 @@ public class Utils {
             return null;
         }
     }
+    public static Vector<BufferedImage> realIInFoder(String path) {
+        try {
+            Vector<BufferedImage> bufferedImages = new Vector<>();
+            File forder = new File(path);
+            if (forder.isDirectory()) {
+                for (File file : forder.listFiles()) {
+                    bufferedImages.add(ImageIO.read(file));
+                }
+                return bufferedImages;
+            }else
+                return null;
+        } catch (IOException e) {
+            return null;
+        }
+    }
 
     public static String pathImageEnemy(EnemyType enemyType) {
         switch (enemyType) {

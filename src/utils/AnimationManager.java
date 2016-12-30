@@ -70,5 +70,6 @@ public class AnimationManager {
 
     public static final Animation flyUp =
             new Animation(Utils.loadSheetEnemy(EnemyType.FLY, 3));
-
+    //windwill
+    public static final Animation windwill=new Animation(Utils.realIInFoder("res/windwill"));
 }

@@ -14,7 +14,9 @@ import controller.towers.TowerManager;
 import controller.towers.TowerType;
 
 import models.Circle;
+import models.Model;
 import utils.Utils;
+import views.Animation;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,13 +33,14 @@ import static utils.Utils.loadImage;
 public class PlayGameScene extends GameScene {
     public static int timeCount = 0;
     Image background;
-    Image backgroundBot;
     Image backgroundTop;
     boolean check;
     Image snow;
     CellController cellController;
     TowerController tower;
     Vector<BaseController> controllers;
+    Animation windwill;
+    Animation flag;
 
     public PlayGameScene() {
         try {
@@ -45,11 +48,11 @@ public class PlayGameScene extends GameScene {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
+        flag=new Animation(Utils.realIInFoder("res/flag"));
+        windwill=new Animation(Utils.realIInFoder("res/windmill"));
         controllers = new Vector<>();
         controllers.add(EnemyManager.instance);
         controllers.add(TowerManager.instance);
-
-        backgroundBot = Utils.loadImage("res/bottom.png");
         backgroundTop = Utils.loadImage("res/top.png");
 
         controllers.add(HouseController.instance);
@@ -60,16 +63,19 @@ public class PlayGameScene extends GameScene {
     public void update(Graphics g) {
         g.drawImage(background, 0, 100, 930, 690, null);
         g.drawImage(backgroundTop, 0, 33, 930, 70, null);
-        g.drawImage(backgroundBot, 0, 690, 930, 210, null);
 
         for (BaseController controller : controllers) {
             controller.draw(g);
         }
         if (check) {
             CellManager.instance.draw(g);
-            CellManager.instance.drawPos(g);
         }
-        g.drawImage(snow,0,0,930,900,null);
+        flag.draw(g,new Model(20,560,60,60),2);
+        windwill.draw(g,new Model(118,620,60,60),2);
+        g.drawImage(snow,0,100,450,450,null);
+        g.drawImage(snow,450,100,450,450,null);
+        g.drawImage(snow,450,450,450,450,null);
+        g.drawImage(snow,100,450,450,450,null);
     }
 
     @Override
@@ -111,8 +117,6 @@ public class PlayGameScene extends GameScene {
 
     public void mouseClicked(MouseEvent e) {
         System.out.println("click");
-        System.out.println(e.getX() + " " + e.getY());
-
     }
 
     @Override

@@ -21,7 +21,6 @@ public class TowerManager implements BaseController{
         for (int i = 0; i < towerControllers.size(); i++) {
             towerControllers.get(i).draw(g);
         }
-        System.out.println(towerControllers.size());
 
     }
 
