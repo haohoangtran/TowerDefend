@@ -1,9 +1,0 @@
-diff a/src/GameWindow.java b/src/GameWindow.java	(rejected hunks)
-@@ -111,7 +111,6 @@
- 
-         Graphics backBufferGraphics = backBuffer.getGraphics();
-         currenScene.update(backBufferGraphics);
--        g.drawImage(backBuffer, 0, 0, 930, 900, null);
-         g.drawImage(backBuffer, 0, 0, 900, 700, null);
-     }
- 

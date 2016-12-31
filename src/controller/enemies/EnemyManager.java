@@ -5,12 +5,21 @@ import controller.towers.TowerController;
 import controller.manager.Manager;
 
 import java.util.Iterator;
+import java.util.Vector;
 
 /**
- * Created by Songt on 12/18/2016.
+ * Created by HieuIt on 12/18/2016.
  */
 public class EnemyManager extends Manager {
-    public static final EnemyManager instance = new EnemyManager();
+    public static  EnemyManager instance = new EnemyManager();
+    public  void register(EnemyController enemyController) {
+        controllers.add(enemyController);
+    }
+
+
+    private EnemyManager() {
+        controllers=new Vector<>();
+    }
 
     public static EnemyController chooseFire(TowerController towerController) {
         if(!towerController.isFire()){
@@ -39,6 +48,7 @@ public class EnemyManager extends Manager {
             if (!controller.isAlive())
                 iterator.remove();
         }
-
     }
+
+
 }

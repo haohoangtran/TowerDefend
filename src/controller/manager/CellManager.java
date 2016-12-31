@@ -2,6 +2,8 @@ package controller.manager;
 
 import controller.BaseController;
 import controller.CellController;
+import utils.AnimationManager;
+import views.Animation;
 import views.View;
 
 import java.awt.*;
@@ -11,12 +13,13 @@ import java.util.Vector;
 /**
  * Created by tranh on 12/19/2016.
  */
-public class CellManager implements BaseController{
+public class CellManager implements BaseController {
     Vector<CellController> cellControllers;
     int[] road = {17, 26, 35, 44, 53, 62, 63, 64, 65, 66, 67, 76, 85, 94, 103, 112, 121, 130, 129, 128, 137, 146};
-    int[] build = {1, 2, 3, 15, 24, 33, 42, 51, 69, 13, 132, 143, 134, 125, 80, 71, 72, 73, 74, 81, 18, 27, 36, 19, 28, 37, 20, 29, 38
-            , 21, 30, 39, 48, 57, 31, 40, 49, 58, 41, 50, 59, 68, 70,79,77, 126, 135,
-            104, 103, 122, 131, 140, 139, 138, 147, 109, 110, 111, 101, 102, 93, 84};
+    int[] build = {1, 2, 3, 15, 24, 33, 42, 51, 69, 143, 134, 125, 80, 71, 72, 73, 74, 81, 18, 27, 36, 19, 28, 37, 20, 29, 38
+            , 30, 39, 48, 57, 40, 49, 58, 50, 59, 68, 70, 79, 77, 126, 135,
+            104, 122, 131, 140, 139, 138, 147, 109, 110, 111, 101, 102, 93, 84};
+
 
     public static final CellManager instance = new CellManager();
 
@@ -42,6 +45,12 @@ public class CellManager implements BaseController{
         for (int i = 0; i < build.length; i++) {
             cellControllers.get(build[i]).getModel().setCanBuild(true);
         }
+        for (CellController cellController : cellControllers) {
+            if (!cellController.getModel().isCanBuild()&&!cellController.getModel().isRoad()){
+                cellController.getModel().setUtil(true);
+            }
+
+        }
     }
 
     public void add(CellController c) {
@@ -59,7 +68,8 @@ public class CellManager implements BaseController{
 
     public void draw(Graphics g) {
         for (int i = 0; i < cellControllers.size(); i++) {
-            cellControllers.get(i).draw(g);
+            if (!cellControllers.get(i).getModel().isUtil())
+                cellControllers.get(i).draw(g);
         }
     }
 

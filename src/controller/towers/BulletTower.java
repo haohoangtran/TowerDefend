@@ -53,7 +53,6 @@ public class BulletTower extends Controller implements Body {
 
 
     public static int numberRun = 6;
-
     @Override
     public void run() {
         if (enemyController != null) {

@@ -1,7 +1,10 @@
 package utils;
 
+import controller.HouseController;
 import controller.enemies.EnemyController;
+import controller.enemies.EnemyManager;
 import controller.enemies.EnemyType;
+import controller.manager.BodyManager;
 import models.CheckPoint;
 
 import javax.imageio.ImageIO;
@@ -19,7 +22,7 @@ import static controller.towers.TowerType.NORMAL;
  * Created by DUC THANG on 12/17/2016.
  */
 public class Utils {
-    public static Vector<EnemyController> enemyControllers = new Vector<>();
+    public static Point point = new Point();
 
     public static BufferedImage loadImage(String url) {
         try {
@@ -57,9 +60,6 @@ public class Utils {
         return checkPoints;
     }
 
-    public static void register(EnemyController enemyController) {
-        enemyControllers.add(enemyController);
-    }
 
     public static void playSound(String audioUrl, boolean repeat) {
 
@@ -114,4 +114,30 @@ public class Utils {
         return imageVector;
     }
 
+    public static void getLocation(int x, int y) {
+        point = new Point(x, y);
+    }
+
+    public static Vector<BufferedImage> realIInFoder(String path) {
+        try {
+            Vector<BufferedImage> bufferedImages = new Vector<>();
+            File forder = new File(path);
+            if (forder.isDirectory()) {
+                for (File file : forder.listFiles()) {
+                    bufferedImages.add(ImageIO.read(file));
+                }
+                return bufferedImages;
+            }else
+                return null;
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    public static void reset() {
+        HouseController.instance=HouseController.createHpFull(830,325);
+        BodyManager.instance.setBodies(new Vector<>());
+        BodyManager.instance.register(HouseController.instance);
+        EnemyManager.instance.removeAll();
+    }
 }

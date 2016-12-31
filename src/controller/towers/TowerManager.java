@@ -6,7 +6,7 @@ import java.awt.*;
 import java.util.Vector;
 
 /**
- * Created by Songt on 12/18/2016.
+ * Created by HieuIt on 12/18/2016.
  */
 public class TowerManager implements BaseController{
     private Vector<TowerController> towerControllers;

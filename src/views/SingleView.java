@@ -26,4 +26,9 @@ public class SingleView implements View {
         g.drawImage(image, model.getX(), model.getY(), model.getWidth(), model.getHeight(), null);
     }
 
+    @Override
+    public boolean isAnimationReachEnd() {
+        return false;
+    }
+
 }

@@ -6,5 +6,12 @@ public class Program {
         GameWindow gameWindow = new GameWindow();
         Thread thread = new Thread(gameWindow);
         thread.run();
+        try {
+            thread.wait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
     }
 }

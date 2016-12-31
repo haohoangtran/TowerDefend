@@ -7,7 +7,6 @@ import utils.Utils;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-
 import static utils.Utils.loadImage;
 
 /**
@@ -38,7 +37,7 @@ public class GameOverScene extends GameScene implements IconGame {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (checkMouse()) {
+        if (backMenu.checkMouse()) {
             Utils.reset();
             this.sceneListener.back();
         }

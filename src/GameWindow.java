@@ -1,32 +1,34 @@
 import controller.scenes.GameScene;
+import controller.scenes.LoadGameScene;
 import controller.scenes.MenuScene;
 import controller.scenes.SceneListener;
+import utils.Utils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.Stack;
+
 /**
  * Created by DUC THANG on 12/17/2016.
  */
-public class GameWindow extends Frame implements Runnable, SceneListener{
+public class GameWindow extends Frame implements Runnable, SceneListener {
     GameScene currenScene;
     BufferedImage backBuffer;
     Stack<GameScene> gameSceneStack;
-    public static final int WIDTH=900;
-    public static final int HEIGHT=700;
+
     public GameWindow() {
         gameSceneStack = new Stack<>();
-        this.replaceScene(new MenuScene(), false);
+        this.replaceScene(new LoadGameScene(), false);
         ImageIcon img = new ImageIcon("res/iconGame.png"); //cài icon
         setIconImage(img.getImage());
         setVisible(true);
         setResizable(false);
         setTitle("Mùa đông năm ấy - Amita Team");
-        setSize(WIDTH, HEIGHT);
+        setSize(900, 700);
         // cỡ ảnh 930x690
-        backBuffer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_3BYTE_BGR);
+        backBuffer = new BufferedImage(900, 700, BufferedImage.TYPE_3BYTE_BGR);
 
         addWindowListener(new WindowListener() {
             @Override
@@ -68,7 +70,6 @@ public class GameWindow extends Frame implements Runnable, SceneListener{
             @Override
             public void mouseClicked(MouseEvent e) {
                 currenScene.mouseClicked(e);
-
             }
 
             @Override
@@ -92,7 +93,7 @@ public class GameWindow extends Frame implements Runnable, SceneListener{
     }
 
     public void replaceScene(GameScene newScene, boolean addToBackStack) {
-        if(addToBackStack && currenScene != null) {
+        if (addToBackStack && currenScene != null) {
             gameSceneStack.push(currenScene);
         }
         currenScene = newScene;
@@ -100,16 +101,17 @@ public class GameWindow extends Frame implements Runnable, SceneListener{
     }
 
     public void back() {
-        if(!gameSceneStack.isEmpty()) {
+        if (!gameSceneStack.isEmpty()) {
             currenScene = gameSceneStack.pop();
         }
+        currenScene.setSceneListener(this);
     }
 
     public void update(Graphics g) {
 
         Graphics backBufferGraphics = backBuffer.getGraphics();
         currenScene.update(backBufferGraphics);
-        g.drawImage(backBuffer, 0, 0, WIDTH, HEIGHT, null);
+        g.drawImage(backBuffer, 0, 0, 900, 700, null);
     }
 
     @Override
@@ -119,9 +121,14 @@ public class GameWindow extends Frame implements Runnable, SceneListener{
                 this.repaint();
                 Thread.sleep(25);
                 currenScene.run();
+                Point point = this.getLocation();
+                Utils.getLocation(MouseInfo.getPointerInfo().getLocation().x-(int)point.getX(),
+                                    MouseInfo.getPointerInfo().getLocation().y-(int)point.getY());
+
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
     }
+
 }
