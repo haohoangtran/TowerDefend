@@ -63,6 +63,9 @@ public class BulletTower extends Controller implements Body {
         isAlive = true;
         BodyManager.instance.register(this);
     }
+    public View getView(){
+        return view;
+    }
 
 
     public static int numberRun = 6;
@@ -125,8 +128,7 @@ public class BulletTower extends Controller implements Body {
                         ((EnemyController) other).setAlive(false);
                     }
                 case FIRE:
-                    //setAlive(false);
-
+                    setAlive(false);
                     ((EnemyController) other).setHp(((EnemyController) other).getHp() - atk);
                     ((EnemyController) other).slow=true;
                     if (((EnemyController) other).getHp() <= 0) {

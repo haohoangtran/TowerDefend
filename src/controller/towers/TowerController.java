@@ -120,8 +120,11 @@ public class TowerController extends Controller {
             BulletTower bulletTower = iterator.next();
             int a = bulletTower.getModel().getX();
             int b = bulletTower.getModel().getY();
+
             if (!bulletTower.isAlive() || !bulletTower.getEnemyController().isAlive()) {
-                iterator.remove();
+                if (bulletTower.getView().isAnimationReachEnd()) {
+                    iterator.remove();
+                }
             } else {
                 bulletTower.run();
             }
