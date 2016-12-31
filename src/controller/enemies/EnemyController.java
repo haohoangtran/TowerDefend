@@ -9,7 +9,6 @@ import models.Model;
 import utils.AnimationManager;
 import utils.Utils;
 import views.Animation;
-import views.SingleView;
 
 import java.awt.*;
 import java.util.Vector;
@@ -25,13 +24,12 @@ public class EnemyController extends Controller implements Body {
 
     protected EnemyType enemyType;
     private static CheckPoint[] checkPoints = Utils.createCheckpoint();
-
-    private static int speedFly = 2;
-    private static int speedNormal = 1;
-    private static int speedWalk = 2;
-    private static int speedTank = 1;
-    private static int speedHorse = 3;
-    private static int speedSpeed = 4;
+    private int count = 0;
+    private static int speedFly = 4;
+    private static int speedNormal = 4;
+    private static int speedTank = 2;
+    private static int speedHorse = 4;
+    private static int speedSpeed = 6;
     private static int WIDTH = 25;
     private static int HEIGHT = 35;
 
@@ -61,39 +59,47 @@ public class EnemyController extends Controller implements Body {
 
 
     public void moveEnemy(int speed, Animation animationRight, Animation animationLeft, Animation animationDown, Animation animationUp) {
-        if (this.getModel().getX() < checkPoints[1].getX() && this.model.getY() < checkPoints[2].getY()) {
-            this.model.move(speed, 0);
-            if (isAlive) {
-                this.view = animationRight;
-            }
-        } else if (this.getModel().getY() < checkPoints[2].getY() && this.model.getX() < checkPoints[3].getX()) {
-            this.model.move(0, speed);
-            if (isAlive) {
-                this.view = animationDown;
-            }
+        count++;
+        if (count >= 3) {
+            if (this.getModel().getX() < checkPoints[1].getX() && this.model.getY() < checkPoints[2].getY()) {
+                this.model.move(speed, 0);
+                if (isAlive) {
+                    this.view = animationRight;
+                }
+            } else if (this.getModel().getY() < checkPoints[2].getY() && this.model.getX() < checkPoints[3].getX()) {
+                this.model.move(0, speed);
+                if (isAlive) {
+                    this.view = animationDown;
+                }
 
-        } else if (this.getModel().getX() < checkPoints[3].getX()) {
-            this.model.move(speed, 0);
-            if (isAlive) {
-                this.view = animationRight;
-            }
+            } else if (this.getModel().getX() < checkPoints[3].getX()) {
+                this.model.move(speed, 0);
+                if (isAlive) {
+                    this.view = animationRight;
+                }
 
-        } else if (this.getModel().getY() > checkPoints[4].getY() && this.getModel().getX() > checkPoints[3].getX()) {
-            this.model.move(0, -speed);
-            if (isAlive) {
-                this.view = animationUp;
+            } else if (this.getModel().getY() > checkPoints[4].getY() && this.getModel().getX() > checkPoints[3].getX()) {
+                this.model.move(0, -speed);
+                if (isAlive) {
+                    this.view = animationUp;
+                }
+            } else {
+                this.model.move(speed, 0);
+                if (isAlive) {
+                    this.view = animationRight;
+                }
             }
-        } else {
-            this.model.move(speed, 0);
-            if (isAlive) {
-                this.view = animationRight;
-            }
+            count = 0;
         }
 
     }
 
     public void moveEnemyFly(int speed) {
-        this.model.move(speed, 0);
+        count++;
+        if (count > 3) {
+            this.model.move(speed, 0);
+            count=0;
+        }
     }
 
     public void run() {
@@ -129,10 +135,6 @@ public class EnemyController extends Controller implements Body {
                         AnimationManager.tankDown,
                         AnimationManager.tankUp);
                 break;
-            case WALK:
-                break;
-
-
         }
 
     }
@@ -190,13 +192,9 @@ public class EnemyController extends Controller implements Body {
 
     @Override
     public void onContact(Body other) {
-
         if (other instanceof HouseController) {
-
             this.isAlive = false;
         }
-
-
     }
 
     @Override

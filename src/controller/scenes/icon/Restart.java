@@ -9,17 +9,16 @@ import java.awt.event.MouseEvent;
 import static utils.Utils.loadImage;
 
 /**
- * Created by DUC THANG on 12/31/2016.
+ * Created by DUC THANG on 1/1/2017.
  */
-public class PauseGame extends GameScene implements IconGame{
-    private static final int WIDTH = 40;
-    private static final int HEIGHT = 35;
-    private Image pause;
-
+public class Restart extends GameScene implements IconGame {
+    private Image restart;
+    private static final int WIDTH = 180;
+    private static final int HEIGHT = 55;
     private int x;
     private int y;
 
-    public PauseGame(int x, int y) {
+    public Restart(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -35,17 +34,17 @@ public class PauseGame extends GameScene implements IconGame{
     @Override
     public void update(Graphics g) {
         if (checkMouse()) {
-            pause = loadImage("res/icon/pause2.png");
+            restart = loadImage("res/icon/restart2.png");
         } else {
-            pause = loadImage("res/icon/pause1.png");
+            restart = loadImage("res/icon/restart1.png");
         }
 
-        g.drawImage(pause, x, y, WIDTH, HEIGHT, null);
+        g.drawImage(restart, x, y, WIDTH, HEIGHT, null);
     }
 
     @Override
     public void run() {
-
+        checkMouse();
     }
 
     @Override
