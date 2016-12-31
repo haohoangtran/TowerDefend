@@ -25,6 +25,9 @@ public class EnemyController extends Controller implements Body {
     protected EnemyType enemyType;
     private static CheckPoint[] checkPoints = Utils.createCheckpoint();
     private int count = 0;
+
+    public boolean slow = false;
+
     private static int speedFly = 4;
     private static int speedNormal = 4;
     private static int speedTank = 2;
@@ -62,29 +65,49 @@ public class EnemyController extends Controller implements Body {
         count++;
         if (count >= 3) {
             if (this.getModel().getX() < checkPoints[1].getX() && this.model.getY() < checkPoints[2].getY()) {
-                this.model.move(speed, 0);
+                if (slow) {
+                    model.moveSlow(speed, 0);
+                } else {
+                    this.model.move(speed, 0);
+                }
                 if (isAlive) {
                     this.view = animationRight;
                 }
             } else if (this.getModel().getY() < checkPoints[2].getY() && this.model.getX() < checkPoints[3].getX()) {
-                this.model.move(0, speed);
+                if (slow) {
+                    model.moveSlow(0, speed);
+                } else {
+                    this.model.move(0, speed);
+                }
                 if (isAlive) {
                     this.view = animationDown;
                 }
 
             } else if (this.getModel().getX() < checkPoints[3].getX()) {
-                this.model.move(speed, 0);
+                if (slow) {
+                    model.moveSlow(speed, 0);
+                } else {
+                    this.model.move(speed, 0);
+                }
                 if (isAlive) {
                     this.view = animationRight;
                 }
 
             } else if (this.getModel().getY() > checkPoints[4].getY() && this.getModel().getX() > checkPoints[3].getX()) {
-                this.model.move(0, -speed);
+                if (slow) {
+                    model.moveSlow(0, -speed);
+                } else {
+                    this.model.move(0, -speed);
+                }
                 if (isAlive) {
                     this.view = animationUp;
                 }
             } else {
-                this.model.move(speed, 0);
+                if (slow) {
+                    model.moveSlow(speed, 0);
+                } else {
+                    this.model.move(speed, 0);
+                }
                 if (isAlive) {
                     this.view = animationRight;
                 }
@@ -98,7 +121,7 @@ public class EnemyController extends Controller implements Body {
         count++;
         if (count > 3) {
             this.model.move(speed, 0);
-            count=0;
+            count = 0;
         }
     }
 
