@@ -1,5 +1,4 @@
 import controller.scenes.GameScene;
-import controller.scenes.LoadGameScene;
 import controller.scenes.MenuScene;
 import controller.scenes.SceneListener;
 import utils.Utils;
@@ -26,6 +25,7 @@ public class GameWindow extends Frame implements Runnable, SceneListener {
         setVisible(true);
         setResizable(false);
         setTitle("Mùa đông năm ấy - Amita Team");
+        setSize(930, 900);
         setSize(900, 700);
         // cỡ ảnh 930x690
         backBuffer = new BufferedImage(900, 700, BufferedImage.TYPE_3BYTE_BGR);
@@ -111,6 +111,7 @@ public class GameWindow extends Frame implements Runnable, SceneListener {
 
         Graphics backBufferGraphics = backBuffer.getGraphics();
         currenScene.update(backBufferGraphics);
+        g.drawImage(backBuffer, 0, 0, 930, 900, null);
         g.drawImage(backBuffer, 0, 0, 900, 700, null);
     }
 
