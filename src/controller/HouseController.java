@@ -13,7 +13,7 @@ import java.awt.*;
  * Created by HieuIt on 12/17/2016.
  */
 public class HouseController extends Controller implements Body{
-    private int hp;
+    public static int hp;
     public double hpMax;
     public boolean gameOn = true;
     public static  HouseController instance = HouseController.createHpFull(830, 325);
@@ -40,14 +40,22 @@ public class HouseController extends Controller implements Body{
         if (isAlive) {
             view.draw(g, this.model);
         }
+        String temp = hp + " %";
         double leng = this.getModel().getWidth() * 0.5;
         if (hp / hpMax > 0.75) {
             g.setColor(Color.green);
+            g.drawString(temp,this.model.getX()+30,this.model.getY());
         } else if (hp / hpMax > 0.25) {
+            g.drawString(temp,this.model.getX()+30,this.model.getY());
             g.setColor(Color.YELLOW);
-        } else
+        } else {
             g.setColor(Color.red);
-        g.fillRect(this.model.getX(), this.model.getY(), (int) ((hp / hpMax) * leng), 3);
+            g.drawString(temp, this.model.getX() + 30, this.model.getY());
+            if (this.hp <= 0) {
+                setAlive(false);
+            }
+        }
+        g.fillRect(this.model.getX(), this.model.getY(), (int) ((hp / hpMax) * leng), 15);
     }
 
 
@@ -74,10 +82,8 @@ public class HouseController extends Controller implements Body{
             }else {
                 this.view = new SingleView(Utils.loadImage("res/houseController.png"));
             }
-            this.hp -= 15;
-            if (this.hp <=-15) {
-                setAlive(false);
-            }
+            this.hp -= 20;
+
         }
     }
 

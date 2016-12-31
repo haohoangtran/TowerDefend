@@ -4,7 +4,9 @@ import controller.HouseController;
 import controller.enemies.EnemyController;
 import controller.enemies.EnemyManager;
 import controller.enemies.EnemyType;
+import controller.enemies.SpawnEnemy;
 import controller.manager.BodyManager;
+import controller.scenes.PlayGameScene;
 import models.CheckPoint;
 
 import javax.imageio.ImageIO;
@@ -139,5 +141,7 @@ public class Utils {
         BodyManager.instance.setBodies(new Vector<>());
         BodyManager.instance.register(HouseController.instance);
         EnemyManager.instance.removeAll();
+        PlayGameScene.second=0;
+        PlayGameScene.timeCount=0;
     }
 }
