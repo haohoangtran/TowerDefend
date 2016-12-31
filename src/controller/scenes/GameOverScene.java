@@ -3,6 +3,7 @@ package controller.scenes;
 import controller.scenes.icon.BackMenu;
 import controller.scenes.icon.IconGame;
 import controller.scenes.icon.Next;
+import controller.scenes.icon.Restart;
 import utils.Utils;
 
 import java.awt.*;
@@ -14,30 +15,30 @@ import static utils.Utils.loadImage;
  */
 
 public class GameOverScene extends GameScene implements IconGame {
-    private BackMenu backMenu;
-    private Next next;
+    private Restart restart;
+    //private Next next;
 
     public GameOverScene() {
-        backMenu = new BackMenu(500, 450);
-        next = new Next(200, 450);
+        restart = new Restart(350, 450);
+        //next = new Next(200, 450);
     }
 
     @Override
     public void update(Graphics g) {
         g.drawImage(loadImage("res/icon/gameOver.png"), 160, 100, 575, 310, null);
-        backMenu.update(g);
-        next.update(g);
+        restart.update(g);
+        //next.update(g);
     }
 
     @Override
     public void run() {
-        backMenu.checkMouse();
-        next.checkMouse();
+        restart.checkMouse();
+        //next.checkMouse();
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (backMenu.checkMouse()) {
+        if (restart.checkMouse()) {
             Utils.reset();
             this.sceneListener.back();
         }
