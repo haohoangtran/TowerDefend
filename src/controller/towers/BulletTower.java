@@ -77,6 +77,7 @@ public class BulletTower extends Controller implements Body {
         if (other instanceof EnemyController) {
             setAlive(false);
             ((EnemyController) other).setHp(((EnemyController) other).getHp()-atk);
+            ((EnemyController) other).slow=true;
             if (((EnemyController) other).getHp() <= 0) {
                 ((EnemyController) other).setAlive(false);
             }

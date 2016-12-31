@@ -40,6 +40,12 @@ public class Model {
         this.x += dx;
         this.y += dy;
     }
+
+    public void moveSlow(int dx, int dy){
+        this.x +=dx/2;
+        this.y +=dy/2;
+    }
+
     public int getMidX(){
         return this.x+this.width/2;
     }
