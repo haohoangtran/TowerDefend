@@ -11,6 +11,8 @@ import controller.manager.BodyManager;
 import controller.manager.CellManager;
 import controller.scenes.icon.BackMenu;
 import controller.scenes.icon.IconGame;
+import controller.scenes.icon.PauseButton;
+import controller.scenes.icon.PauseGame;
 import controller.towers.TowerController;
 import controller.towers.TowerManager;
 import controller.towers.TowerType;
@@ -38,6 +40,8 @@ public class PlayGameScene extends GameScene implements IconGame {
     Image background;
     Image backgroundBot;
     Image backgroundTop;
+    Image pause;
+    static boolean isPause = false;
     boolean check;
     Image snow;
     Animation flag, windmill;
@@ -47,6 +51,8 @@ public class PlayGameScene extends GameScene implements IconGame {
     java.util.List<String> spawnEnemy = SpawnEnemy.instance.getListString(SpawnEnemy.instance.allFile.get(level));
 
     private BackMenu backMenu;
+    private PauseGame pauseGame;
+    private PauseButton pauseButton;
 
     public PlayGameScene() {
         try {
@@ -54,6 +60,7 @@ public class PlayGameScene extends GameScene implements IconGame {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
+
         controllers = new Vector<>();
         controllers.add(EnemyManager.instance);
         controllers.add(TowerManager.instance);
@@ -65,6 +72,7 @@ public class PlayGameScene extends GameScene implements IconGame {
         controllers.add(HouseController.instance);
         background = loadImage("res/Map1.png");
         backMenu = new BackMenu(830, 40);
+        pauseGame = new PauseGame(40, 50);
     }
 
     @Override
@@ -72,12 +80,17 @@ public class PlayGameScene extends GameScene implements IconGame {
         g.drawImage(background, 0, 100, 930, 690, null);
         g.drawImage(backgroundTop, 0, 33, 930, 70, null);
         backMenu.update(g);
+        pauseGame.update(g);
         for (BaseController controller : controllers) {
             controller.draw(g);
         }
 
         if (check) {
             CellManager.instance.draw(g);
+        }
+
+        if(isPause) {
+            pauseButton.update(g);
         }
 
         flag.draw(g, new Model(20, 560, 60, 60), 2);
@@ -90,50 +103,52 @@ public class PlayGameScene extends GameScene implements IconGame {
 
     @Override
     public void run() {
-        timeCount++;
-        if (timeCount > 60 ) {
-            second = (int) timeCount / 60;
-        }
-        if(second>=spawnEnemy.size() && EnemyManager.instance.isEmpty()){
-            this.sceneListener.replaceScene(new GameVictoryScene(),false);
-        }
-        if (timeCount % 60 == 0 && second<spawnEnemy.size()-1) {
-            System.out.println(second);
-            String[] listNumber = spawnEnemy.get(second).split(",");
-            for (String s : listNumber) {
+        if(!isPause) {
+            timeCount++;
+            if (timeCount > 60 ) {
+                second = timeCount / 60;
+            }
+            if(second>=spawnEnemy.size() && EnemyManager.instance.isEmpty()){
+                this.sceneListener.replaceScene(new GameVictoryScene(),false);
+            }
+            if (timeCount % 60 == 0 && second<spawnEnemy.size()-1) {
+                System.out.println(second);
+                String[] listNumber = spawnEnemy.get(second).split(",");
+                for (String s : listNumber) {
 
-                try {
-                    switch (Integer.parseInt(s)) {
-                        case 1:
-                            EnemyManager.instance.add(EnemyController.createEnemy(EnemyType.NORMAL));
-                            break;
-                        case 2:
-                            EnemyManager.instance.add(EnemyController.createEnemy(EnemyType.TANK));
-                            break;
-                        case 3:
-                            EnemyManager.instance.add(EnemyController.createEnemy(EnemyType.SPEED));
-                            break;
-                        case 4:
-                            EnemyManager.instance.add(EnemyController.createEnemy(EnemyType.FLY));
-                            break;
-                        case 5:
-                            EnemyManager.instance.add(EnemyController.createEnemy(EnemyType.HORSE));
-                            break;
+                    try {
+                        switch (Integer.parseInt(s)) {
+                            case 1:
+                                EnemyManager.instance.add(EnemyController.createEnemy(EnemyType.NORMAL));
+                                break;
+                            case 2:
+                                EnemyManager.instance.add(EnemyController.createEnemy(EnemyType.TANK));
+                                break;
+                            case 3:
+                                EnemyManager.instance.add(EnemyController.createEnemy(EnemyType.SPEED));
+                                break;
+                            case 4:
+                                EnemyManager.instance.add(EnemyController.createEnemy(EnemyType.FLY));
+                                break;
+                            case 5:
+                                EnemyManager.instance.add(EnemyController.createEnemy(EnemyType.HORSE));
+                                break;
+                        }
+                    } catch (Exception e) {
+                        System.out.println("bo qua");
                     }
-                } catch (Exception e) {
-                    System.out.println("bo qua");
                 }
             }
-        }
 
-        BodyManager.instance.checkContact();
+            BodyManager.instance.checkContact();
 
-        for (int i = 0; i < controllers.size(); i++) {
-            controllers.get(i).run();
-        }
+            for (int i = 0; i < controllers.size(); i++) {
+                controllers.get(i).run();
+            }
 
-        if (!HouseController.instance.isAlive()) {
-            this.sceneListener.replaceScene(new GameOverScene(), false);
+            if (!HouseController.instance.isAlive()) {
+                this.sceneListener.replaceScene(new GameOverScene(), false);
+            }
         }
     }
 
@@ -157,11 +172,16 @@ public class PlayGameScene extends GameScene implements IconGame {
             Utils.reset();
             this.sceneListener.back();
         }
+
+        if(pauseGame.checkMouse() && !isPause) {
+            isPause = true;
+            this.sceneListener.replaceScene(new PauseGameScene(), true);
+        }
     }
 
     @Override
     public boolean checkMouse() {
-        return backMenu.checkMouse();
+        return false;
     }
 
     @Override
@@ -169,5 +189,4 @@ public class PlayGameScene extends GameScene implements IconGame {
         check = false;
         System.out.println("relase");
     }
-
 }

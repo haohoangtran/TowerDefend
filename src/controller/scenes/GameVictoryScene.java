@@ -3,6 +3,7 @@ package controller.scenes;
 import controller.HouseController;
 import controller.scenes.GameScene;
 import controller.scenes.icon.Next;
+import controller.scenes.icon.Restart;
 import utils.Utils;
 
 import java.awt.*;
@@ -15,10 +16,10 @@ import java.util.Vector;
  */
 public class GameVictoryScene extends GameScene {
     private Image backgroud;
-    private Next next;
+    private Restart restart;
     public GameVictoryScene() {
         backgroud = Utils.loadImage("res/gameVictory.png");
-        next = new Next(200, 450);
+        restart = new Restart(350, 500);
     }
 
 
@@ -27,7 +28,7 @@ public class GameVictoryScene extends GameScene {
     @Override
     public void update(Graphics g) {
         g.drawImage(backgroud,100,50,700,450,null);
-        next.update(g);
+        restart.update(g);
 
         if (HouseController.instance.getHp()>75){
             g.drawImage(Utils.loadImage("res/victory3.png"),200,300,489,207,null);
@@ -41,8 +42,7 @@ public class GameVictoryScene extends GameScene {
 
     @Override
     public void run() {
-        next.checkMouse();
-
+        restart.checkMouse();
     }
 
     @Override
@@ -52,7 +52,10 @@ public class GameVictoryScene extends GameScene {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        if(restart.checkMouse()) {
+            Utils.reset();
+            this.sceneListener.back();
+        }
     }
 
     @Override
