@@ -20,9 +20,11 @@ import views.Animation;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.Key;
 import java.util.Vector;
 
 import static utils.Utils.loadImage;
@@ -156,6 +158,18 @@ public class PlayGameScene extends GameScene implements IconGame {
                 controllers.add(tower);
         }
         CellManager.instance.run();
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if(e.getKeyCode() == KeyEvent.VK_P && !isPause) {
+            isPause = true;
+            this.sceneListener.replaceScene(new PauseGameScene(), true);
+        }
+
+        if(e.getKeyCode() == KeyEvent.VK_W) {
+            this.sceneListener.replaceScene(new GameVictoryScene(), false);
+        }
     }
 
     public void mouseClicked(MouseEvent e) {

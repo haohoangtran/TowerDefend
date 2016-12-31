@@ -3,6 +3,7 @@ package controller.scenes;
 import controller.scenes.icon.Start;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import static utils.Utils.loadImage;
 
@@ -48,6 +49,11 @@ public class MenuScene extends GameScene{
 
     @Override
     public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
 
     }
 

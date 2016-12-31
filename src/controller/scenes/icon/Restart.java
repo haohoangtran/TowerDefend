@@ -4,6 +4,7 @@ import controller.scenes.GameScene;
 import utils.Utils;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import static utils.Utils.loadImage;
@@ -59,6 +60,11 @@ public class Restart extends GameScene implements IconGame {
 
     @Override
     public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
 
     }
 }
