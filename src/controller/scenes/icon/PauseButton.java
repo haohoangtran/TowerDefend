@@ -11,14 +11,16 @@ import static utils.Utils.loadImage;
 /**
  * Created by DUC THANG on 1/1/2017.
  */
-public class Restart extends GameScene implements IconGame {
-    private Image restart;
-    private static final int WIDTH = 180;
-    private static final int HEIGHT = 55;
+public class PauseButton extends GameScene implements IconGame {
+    Image pause;
     private int x;
     private int y;
 
-    public Restart(int x, int y) {
+    private final int WIDTH = 170;
+    private final int HEIGHT = 60;
+
+
+    public PauseButton(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -34,17 +36,17 @@ public class Restart extends GameScene implements IconGame {
     @Override
     public void update(Graphics g) {
         if (checkMouse()) {
-            restart = loadImage("res/icon/restart2.png");
+            pause = loadImage("res/icon/pauseGame2.png");
         } else {
-            restart = loadImage("res/icon/restart1.png");
+            pause = loadImage("res/icon/pauseGame1.png");
         }
 
-        g.drawImage(restart, x, y, WIDTH, HEIGHT, null);
+        g.drawImage(pause, x, y, WIDTH, HEIGHT, null);
     }
 
     @Override
     public void run() {
-        checkMouse();
+
     }
 
     @Override
