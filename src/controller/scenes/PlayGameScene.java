@@ -152,10 +152,11 @@ public class PlayGameScene extends GameScene implements IconGame {
         System.out.println("press");
         cellController = CellManager.instance.findCell(e.getX(), e.getY());
         if (cellController != null && cellController.getModel().isCanBuild()) {
-                tower = TowerController.createTower(cellController.getModel().getX(), cellController.getModel().getY(), TowerType.NORMAL);
-                tower.setRadiusFire(100);
-                cellController.setTowerController(tower);
-                controllers.add(tower);
+//                tower = TowerController.createTower(cellController.getModel().getX(), cellController.getModel().getY(), TowerType.NORMAL);
+//                tower.setRadiusFire(100);
+//                cellController.setTowerController(tower);
+//                controllers.add(tower);
+
         }
         CellManager.instance.run();
     }
@@ -169,6 +170,13 @@ public class PlayGameScene extends GameScene implements IconGame {
 
         if(e.getKeyCode() == KeyEvent.VK_W) {
             this.sceneListener.replaceScene(new GameVictoryScene(), false);
+        }
+
+        if(e.getKeyCode() == KeyEvent.VK_UP){
+            SPEEDGAME--;
+        }
+        if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+            SPEEDGAME++;
         }
     }
 

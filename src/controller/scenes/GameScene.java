@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
  */
 public abstract class GameScene {
     protected SceneListener sceneListener;
+    public static int SPEEDGAME = 25;
 
     public void setSceneListener(SceneListener sceneListener) {
         this.sceneListener = sceneListener;

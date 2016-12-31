@@ -136,7 +136,7 @@ public class GameWindow extends Frame implements Runnable, SceneListener {
         while (true) {
             try {
                 this.repaint();
-                Thread.sleep(25);
+                Thread.sleep(GameScene.SPEEDGAME);
                 currenScene.run();
                 Point point = this.getLocation();
                 Utils.getLocation(MouseInfo.getPointerInfo().getLocation().x-(int)point.getX(),
