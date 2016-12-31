@@ -9,10 +9,7 @@ import controller.enemies.EnemyType;
 import controller.enemies.SpawnEnemy;
 import controller.manager.BodyManager;
 import controller.manager.CellManager;
-import controller.scenes.icon.BackMenu;
-import controller.scenes.icon.IconGame;
-import controller.scenes.icon.PauseButton;
-import controller.scenes.icon.PauseGame;
+import controller.scenes.icon.*;
 import controller.towers.TowerController;
 import controller.towers.TowerManager;
 import controller.towers.TowerType;
@@ -40,7 +37,6 @@ public class PlayGameScene extends GameScene implements IconGame {
     Image background;
     Image backgroundBot;
     Image backgroundTop;
-    Image pause;
     static boolean isPause = false;
     boolean check;
     Image snow;
@@ -52,7 +48,6 @@ public class PlayGameScene extends GameScene implements IconGame {
 
     private BackMenu backMenu;
     private PauseGame pauseGame;
-    private PauseButton pauseButton;
 
     public PlayGameScene() {
         try {
@@ -87,10 +82,6 @@ public class PlayGameScene extends GameScene implements IconGame {
 
         if (check) {
             CellManager.instance.draw(g);
-        }
-
-        if(isPause) {
-            pauseButton.update(g);
         }
 
         flag.draw(g, new Model(20, 560, 60, 60), 2);
@@ -159,10 +150,10 @@ public class PlayGameScene extends GameScene implements IconGame {
         System.out.println("press");
         cellController = CellManager.instance.findCell(e.getX(), e.getY());
         if (cellController != null && cellController.getModel().isCanBuild()) {
-            tower = TowerController.createTower(cellController.getModel().getX(), cellController.getModel().getY(), TowerType.NORMAL);
-            tower.setRadiusFire(100);
-            cellController.setTowerController(tower);
-            controllers.add(tower);
+                tower = TowerController.createTower(cellController.getModel().getX(), cellController.getModel().getY(), TowerType.NORMAL);
+                tower.setRadiusFire(100);
+                cellController.setTowerController(tower);
+                controllers.add(tower);
         }
         CellManager.instance.run();
     }
