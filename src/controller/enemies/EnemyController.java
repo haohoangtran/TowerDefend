@@ -9,6 +9,7 @@ import models.Model;
 import utils.AnimationManager;
 import utils.Utils;
 import views.Animation;
+import views.SingleView;
 
 import java.awt.*;
 import java.util.Vector;
@@ -90,9 +91,11 @@ public class EnemyController extends Controller implements Body {
         }
 
     }
-    public void moveEnemyFly(int speed){
-        this.model.move(speed,0);
+
+    public void moveEnemyFly(int speed) {
+        this.model.move(speed, 0);
     }
+
     public void run() {
         switch (enemyType) {
             case FLY:
@@ -151,11 +154,11 @@ public class EnemyController extends Controller implements Body {
 
         CheckPoint[] checkPoints = Utils.createCheckpoint();
 
-         int hpNormal=100;
-         int hpFLy=30;
-         int hpTank=100;
-         int hpHores=100;
-         int hpSpeed=100;
+        int hpNormal = 100;
+        int hpFLy = 30;
+        int hpTank = 100;
+        int hpHores = 100;
+        int hpSpeed = 100;
         switch (type) {
             case NORMAL:
                 return new EnemyController(
@@ -164,7 +167,7 @@ public class EnemyController extends Controller implements Body {
                         AnimationManager.normalRight, EnemyType.NORMAL, hpNormal);
             case FLY:
                 return new EnemyController(
-                        new Model(0,HouseController.instance.getModel().getMidY(), 40, 35),
+                        new Model(0, HouseController.instance.getModel().getMidY(), 40, 35),
                         AnimationManager.flyRight, EnemyType.FLY, hpFLy);
             case TANK:
                 return new EnemyController(
@@ -187,9 +190,13 @@ public class EnemyController extends Controller implements Body {
 
     @Override
     public void onContact(Body other) {
+
         if (other instanceof HouseController) {
+
             this.isAlive = false;
         }
+
+
     }
 
     @Override

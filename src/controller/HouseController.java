@@ -16,7 +16,9 @@ public class HouseController extends Controller implements Body{
     public static int hp;
     public double hpMax;
     public boolean gameOn = true;
+    private boolean ckech = false;
     public static  HouseController instance = HouseController.createHpFull(830, 325);
+
     public boolean isGameOn() {
         return gameOn;
     }
@@ -75,16 +77,23 @@ public class HouseController extends Controller implements Body{
     }
 
     @Override
+    public void run() {
+        super.run();
+        if (view.isAnimationReachEnd()) {
+            this.view = new SingleView(Utils.loadImage("res/houseController.png"));
+        }
+    }
+
+    @Override
     public void onContact(Body other) {
         if (other instanceof EnemyController) {
+            this.hp -= 20;
             if (!view.isAnimationReachEnd()) {
                 this.view = new Animation("res/houseController1.png,res/houseController2.png,res/houseController3.png");
-            }else {
-                this.view = new SingleView(Utils.loadImage("res/houseController.png"));
             }
-            this.hp -= 20;
 
         }
+
     }
 
 }
