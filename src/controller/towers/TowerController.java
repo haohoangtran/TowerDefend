@@ -60,9 +60,9 @@ public class TowerController extends Controller {
         //bulletTowers = new Vector<>();
     }
 
-    public TowerController(Model model, SingleView view,TowerType towerType) {
+    public TowerController(Model model, SingleView view, TowerType towerType) {
         super(model, view);
-        this.towerType =towerType;
+        this.towerType = towerType;
         bulletTowers = new Vector<>();
     }
 
@@ -102,16 +102,17 @@ public class TowerController extends Controller {
                         timeCount = 0;
                         break;
                     case FIRE:
-                        BulletTower bulletTower2 = BulletTower.createBullet(this.model.getX()-25, this.model.getY()-25, BulletType.FIRE);
-                        bulletTower2.setEnemyController(e);
-                        bulletTowers.add(bulletTower2);
-                        System.out.println("da add");
-                        timeCount = 0;
+                        if (timeCount > 180) {
+                            BulletTower bulletTower2 = BulletTower.createBullet(this.model.getX() - 25, this.model.getY() - 25, BulletType.FIRE);
+                            bulletTower2.setEnemyController(e);
+                            bulletTowers.add(bulletTower2);
+                            System.out.println("da add");
+                            timeCount = 0;
+                        }
                         break;
                 }
             }
         }
-
 
 
         Iterator<BulletTower> iterator = bulletTowers.iterator();
@@ -119,8 +120,11 @@ public class TowerController extends Controller {
             BulletTower bulletTower = iterator.next();
             int a = bulletTower.getModel().getX();
             int b = bulletTower.getModel().getY();
+
             if (!bulletTower.isAlive() || !bulletTower.getEnemyController().isAlive()) {
-                iterator.remove();
+                if (bulletTower.getView().isAnimationReachEnd()) {
+                    iterator.remove();
+                }
             } else {
                 bulletTower.run();
             }
@@ -133,10 +137,10 @@ public class TowerController extends Controller {
         switch (towerType) {
             case NORMAL:
                 return new TowerController(new Model(x, y, 50, 50), new SingleView(
-                        Utils.loadImage("res/PNG/Towers (grey)/TowersLever2.png")),TowerType.NORMAL);
+                        Utils.loadImage("res/PNG/Towers (grey)/TowersLever2.png")), TowerType.NORMAL);
             case FIRE:
                 return new TowerController(new Model(x, y, 50, 50), new SingleView(
-                        Utils.loadImage("res/image590.png")),TowerType.FIRE);
+                        Utils.loadImage("res/image590.png")), TowerType.FIRE);
         }
         return null;
     }
@@ -146,7 +150,7 @@ public class TowerController extends Controller {
         super.draw(g);
         for (int i = 0; i < bulletTowers.size(); i++) {
             bulletTowers.get(i).draw(g);
-            System.out.println(bulletTowers.get(i).type+"aaaa");
+            System.out.println(bulletTowers.get(i).type + "aaaa");
 
         }
     }
