@@ -94,11 +94,11 @@ public class BulletTower extends Controller implements Body {
     public static BulletTower createBullet(int x, int y, BulletType type) {
         switch (type) {
             case NORMAL:
-                BulletTower b = new BulletTower(new Model(x, y, 12, 12), new SingleView(Utils.loadImage("res/bullet.png")), 10);
+                BulletTower b = new BulletTower(new Model(x, y, 12, 12), new SingleView(Utils.loadImage("res/bullet.png")), BulletType.NORMAL);
                 b.setAtk(10);
                 return b;
             case SLOW:
-                BulletTower b2 = new BulletTower(new Model(x, y, 12, 12), new SingleView(Utils.loadImage("res/bullet.png")), 10);
+                BulletTower b2 = new BulletTower(new Model(x, y, 12, 12), new SingleView(Utils.loadImage("res/bullet.png")), BulletType.NORMAL);
                 b2.setAtk(10);
                 return b2;
             case FIRE:

@@ -33,13 +33,17 @@ import static utils.Utils.loadImage;
  * Created by DUC THANG on 12/28/2016.
  */
 public class PlayGameScene extends GameScene implements IconGame {
+    Image image1 ;
+    Image image2 ;
     public static int timeCount = 0;
     public static int second = 0;
     public static int level = 0;
+    private int keyEvent=KeyEvent.VK_1;
     Image background;
     Image backgroundBot;
     Image backgroundTop;
     static boolean isPause = false;
+    private boolean checkCell;
     boolean check;
     Image snow;
     Animation flag, windmill;
@@ -57,6 +61,8 @@ public class PlayGameScene extends GameScene implements IconGame {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
+        image1 = Utils.loadImage("res/PNG/Towers (grey)/TowersLever2.png");
+        image2 = Utils.loadImage("res/image590.png");
 
         controllers = new Vector<>();
         controllers.add(EnemyManager.instance);
@@ -74,8 +80,11 @@ public class PlayGameScene extends GameScene implements IconGame {
 
     @Override
     public void update(Graphics g) {
+
         g.drawImage(background, 0, 100, 930, 690, null);
         g.drawImage(backgroundTop, 0, 33, 930, 70, null);
+        g.drawImage(image1,20,650,50,50,null);
+        g.drawImage(image2,80,650,50,50,null);
         backMenu.update(g);
         pauseGame.update(g);
         for (BaseController controller : controllers) {
@@ -85,7 +94,6 @@ public class PlayGameScene extends GameScene implements IconGame {
         if (check) {
             CellManager.instance.draw(g);
         }
-
         flag.draw(g, new Model(20, 560, 60, 60), 2);
         windmill.draw(g, new Model(118, 620, 60, 60), 2);
         g.drawImage(snow, 0, 100, 450, 450, null);
@@ -152,10 +160,23 @@ public class PlayGameScene extends GameScene implements IconGame {
         System.out.println("press");
         cellController = CellManager.instance.findCell(e.getX(), e.getY());
         if (cellController != null && cellController.getModel().isCanBuild()) {
-                tower = TowerController.createTower(cellController.getModel().getX(), cellController.getModel().getY(), TowerType.FIRE);
-                tower.setRadiusFire(100);
-                cellController.setTowerController(tower);
-                controllers.add(tower);
+            checkCell =true;
+            switch (keyEvent){
+                case KeyEvent.VK_1:
+                    tower=TowerController.createTower(cellController.getModel().getX(),cellController.getModel().getY(),
+                            TowerType.NORMAL);
+                    tower.setRadiusFire(100);
+                    cellController.setTowerController(tower);
+                    controllers.add(tower);
+                    break;
+                case KeyEvent.VK_2:
+                    tower=TowerController.createTower(cellController.getModel().getX(),cellController.getModel().getY(),
+                            TowerType.FIRE);
+                    tower.setRadiusFire(100);
+                    cellController.setTowerController(tower);
+                    controllers.add(tower);
+                    break;
+            }
 
         }
         CellManager.instance.run();
@@ -177,6 +198,21 @@ public class PlayGameScene extends GameScene implements IconGame {
         }
         if(e.getKeyCode() == KeyEvent.VK_DOWN) {
             SPEEDGAME++;
+        }
+        if (checkCell) {
+            if (e.getKeyCode() == KeyEvent.VK_1) {
+                tower = TowerController.createTower(cellController.getModel().getX(), cellController.getModel().getY(), TowerType.NORMAL);
+                tower.setRadiusFire(100);
+                cellController.setTowerController(tower);
+                controllers.add(tower);
+            }
+            if (e.getKeyCode() == KeyEvent.VK_2) {
+                tower = TowerController.createTower(cellController.getModel().getX(), cellController.getModel().getY(), TowerType.FIRE);
+                tower.setRadiusFire(100);
+                keyEvent = KeyEvent.VK_2;
+                cellController.setTowerController(tower);
+                controllers.add(tower);
+            }
         }
     }
 
