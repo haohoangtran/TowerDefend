@@ -1,7 +1,10 @@
 package utils;
 
+import controller.HouseController;
 import controller.enemies.EnemyController;
+import controller.enemies.EnemyManager;
 import controller.enemies.EnemyType;
+import controller.manager.BodyManager;
 import models.CheckPoint;
 
 import javax.imageio.ImageIO;
@@ -113,5 +116,28 @@ public class Utils {
 
     public static void getLocation(int x, int y) {
         point = new Point(x, y);
+    }
+
+    public static Vector<BufferedImage> realIInFoder(String path) {
+        try {
+            Vector<BufferedImage> bufferedImages = new Vector<>();
+            File forder = new File(path);
+            if (forder.isDirectory()) {
+                for (File file : forder.listFiles()) {
+                    bufferedImages.add(ImageIO.read(file));
+                }
+                return bufferedImages;
+            }else
+                return null;
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    public static void reset() {
+        HouseController.instance=HouseController.createHpFull(830,325);
+        BodyManager.instance.setBodies(new Vector<>());
+        BodyManager.instance.register(HouseController.instance);
+        EnemyManager.instance.removeAll();
     }
 }

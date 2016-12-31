@@ -3,22 +3,26 @@ package controller.scenes;
 import controller.BaseController;
 import controller.CellController;
 import controller.HouseController;
-import controller.Store;
 import controller.enemies.EnemyController;
 import controller.enemies.EnemyManager;
 import controller.enemies.EnemyType;
 import controller.manager.BodyManager;
 import controller.manager.CellManager;
-import controller.manager.Manager;
+import controller.scenes.icon.BackMenu;
+import controller.scenes.icon.IconGame;
 import controller.towers.TowerController;
 import controller.towers.TowerManager;
 import controller.towers.TowerType;
 
-import models.Circle;
+import models.Model;
 import utils.Utils;
+import views.Animation;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Vector;
 
 import static utils.Utils.loadImage;
@@ -26,42 +30,58 @@ import static utils.Utils.loadImage;
 /**
  * Created by DUC THANG on 12/28/2016.
  */
-public class PlayGameScene extends GameScene {
+public class PlayGameScene extends GameScene implements IconGame {
     public static int timeCount = 0;
     Image background;
     Image backgroundBot;
     Image backgroundTop;
     boolean check;
+    Image snow;
+    Animation flag, windmill;
     CellController cellController;
     TowerController tower;
     Vector<BaseController> controllers;
 
+    private BackMenu backMenu;
+
     public PlayGameScene() {
+        try {
+            snow = new ImageIcon(new URL("http://i.imgur.com/2nr0tS3.gif")).getImage();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
         controllers = new Vector<>();
         controllers.add(EnemyManager.instance);
         controllers.add(TowerManager.instance);
-
+        flag = new Animation(Utils.realIInFoder("res/flag"));
+        windmill = new Animation(Utils.realIInFoder("res/windmill"));
         backgroundBot = Utils.loadImage("res/bottom.png");
         backgroundTop = Utils.loadImage("res/top.png");
 
         controllers.add(HouseController.instance);
         background = loadImage("res/Map1.png");
+        backMenu = new BackMenu(830, 40);
     }
 
     @Override
     public void update(Graphics g) {
         g.drawImage(background, 0, 100, 930, 690, null);
         g.drawImage(backgroundTop, 0, 33, 930, 70, null);
-        g.drawImage(backgroundBot, 0, 690, 930, 210, null);
-
+        backMenu.update(g);
         for (BaseController controller : controllers) {
             controller.draw(g);
         }
 
         if (check) {
             CellManager.instance.draw(g);
-            CellManager.instance.drawPos(g);
         }
+
+        flag.draw(g, new Model(20, 560, 60, 60), 2);
+        windmill.draw(g, new Model(118, 620, 60, 60), 2);
+        g.drawImage(snow, 0, 100, 450, 450, null);
+        g.drawImage(snow, 450, 100, 450, 450, null);
+        g.drawImage(snow, 450, 450, 450, 450, null);
+        g.drawImage(snow, 100, 450, 450, 450, null);
     }
 
     @Override
@@ -87,7 +107,7 @@ public class PlayGameScene extends GameScene {
             controllers.get(i).run();
         }
 
-        if(!HouseController.instance.isAlive()) {
+        if (!HouseController.instance.isAlive()) {
             this.sceneListener.replaceScene(new GameOverScene(), false);
         }
     }
@@ -108,7 +128,14 @@ public class PlayGameScene extends GameScene {
     }
 
     public void mouseClicked(MouseEvent e) {
+        if(checkMouse()) {
+            Utils.reset();
+        }
+    }
 
+    @Override
+    public boolean checkMouse() {
+        return backMenu.checkMouse();
     }
 
     @Override

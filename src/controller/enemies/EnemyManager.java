@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.Vector;
 
 /**
- * Created by Songt on 12/18/2016.
+ * Created by HieuIt on 12/18/2016.
  */
 public class EnemyManager extends Manager {
     public static  EnemyManager instance = new EnemyManager();

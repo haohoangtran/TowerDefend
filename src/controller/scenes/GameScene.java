@@ -16,7 +16,7 @@ public abstract class GameScene {
 
     public abstract void update(Graphics g);
     public  abstract void run();
-    public abstract void mousePressed(MouseEvent e);
     public abstract void mouseClicked(MouseEvent e);
     public abstract void mouseReleased(MouseEvent e);
+    public abstract void mousePressed(MouseEvent e);
 }
