@@ -159,7 +159,7 @@ public class PlayGameScene extends GameScene implements IconGame {
         System.out.println("press");
         cellController = CellManager.instance.findCell(e.getX(), e.getY());
         if (cellController != null && cellController.getModel().isCanBuild()) {
-            tower = TowerController.createTower(cellController.getModel().getX(), cellController.getModel().getY(), TowerType.NORMAL);
+            tower = TowerController.createTower(cellController.getModel().getX(), cellController.getModel().getY(), TowerType.FIRE);
             tower.setRadiusFire(100);
             cellController.setTowerController(tower);
             controllers.add(tower);

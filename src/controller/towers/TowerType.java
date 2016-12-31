@@ -8,4 +8,5 @@ public enum  TowerType {
     DAME,
     SLOW,
     STUN,
+    FIRE
 }

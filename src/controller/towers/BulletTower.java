@@ -6,6 +6,7 @@ import controller.enemies.EnemyController;
 import controller.manager.BodyManager;
 import models.Model;
 import utils.Utils;
+import views.Animation;
 import views.SingleView;
 import views.View;
 
@@ -16,10 +17,21 @@ import java.awt.*;
  */
 public class BulletTower extends Controller implements Body {
     private int atk;
+    public BulletType type;
+    private int time;
 
     public BulletTower(Model model, SingleView view, int atk) {
         super(model, view);
         this.atk = atk;
+        isAlive=true;
+        BodyManager.instance.register(this);
+    }
+
+    public BulletTower(Model model, Animation animation, BulletType type){
+        super(model,animation);
+        this.type = type;
+        isAlive=true;
+        BodyManager.instance.register(this);
     }
 
     public int getAtk() {
@@ -45,9 +57,10 @@ public class BulletTower extends Controller implements Body {
 
     private EnemyController enemyController;
 
-    public BulletTower(Model model, SingleView view) {
+    public BulletTower(Model model, SingleView view, BulletType type) {
         super(model, view);
-        isAlive=true;
+        this.type = type;
+        isAlive = true;
         BodyManager.instance.register(this);
     }
 
@@ -56,30 +69,69 @@ public class BulletTower extends Controller implements Body {
 
     @Override
     public void run() {
-        if (enemyController != null) {
-                int xE = enemyController.getModel().getX() + enemyController.getModel().getWidth() / 2;
-                int yE = enemyController.getModel().getY() + enemyController.getModel().getHeight() / 2;
-                int x = (xE - this.model.getX());
-                int y = (yE - this.model.getY());
-                this.model.move(x / numberRun, y / numberRun);
+        time++;
+        switch (type){
+            case FIRE:
+                break;
+            default:
+                if (enemyController != null) {
+                    int xE = enemyController.getModel().getX() + enemyController.getModel().getWidth() / 2;
+                    int yE = enemyController.getModel().getY() + enemyController.getModel().getHeight() / 2;
+                    int x = (xE - this.model.getX());
+                    int y = (yE - this.model.getY());
+                    this.model.move(x / numberRun, y / numberRun);
+                }
         }
+            if (view.isAnimationReachEnd()) {
+                setAlive(false);
+            }
+
     }
 
-    public static BulletTower createBullet(int x, int y) {
-        BulletTower b= new BulletTower(new Model(x, y, 12, 12), new SingleView(Utils.loadImage("res/bullet.png")));
-        b.setAtk(10);
-        return b;
-    }
+    public static BulletTower createBullet(int x, int y, BulletType type) {
+        switch (type) {
+            case NORMAL:
+                BulletTower b = new BulletTower(new Model(x, y, 12, 12), new SingleView(Utils.loadImage("res/bullet.png")), 10);
+                b.setAtk(10);
+                return b;
+            case SLOW:
+                BulletTower b2 = new BulletTower(new Model(x, y, 12, 12), new SingleView(Utils.loadImage("res/bullet.png")), 10);
+                b2.setAtk(10);
+                return b2;
+            case FIRE:
+                BulletTower b3 =new BulletTower(new Model(x,y,100,100),new Animation(Utils.realIInFoder("res/Bullet/Fire")),BulletType.FIRE);
+                b3.setAtk(10);
+                return b3;
 
+        }
+        return null;
+    }
 
     @Override
     public void onContact(Body other) {
         if (other instanceof EnemyController) {
-            setAlive(false);
-            ((EnemyController) other).setHp(((EnemyController) other).getHp()-atk);
-            ((EnemyController) other).slow=true;
-            if (((EnemyController) other).getHp() <= 0) {
-                ((EnemyController) other).setAlive(false);
+            switch (this.type) {
+                case NORMAL:
+                    setAlive(false);
+                    ((EnemyController) other).setHp(((EnemyController) other).getHp() - atk);
+                    if (((EnemyController) other).getHp() <= 0) {
+                        ((EnemyController) other).setAlive(false);
+                    }
+                case SLOW:
+                    setAlive(false);
+                    ((EnemyController) other).setHp(((EnemyController) other).getHp() - atk);
+                    ((EnemyController) other).slow=true;
+                    if (((EnemyController) other).getHp() <= 0) {
+                        ((EnemyController) other).setAlive(false);
+                    }
+                case FIRE:
+                    //setAlive(false);
+
+                    ((EnemyController) other).setHp(((EnemyController) other).getHp() - atk);
+                    ((EnemyController) other).slow=true;
+                    if (((EnemyController) other).getHp() <= 0) {
+                        ((EnemyController) other).setAlive(false);
+                    }
             }
         }
     }
