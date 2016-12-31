@@ -7,6 +7,7 @@ import utils.Utils;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+
 import static utils.Utils.loadImage;
 
 /**
@@ -15,24 +16,24 @@ import static utils.Utils.loadImage;
 
 public class GameOverScene extends GameScene implements IconGame {
     private BackMenu backMenu;
-    private Next next;
+
 
     public GameOverScene() {
         backMenu = new BackMenu(500, 450);
-        next = new Next(200, 450);
+
     }
 
     @Override
     public void update(Graphics g) {
         g.drawImage(loadImage("res/icon/gameOver.png"), 160, 100, 575, 310, null);
         backMenu.update(g);
-        next.update(g);
+
     }
 
     @Override
     public void run() {
         backMenu.checkMouse();
-        next.checkMouse();
+
     }
 
     @Override

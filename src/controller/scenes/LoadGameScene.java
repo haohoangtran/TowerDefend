@@ -38,6 +38,18 @@ public class LoadGameScene extends GameScene {
             count++;
             check = false;
         }
+//        if (!check) {
+//            if (count % 20 == 0) {
+//                String temp = count / 4 + " %";
+//                g.drawString(temp, 460, 650);
+//            }
+//
+//            g.fillRect(270, 660, (int) ((count / countMax) * leng), 8);
+//            if (count > 410) {
+//                this.sceneListener.replaceScene(new MenuScene(), false);
+//            }
+//        }
+
     }
 
     @Override

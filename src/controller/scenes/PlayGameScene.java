@@ -6,6 +6,7 @@ import controller.HouseController;
 import controller.enemies.EnemyController;
 import controller.enemies.EnemyManager;
 import controller.enemies.EnemyType;
+import controller.enemies.SpawnEnemy;
 import controller.manager.BodyManager;
 import controller.manager.CellManager;
 import controller.scenes.icon.BackMenu;
@@ -32,6 +33,8 @@ import static utils.Utils.loadImage;
  */
 public class PlayGameScene extends GameScene implements IconGame {
     public static int timeCount = 0;
+    public static int second = 0;
+    public static int level = 0;
     Image background;
     Image backgroundBot;
     Image backgroundTop;
@@ -41,6 +44,7 @@ public class PlayGameScene extends GameScene implements IconGame {
     CellController cellController;
     TowerController tower;
     Vector<BaseController> controllers;
+    java.util.List<String> spawnEnemy = SpawnEnemy.instance.getListString(SpawnEnemy.instance.allFile.get(level));
 
     private BackMenu backMenu;
 
@@ -86,19 +90,40 @@ public class PlayGameScene extends GameScene implements IconGame {
 
     @Override
     public void run() {
-        timeCount++;// kịch bản nhé :)
-        if (timeCount == 60) {
-            EnemyManager.instance.add(EnemyController.createEnemy(EnemyType.FLY));
+        timeCount++;
+        if (timeCount > 60 ) {
+            second = (int) timeCount / 60;
         }
-        if (timeCount == 80) {
-            EnemyManager.instance.add(EnemyController.createEnemy(EnemyType.NORMAL));
+        if(second>=spawnEnemy.size() && EnemyManager.instance.isEmpty()){
+            this.sceneListener.replaceScene(new GameVictoryScene(),false);
         }
-        if (timeCount == 100) {
-            EnemyManager.instance.add(EnemyController.createEnemy(EnemyType.HORSE));
-        }
-        if (timeCount == 130) {
-            EnemyManager.instance.add(EnemyController.createEnemy(EnemyType.TANK));
-            timeCount = 0;
+        if (timeCount % 60 == 0 && second<spawnEnemy.size()-1) {
+            System.out.println(second);
+            String[] listNumber = spawnEnemy.get(second).split(",");
+            for (String s : listNumber) {
+
+                try {
+                    switch (Integer.parseInt(s)) {
+                        case 1:
+                            EnemyManager.instance.add(EnemyController.createEnemy(EnemyType.NORMAL));
+                            break;
+                        case 2:
+                            EnemyManager.instance.add(EnemyController.createEnemy(EnemyType.TANK));
+                            break;
+                        case 3:
+                            EnemyManager.instance.add(EnemyController.createEnemy(EnemyType.SPEED));
+                            break;
+                        case 4:
+                            EnemyManager.instance.add(EnemyController.createEnemy(EnemyType.FLY));
+                            break;
+                        case 5:
+                            EnemyManager.instance.add(EnemyController.createEnemy(EnemyType.HORSE));
+                            break;
+                    }
+                } catch (Exception e) {
+                    System.out.println("bo qua");
+                }
+            }
         }
 
         BodyManager.instance.checkContact();
@@ -110,8 +135,6 @@ public class PlayGameScene extends GameScene implements IconGame {
         if (!HouseController.instance.isAlive()) {
             this.sceneListener.replaceScene(new GameOverScene(), false);
         }
-
-        backMenu.checkMouse();
     }
 
 
@@ -138,7 +161,7 @@ public class PlayGameScene extends GameScene implements IconGame {
 
     @Override
     public boolean checkMouse() {
-        return false;
+        return backMenu.checkMouse();
     }
 
     @Override

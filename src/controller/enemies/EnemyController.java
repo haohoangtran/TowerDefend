@@ -4,6 +4,7 @@ import controller.Body;
 import controller.Controller;
 import controller.HouseController;
 import controller.manager.BodyManager;
+import controller.manager.Manager;
 import models.CheckPoint;
 import models.Model;
 import utils.AnimationManager;
@@ -11,20 +12,15 @@ import utils.Utils;
 import views.Animation;
 
 import java.awt.*;
-import java.util.Vector;
 
 /**
- * Created by HieuIt on 12/17/2016.
+ * Created by Khuong Duy on 12/17/2016.
  */
 public class EnemyController extends Controller implements Body {
-
-    public double hpMax;
+    public static double hpMax;
     protected int hp;
-    public static Vector<EnemyController> enemyControllers = new Vector<>();
-
     protected EnemyType enemyType;
     private static CheckPoint[] checkPoints = Utils.createCheckpoint();
-
     private static int speedFly = 2;
     private static int speedNormal = 1;
     private static int speedWalk = 2;
@@ -42,19 +38,15 @@ public class EnemyController extends Controller implements Body {
         this.hp = hp;
     }
 
-    public static void register(EnemyController enemyController) {
-        enemyControllers.add(enemyController);
-    }
-
 
     public EnemyController(Model model, Animation animation, EnemyType enemyType, int hp) {
         super(model, animation);
-        EnemyController.register(this);
         isAlive = true;
         this.enemyType = enemyType;
         this.hp = hp;
         hpMax = hp;
         BodyManager.instance.register(this);
+        EnemyManager.instance.add(this);
 
     }
 
@@ -90,13 +82,14 @@ public class EnemyController extends Controller implements Body {
         }
 
     }
-    public void moveEnemyFly(int speed){
-        this.model.move(speed,0);
-    }
     public void run() {
         switch (enemyType) {
             case FLY:
-                moveEnemyFly(speedFly);
+                moveEnemy(speedFly,
+                        AnimationManager.flyRight,
+                        AnimationManager.flyLeft,
+                        AnimationManager.flyDown,
+                        AnimationManager.flyUp);
                 break;
             case SPEED:
                 moveEnemy(speedSpeed,
@@ -136,6 +129,7 @@ public class EnemyController extends Controller implements Body {
 
     public void draw(Graphics g) {
         super.draw(g);
+        // vẽ máu lại rất đẹp :v
 
         double leng = this.getModel().getWidth() * 0.8;
         if (hp / hpMax >= 0.6) {
@@ -148,39 +142,33 @@ public class EnemyController extends Controller implements Body {
     }
 
     public static EnemyController createEnemy(EnemyType type) {
-
         CheckPoint[] checkPoints = Utils.createCheckpoint();
-
-         int hpNormal=100;
-         int hpFLy=30;
-         int hpTank=100;
-         int hpHores=100;
-         int hpSpeed=100;
         switch (type) {
             case NORMAL:
                 return new EnemyController(
                         new Model(checkPoints[0].getX(),
                                 checkPoints[0].getY(), 35, 35),
-                        AnimationManager.normalRight, EnemyType.NORMAL, hpNormal);
+                        AnimationManager.normalRight, EnemyType.NORMAL,100);
             case FLY:
                 return new EnemyController(
-                        new Model(0,HouseController.instance.getModel().getMidY(), 40, 35),
-                        AnimationManager.flyRight, EnemyType.FLY, hpFLy);
+                        new Model(checkPoints[0].getX(),
+                                checkPoints[0].getY(), 40, 35),
+                        AnimationManager.flyRight, EnemyType.FLY, 100);
             case TANK:
                 return new EnemyController(
                         new Model(checkPoints[0].getX(),
                                 checkPoints[0].getY(), 40, 35),
-                        AnimationManager.tankRight, EnemyType.TANK, hpTank);
+                        AnimationManager.tankRight, EnemyType.TANK, 100);
             case HORSE:
                 return new EnemyController(
                         new Model(checkPoints[0].getX(),
                                 checkPoints[0].getY(), 30, 35),
-                        AnimationManager.horseRight, EnemyType.HORSE, hpHores);
+                        AnimationManager.horseRight, EnemyType.HORSE, 100);
             case SPEED:
                 return new EnemyController(
                         new Model(checkPoints[0].getX(),
                                 checkPoints[0].getY(), 35, 35),
-                        AnimationManager.speedRight, EnemyType.SPEED, hpSpeed);
+                        AnimationManager.speedRight, EnemyType.SPEED, 100);
         }
         return null;
     }
