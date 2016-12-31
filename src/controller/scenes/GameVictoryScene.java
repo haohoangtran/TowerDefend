@@ -7,6 +7,7 @@ import controller.scenes.icon.Restart;
 import utils.Utils;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.Vector;
@@ -47,6 +48,11 @@ public class GameVictoryScene extends GameScene {
 
     @Override
     public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
 
     }
 

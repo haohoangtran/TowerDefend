@@ -1,12 +1,11 @@
 package controller.scenes;
 
-import controller.scenes.icon.BackMenu;
 import controller.scenes.icon.IconGame;
-import controller.scenes.icon.Next;
 import controller.scenes.icon.Restart;
 import utils.Utils;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import static utils.Utils.loadImage;
 
@@ -51,6 +50,11 @@ public class GameOverScene extends GameScene implements IconGame {
 
     @Override
     public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
 
     }
 

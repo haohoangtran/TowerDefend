@@ -93,6 +93,23 @@ public class GameWindow extends Frame implements Runnable, SceneListener {
             public void mouseExited(MouseEvent e) {
             }
         });
+
+        addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                currenScene.keyPressed(e);
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
     }
 
     public void replaceScene(GameScene newScene, boolean addToBackStack) {
@@ -122,7 +139,7 @@ public class GameWindow extends Frame implements Runnable, SceneListener {
         while (true) {
             try {
                 this.repaint();
-                Thread.sleep(25);
+                Thread.sleep(GameScene.SPEEDGAME);
                 currenScene.run();
                 Point point = this.getLocation();
                 Utils.getLocation(MouseInfo.getPointerInfo().getLocation().x-(int)point.getX(),

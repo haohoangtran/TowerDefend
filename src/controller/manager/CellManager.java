@@ -49,7 +49,6 @@ public class CellManager implements BaseController {
             if (!cellController.getModel().isCanBuild()&&!cellController.getModel().isRoad()){
                 cellController.getModel().setUtil(true);
             }
-
         }
     }
 

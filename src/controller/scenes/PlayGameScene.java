@@ -9,10 +9,7 @@ import controller.enemies.EnemyType;
 import controller.enemies.SpawnEnemy;
 import controller.manager.BodyManager;
 import controller.manager.CellManager;
-import controller.scenes.icon.BackMenu;
-import controller.scenes.icon.IconGame;
-import controller.scenes.icon.PauseButton;
-import controller.scenes.icon.PauseGame;
+import controller.scenes.icon.*;
 import controller.towers.TowerController;
 import controller.towers.TowerManager;
 import controller.towers.TowerType;
@@ -23,9 +20,11 @@ import views.Animation;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.Key;
 import java.util.Vector;
 
 import static utils.Utils.loadImage;
@@ -40,7 +39,6 @@ public class PlayGameScene extends GameScene implements IconGame {
     Image background;
     Image backgroundBot;
     Image backgroundTop;
-    Image pause;
     static boolean isPause = false;
     boolean check;
     Image snow;
@@ -52,7 +50,6 @@ public class PlayGameScene extends GameScene implements IconGame {
 
     private BackMenu backMenu;
     private PauseGame pauseGame;
-    private PauseButton pauseButton;
 
     public PlayGameScene() {
         try {
@@ -87,10 +84,6 @@ public class PlayGameScene extends GameScene implements IconGame {
 
         if (check) {
             CellManager.instance.draw(g);
-        }
-
-        if(isPause) {
-            pauseButton.update(g);
         }
 
         flag.draw(g, new Model(20, 560, 60, 60), 2);
@@ -159,12 +152,32 @@ public class PlayGameScene extends GameScene implements IconGame {
         System.out.println("press");
         cellController = CellManager.instance.findCell(e.getX(), e.getY());
         if (cellController != null && cellController.getModel().isCanBuild()) {
-            tower = TowerController.createTower(cellController.getModel().getX(), cellController.getModel().getY(), TowerType.FIRE);
-            tower.setRadiusFire(100);
-            cellController.setTowerController(tower);
-            controllers.add(tower);
+//                tower = TowerController.createTower(cellController.getModel().getX(), cellController.getModel().getY(), TowerType.NORMAL);
+//                tower.setRadiusFire(100);
+//                cellController.setTowerController(tower);
+//                controllers.add(tower);
+
         }
         CellManager.instance.run();
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if(e.getKeyCode() == KeyEvent.VK_P && !isPause) {
+            isPause = true;
+            this.sceneListener.replaceScene(new PauseGameScene(), true);
+        }
+
+        if(e.getKeyCode() == KeyEvent.VK_W) {
+            this.sceneListener.replaceScene(new GameVictoryScene(), false);
+        }
+
+        if(e.getKeyCode() == KeyEvent.VK_UP){
+            SPEEDGAME--;
+        }
+        if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+            SPEEDGAME++;
+        }
     }
 
     public void mouseClicked(MouseEvent e) {

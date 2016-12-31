@@ -3,6 +3,7 @@ package controller.scenes;
 import utils.Utils;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 /**
@@ -68,6 +69,11 @@ public class LoadGameScene extends GameScene {
 
     @Override
     public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
 
     }
 }
