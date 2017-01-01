@@ -37,6 +37,7 @@ public class CellController {
                 g.setColor(Color.green);
                 g.drawRect(model.getX(), model.getY(), model.getWidth(), model.getHeight());
             }
+
     }
     public void drawPos(Graphics g,int i){
         g.drawString(i+"",model.getX()+10,model.getY()+10);

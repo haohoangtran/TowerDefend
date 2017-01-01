@@ -21,6 +21,7 @@ public class TowerController extends Controller {
     private static int timeCount = 0;
     private boolean isAlive;
     private int money;
+    private int cellNumber;
     private int radiusFire;
     private TowerType towerType;
 

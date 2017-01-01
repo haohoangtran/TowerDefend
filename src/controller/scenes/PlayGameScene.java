@@ -35,6 +35,7 @@ import static utils.Utils.loadImage;
 public class PlayGameScene extends GameScene implements IconGame {
     Image image1 ;
     Image image2 ;
+    private int index;
     public static int timeCount = 0;
     public static int second = 0;
     public static int level = 0;
@@ -167,14 +168,15 @@ public class PlayGameScene extends GameScene implements IconGame {
                             TowerType.NORMAL);
                     tower.setRadiusFire(100);
                     cellController.setTowerController(tower);
-                    controllers.add(tower);
+                    controllers.add(0,tower);
                     break;
                 case KeyEvent.VK_2:
+
                     tower=TowerController.createTower(cellController.getModel().getX(),cellController.getModel().getY(),
                             TowerType.FIRE);
                     tower.setRadiusFire(100);
                     cellController.setTowerController(tower);
-                    controllers.add(tower);
+                    controllers.add(0,tower);
                     break;
             }
 
@@ -201,12 +203,14 @@ public class PlayGameScene extends GameScene implements IconGame {
         }
         if (checkCell) {
             if (e.getKeyCode() == KeyEvent.VK_1) {
+                controllers.remove(0);
                 tower = TowerController.createTower(cellController.getModel().getX(), cellController.getModel().getY(), TowerType.NORMAL);
                 tower.setRadiusFire(100);
                 cellController.setTowerController(tower);
                 controllers.add(tower);
             }
             if (e.getKeyCode() == KeyEvent.VK_2) {
+                controllers.remove(0);
                 tower = TowerController.createTower(cellController.getModel().getX(), cellController.getModel().getY(), TowerType.FIRE);
                 tower.setRadiusFire(100);
                 keyEvent = KeyEvent.VK_2;
