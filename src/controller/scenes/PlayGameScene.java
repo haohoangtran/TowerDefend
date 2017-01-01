@@ -168,7 +168,7 @@ public class PlayGameScene extends GameScene implements IconGame {
                             TowerType.NORMAL);
                     tower.setRadiusFire(100);
                     cellController.setTowerController(tower);
-                    controllers.add(0,tower);
+                    controllers.addElement(tower);
                     break;
                 case KeyEvent.VK_2:
 
@@ -176,7 +176,7 @@ public class PlayGameScene extends GameScene implements IconGame {
                             TowerType.FIRE);
                     tower.setRadiusFire(100);
                     cellController.setTowerController(tower);
-                    controllers.add(0,tower);
+                    controllers.addElement(tower);
                     break;
             }
 
@@ -195,27 +195,28 @@ public class PlayGameScene extends GameScene implements IconGame {
             this.sceneListener.replaceScene(new GameVictoryScene(), false);
         }
 
-        if(e.getKeyCode() == KeyEvent.VK_UP){
+        if(e.getKeyCode() == KeyEvent.VK_UP && SPEEDGAME > 10){
             SPEEDGAME--;
         }
-        if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+        if(e.getKeyCode() == KeyEvent.VK_DOWN && SPEEDGAME <= 50) {
             SPEEDGAME++;
         }
         if (checkCell) {
             if (e.getKeyCode() == KeyEvent.VK_1) {
-                controllers.remove(0);
+                keyEvent =KeyEvent.VK_1;
+                controllers.remove(controllers.size()-1);
                 tower = TowerController.createTower(cellController.getModel().getX(), cellController.getModel().getY(), TowerType.NORMAL);
                 tower.setRadiusFire(100);
                 cellController.setTowerController(tower);
-                controllers.add(tower);
+                controllers.addElement(tower);
             }
             if (e.getKeyCode() == KeyEvent.VK_2) {
-                controllers.remove(0);
+                controllers.remove(controllers.size()-1);
                 tower = TowerController.createTower(cellController.getModel().getX(), cellController.getModel().getY(), TowerType.FIRE);
                 tower.setRadiusFire(100);
                 keyEvent = KeyEvent.VK_2;
                 cellController.setTowerController(tower);
-                controllers.add(tower);
+                controllers.addElement(tower);
             }
         }
     }
