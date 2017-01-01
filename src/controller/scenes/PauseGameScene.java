@@ -23,6 +23,8 @@ public class PauseGameScene extends GameScene implements IconGame {
     public PauseGameScene() {
         restart = new Restart(450, 300);
         resumeGame = new ResumeGame(250, 300);
+        if (clip.isRunning())
+            clip.stop();
     }
 
     @Override

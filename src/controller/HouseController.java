@@ -88,6 +88,7 @@ public class HouseController extends Controller implements Body{
     public void onContact(Body other) {
         if (other instanceof EnemyController) {
             this.hp -= 20;
+            Utils.playSound("res/sound/nha.wav",false);
             if (!view.isAnimationReachEnd()) {
                 this.view = new Animation("res/houseController1.png,res/houseController2.png,res/houseController3.png");
             }

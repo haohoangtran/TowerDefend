@@ -188,6 +188,9 @@ public class PlayGameScene extends GameScene implements IconGame {
         }
 
         if (e.getKeyCode() == KeyEvent.VK_W) {
+            if (clip.isRunning())
+                clip.stop();
+            else clip.start();
             this.sceneListener.replaceScene(new GameVictoryScene(), false);
         }
 
@@ -220,8 +223,7 @@ public class PlayGameScene extends GameScene implements IconGame {
 
         if (pauseGame.checkMouse() && !isPause) {
             isPause = true;
-            if (clip.isRunning())
-                clip.stop();
+
             this.sceneListener.replaceScene(new PauseGameScene(), true);
 
         }
