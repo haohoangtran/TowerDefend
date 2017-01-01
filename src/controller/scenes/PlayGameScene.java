@@ -18,6 +18,7 @@ import models.Model;
 import utils.Utils;
 import views.Animation;
 
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -56,6 +57,8 @@ public class PlayGameScene extends GameScene implements IconGame {
     private PauseGame pauseGame;
 
     public PlayGameScene() {
+        Utils.songs("start");
+
         towerController=TowerController.createTower(400,400,TowerType.NORMAL);
         try {
             snow = new ImageIcon(new URL("http://i.imgur.com/2nr0tS3.gif")).getImage();
@@ -101,6 +104,7 @@ public class PlayGameScene extends GameScene implements IconGame {
         g.drawImage(snow, 450, 100, 450, 450, null);
         g.drawImage(snow, 450, 450, 450, 450, null);
         g.drawImage(snow, 100, 450, 450, 450, null);
+
     }
 
     @Override
@@ -182,6 +186,7 @@ public class PlayGameScene extends GameScene implements IconGame {
             this.sceneListener.replaceScene(new PauseGameScene(), true);
         }
 
+
         if (e.getKeyCode() == KeyEvent.VK_W) {
             this.sceneListener.replaceScene(new GameVictoryScene(), false);
         }
@@ -209,6 +214,7 @@ public class PlayGameScene extends GameScene implements IconGame {
 
         if (pauseGame.checkMouse() && !isPause) {
             isPause = true;
+            Utils.songs("stop");
             this.sceneListener.replaceScene(new PauseGameScene(), true);
         }
     }

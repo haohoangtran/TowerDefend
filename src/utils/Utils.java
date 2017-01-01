@@ -10,12 +10,16 @@ import controller.manager.CellManager;
 import controller.scenes.GameScene;
 import controller.scenes.PlayGameScene;
 import models.CheckPoint;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
+import java.applet.AudioClip;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Vector;
 
@@ -67,25 +71,47 @@ public class Utils {
     }
 
 
-    public static void playSound(String audioUrl, boolean repeat) {
+    public static void songs(String word) {
+        String temp = word;
+        FileInputStream blah = null;
+        if (temp.equals("start")) {
 
-        File soundFile = new File(audioUrl);
-        try {
-            AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioIn);
-            clip.start();
-            if (repeat) {
-                clip.loop(Clip.LOOP_CONTINUOUSLY);
-            } else {
-                clip.loop(0);
+            try {
+
+                try {
+                    blah = new FileInputStream("res/sound/nhacnen.wav");
+
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
+                AudioStream as = new AudioStream(blah);
+
+                AudioPlayer.player.start(as);
+                System.out.println("going");
+
+            } catch (IOException e) {
+                System.err.println(e);
             }
-        } catch (UnsupportedAudioFileException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (LineUnavailableException e) {
-            e.printStackTrace();
+        }
+
+        if (temp.equals("stop")) {
+
+            try {
+
+                try {
+                    blah = new FileInputStream("C:/Users/Austin/Desktop/Storage/programimages/game/silence.wav");
+
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
+                AudioStream as = new AudioStream(blah);
+
+                AudioPlayer.player.stop(as);
+                System.out.println("stopping");
+
+            } catch (IOException e) {
+                System.err.println(e);
+            }
         }
     }
 
