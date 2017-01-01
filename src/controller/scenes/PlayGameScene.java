@@ -18,6 +18,8 @@ import models.Model;
 import utils.Utils;
 import views.Animation;
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -45,6 +47,7 @@ public class PlayGameScene extends GameScene implements IconGame {
     static boolean isPause = false;
     boolean check;
     Image snow;
+    public static Clip clip;
     TowerController towerController;
     Animation flag, windmill;
     CellController cellController;
@@ -56,7 +59,9 @@ public class PlayGameScene extends GameScene implements IconGame {
     private PauseGame pauseGame;
 
     public PlayGameScene() {
-        towerController=TowerController.createTower(400,400,TowerType.NORMAL);
+        clip = Utils.readFile("res/sound/nennen.wav");
+        clip.start();
+        towerController = TowerController.createTower(400, 400, TowerType.NORMAL);
         try {
             snow = new ImageIcon(new URL("http://i.imgur.com/2nr0tS3.gif")).getImage();
         } catch (MalformedURLException e) {
@@ -161,7 +166,7 @@ public class PlayGameScene extends GameScene implements IconGame {
     public void mousePressed(MouseEvent e) {
         check = true;
         cellController = CellManager.instance.findCell(e.getX(), e.getY());
-        if (cellController != null && cellController.getModel().isCanBuild()&&cellController.getTowerController()==null) {
+        if (cellController != null && cellController.getModel().isCanBuild() && cellController.getTowerController() == null) {
             if (towerCreate == 1)
                 tower = TowerController.createTower(cellController.getModel().getX(), cellController.getModel().getY(), TowerType.NORMAL);
             else if (towerCreate == 2) {
@@ -195,6 +200,12 @@ public class PlayGameScene extends GameScene implements IconGame {
         if (e.getKeyCode() == KeyEvent.VK_2) {
             towerCreate = 2;
         }
+        if (e.getKeyCode()== KeyEvent.VK_S){
+            if (clip.isRunning()){
+                clip.stop();
+            }else
+                clip.start();
+        }
         if (e.getKeyCode() == KeyEvent.VK_1) {
             towerCreate = 1;
         }
@@ -209,7 +220,10 @@ public class PlayGameScene extends GameScene implements IconGame {
 
         if (pauseGame.checkMouse() && !isPause) {
             isPause = true;
+            if (clip.isRunning())
+                clip.stop();
             this.sceneListener.replaceScene(new PauseGameScene(), true);
+
         }
     }
 

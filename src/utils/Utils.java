@@ -89,6 +89,23 @@ public class Utils {
         }
     }
 
+    public static Clip readFile(String path) {
+        File sound=new File(path);
+        try {
+            AudioInputStream inputStream=AudioSystem.getAudioInputStream(sound);
+            Clip clip=AudioSystem.getClip();
+            clip.open(inputStream);
+            return clip;
+        } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static Vector<BufferedImage> loadSheetEnemy(EnemyType enemyType, int colum) {
         String URL = pathImageEnemy(enemyType);
         Vector<BufferedImage> imageVector = new Vector<>();
@@ -135,7 +152,7 @@ public class Utils {
                     bufferedImages.add(ImageIO.read(file));
                 }
                 return bufferedImages;
-            }else
+            } else
                 return null;
         } catch (IOException e) {
             return null;
@@ -144,12 +161,12 @@ public class Utils {
 
     public static void reset() {
         GameScene.SPEEDGAME = 25;
-        HouseController.instance=HouseController.createHpFull(830,325);
+        HouseController.instance = HouseController.createHpFull(830, 325);
         BodyManager.instance.setBodies(new Vector<>());
         BodyManager.instance.register(HouseController.instance);
         EnemyManager.instance.removeAll();
-        PlayGameScene.second=0;
-        PlayGameScene.timeCount=0;
+        PlayGameScene.second = 0;
+        PlayGameScene.timeCount = 0;
         CellManager.instance.reset();
     }
 }
