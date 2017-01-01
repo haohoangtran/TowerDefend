@@ -71,5 +71,15 @@ public class AnimationManager {
     public static final Animation flyUp =
             new Animation(Utils.loadSheetEnemy(EnemyType.FLY, 3));
     //windwill
-    public static final Animation windwill=new Animation(Utils.realIInFoder("res/windwill"));
+    public static final Animation windwill = new Animation(Utils.realIInFoder("res/windwill"));
+
+    //Bot
+    public static final Animation botDown = new Animation(
+            Utils.loadSheetEnemy(EnemyType.BOT, 0));
+    public static final Animation botLeft = new Animation(
+            Utils.loadSheetEnemy(EnemyType.BOT, 1));
+    public static final Animation botRight = new Animation(
+            Utils.loadSheetEnemy(EnemyType.BOT, 2));
+    public static final Animation botUp = new Animation(
+            Utils.loadSheetEnemy(EnemyType.BOT, 3));
 }

@@ -5,7 +5,7 @@ package controller.enemies;
  */
 public enum  EnemyType {
     NORMAL,
-    WALK,
+    BOT,
     FLY,
     SPEED,
     TANK,

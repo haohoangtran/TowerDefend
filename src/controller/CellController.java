@@ -60,7 +60,6 @@ public class CellController implements BaseController{
         g.setColor(Color.red);
         Font font=new Font("Times new Roman",Font.BOLD,40);
         g.setFont(font);
-        System.out.println("Ve text");
         g.drawString(s,20,700);
     }
 

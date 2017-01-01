@@ -3,6 +3,7 @@ package controller.towers;
 import controller.Body;
 import controller.Controller;
 import controller.enemies.EnemyController;
+import controller.enemies.EnemyType;
 import controller.manager.BodyManager;
 import models.Model;
 import utils.Utils;
@@ -77,7 +78,7 @@ public class BulletTower extends Controller implements Body {
             case FIRE:
                 break;
             default:
-            if (enemyController != null) {
+            if (enemyController != null && enemyController.enemyType!=EnemyType.BOT) {
                 int xE = enemyController.getModel().getX() + enemyController.getModel().getWidth() / 2;
                 int yE = enemyController.getModel().getY() + enemyController.getModel().getHeight() / 2;
                 int x = (xE - this.model.getX());
@@ -123,6 +124,7 @@ public class BulletTower extends Controller implements Body {
                     break;
                 case SLOW:
                     setAlive(false);
+
                     ((EnemyController) other).setHp(((EnemyController) other).getHp() - atk);
                     ((EnemyController) other).slow = true;
                     if (((EnemyController) other).getHp() <= 0) {
@@ -131,6 +133,9 @@ public class BulletTower extends Controller implements Body {
                     break;
                 case FIRE:
                     setAlive(false);
+                    if(((EnemyController) other).enemyType== EnemyType.BOT){
+                        ((EnemyController) other).setHp(((EnemyController) other).getHp() - atk);
+                    }
                     ((EnemyController) other).setHp(((EnemyController) other).getHp() - atk);
                     if (((EnemyController) other).getHp() <= 0) {
                         ((EnemyController) other).setAlive(false);

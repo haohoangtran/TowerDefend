@@ -49,6 +49,8 @@ public class Utils {
                 return "res/Enemy/odin/odin.png";
             case TANK:
                 return "res/Enemy/ifrit/ifrit.png";
+            case BOT:
+                return "res/Enemy/ifrit/ifrit.png";
         }
         return null;
     }
@@ -112,6 +114,8 @@ public class Utils {
                     imageVector.add(subImage);
                 }
                 break;
+            case BOT:
+
         }
 
 

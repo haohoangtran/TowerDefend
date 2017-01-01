@@ -21,7 +21,7 @@ public class EnemyController extends Controller implements Body {
     public double hpMax;
     protected int hp;
 
-    protected EnemyType enemyType;
+    public EnemyType enemyType;
     private static CheckPoint[] checkPoints = Utils.createCheckpoint();
     private int count = 0;
     private int slowCount = 0;
@@ -33,6 +33,7 @@ public class EnemyController extends Controller implements Body {
     private static int speedTank = 2;
     private static int speedHorse = 4;
     private static int speedSpeed = 6;
+    private static int speedBot = 4;
     private static int WIDTH = 25;
     private static int HEIGHT = 35;
 
@@ -189,6 +190,13 @@ public class EnemyController extends Controller implements Body {
                         AnimationManager.tankDown,
                         AnimationManager.tankUp);
                 break;
+            case BOT:
+                moveEnemy(speedTank,
+                        AnimationManager.tankRight,
+                        AnimationManager.tankLeft,
+                        AnimationManager.tankDown,
+                        AnimationManager.tankUp);
+                break;
         }
 
     }
@@ -212,9 +220,10 @@ public class EnemyController extends Controller implements Body {
 
         int hpNormal = 100;
         int hpFLy = 30;
-        int hpTank = 100;
+        int hpTank = 300;
         int hpHores = 100;
         int hpSpeed = 100;
+        int hpBot = 800;
         switch (type) {
             case NORMAL:
                 return new EnemyController(
@@ -240,6 +249,10 @@ public class EnemyController extends Controller implements Body {
                         new Model(checkPoints[0].getX(),
                                 checkPoints[0].getY(), 35, 35),
                         AnimationManager.speedRight, EnemyType.SPEED, hpSpeed);
+            case BOT:
+                return new EnemyController(new Model(checkPoints[0].getX(),
+                        checkPoints[0].getY(), 60, 60),
+                        AnimationManager.tankRight, EnemyType.BOT, hpBot);
         }
         return null;
     }

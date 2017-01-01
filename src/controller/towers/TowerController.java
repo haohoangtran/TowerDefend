@@ -3,6 +3,7 @@ package controller.towers;
 import controller.Controller;
 import controller.enemies.EnemyController;
 import controller.enemies.EnemyManager;
+import controller.enemies.EnemyType;
 import models.Model;
 import utils.Utils;
 import views.Animation;
@@ -90,26 +91,27 @@ public class TowerController extends Controller {
             if (timeCount > 90) {
                 switch (towerType) {
                     case SLOW:
-                        BulletTower bulletTower = BulletTower.createBullet(this.model.getMidX(), this.model.getY(), BulletType.SLOW);
-                        bulletTower.setEnemyController(e);
-                        bulletTowers.add(bulletTower);
-                        System.out.println("TAO DAN DAY");
-                        timeCount = 0;
+                        if (e.enemyType != EnemyType.BOT) {
+                            BulletTower bulletTower = BulletTower.createBullet(this.model.getMidX(), this.model.getY(), BulletType.SLOW);
+                            bulletTower.setEnemyController(e);
+                            bulletTowers.add(bulletTower);
+                            timeCount = 0;
+                        }
                         break;
                     case NORMAL:
-                        BulletTower bulletTower1 = BulletTower.createBullet(this.model.getMidX(), this.model.getY(), BulletType.NORMAL);
-                        bulletTower1.setEnemyController(e);
-                        bulletTowers.add(bulletTower1);
-                        timeCount = 0;
+                        if (e.enemyType != EnemyType.BOT) {
+                            BulletTower bulletTower1 = BulletTower.createBullet(this.model.getMidX(), this.model.getY(), BulletType.NORMAL);
+                            bulletTower1.setEnemyController(e);
+                            bulletTowers.add(bulletTower1);
+                            timeCount = 0;
+                        }
                         break;
                     case FIRE:
-                        if (timeCount > 180) {
                             BulletTower bulletTower2 = BulletTower.createBullet(this.model.getX() - 25, this.model.getY() - 25, BulletType.FIRE);
                             bulletTower2.setEnemyController(e);
                             bulletTowers.add(bulletTower2);
-                            System.out.println("da add");
                             timeCount = 0;
-                        }
+
                         break;
                 }
 
@@ -166,7 +168,6 @@ public class TowerController extends Controller {
         super.draw(g);
         for (int i = 0; i < bulletTowers.size(); i++) {
             bulletTowers.get(i).draw(g);
-            System.out.println(bulletTowers.get(i).type + "aaaa");
 
         }
     }

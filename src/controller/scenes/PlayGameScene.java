@@ -135,6 +135,9 @@ public class PlayGameScene extends GameScene implements IconGame {
                             case 5:
                                 EnemyManager.instance.register(EnemyController.createEnemy(EnemyType.HORSE));
                                 break;
+                            case 6:
+                                EnemyManager.instance.register(EnemyController.createEnemy(EnemyType.BOT));
+                                break;
                         }
                     } catch (Exception e) {
                         System.out.println("bo qua");
@@ -157,7 +160,6 @@ public class PlayGameScene extends GameScene implements IconGame {
     @Override
     public void mousePressed(MouseEvent e) {
         check = true;
-        System.out.println("press");
         cellController = CellManager.instance.findCell(e.getX(), e.getY());
         if (cellController != null && cellController.getModel().isCanBuild()&&cellController.getTowerController()==null) {
             if (towerCreate == 1)
@@ -168,7 +170,6 @@ public class PlayGameScene extends GameScene implements IconGame {
             if (tower != null) {
                 cellController.setTowerController(tower);
                 controllers.add(tower);
-                System.out.println("Da add");
             }
         }
         CellManager.instance.run();
@@ -220,6 +221,5 @@ public class PlayGameScene extends GameScene implements IconGame {
     @Override
     public void mouseReleased(MouseEvent e) {
         check = false;
-        System.out.println("relase");
     }
 }
