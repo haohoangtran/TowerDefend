@@ -29,13 +29,12 @@ public class LoadGameScene extends GameScene {
         if (!check) {
             g.drawString(count + "%", 460, 650);
             g.fillRect(270, 660,  count*leng, 8);
-            System.out.println((count / countMax) * leng);
             if (count >=100) {
                 this.sceneListener.replaceScene(new MenuScene(), false);
             }
         }
 
-        if (timeCount % 3 == 0) {
+        if (timeCount % 1 == 0) {
             count++;
             check = false;
         }

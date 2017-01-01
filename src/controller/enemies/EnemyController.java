@@ -20,11 +20,11 @@ public class EnemyController extends Controller implements Body {
 
     public double hpMax;
     protected int hp;
-    public static Vector<EnemyController> enemyControllers = new Vector<>();
 
     protected EnemyType enemyType;
     private static CheckPoint[] checkPoints = Utils.createCheckpoint();
     private int count = 0;
+    private int slowCount = 0;
 
     public boolean slow = false;
 
@@ -44,14 +44,10 @@ public class EnemyController extends Controller implements Body {
         this.hp = hp;
     }
 
-    public static void register(EnemyController enemyController) {
-        enemyControllers.add(enemyController);
-    }
 
 
     public EnemyController(Model model, Animation animation, EnemyType enemyType, int hp) {
         super(model, animation);
-        EnemyController.register(this);
         isAlive = true;
         this.enemyType = enemyType;
         this.hp = hp;
@@ -67,6 +63,11 @@ public class EnemyController extends Controller implements Body {
             if (this.getModel().getX() < checkPoints[1].getX() && this.model.getY() < checkPoints[2].getY()) {
                 if (slow) {
                     model.moveSlow(speed, 0);
+                    slowCount++;
+                    if (slowCount > 5) {
+                        slowCount = 0;
+                        slow = false;
+                    }
                 } else {
                     this.model.move(speed, 0);
                 }
@@ -76,6 +77,11 @@ public class EnemyController extends Controller implements Body {
             } else if (this.getModel().getY() < checkPoints[2].getY() && this.model.getX() < checkPoints[3].getX()) {
                 if (slow) {
                     model.moveSlow(0, speed);
+                    slowCount++;
+                    if (slowCount > 5) {
+                        slowCount = 0;
+                        slow = false;
+                    }
                 } else {
                     this.model.move(0, speed);
                 }
@@ -86,6 +92,11 @@ public class EnemyController extends Controller implements Body {
             } else if (this.getModel().getX() < checkPoints[3].getX()) {
                 if (slow) {
                     model.moveSlow(speed, 0);
+                    slowCount++;
+                    if (slowCount > 5) {
+                        slowCount = 0;
+                        slow = false;
+                    }
                 } else {
                     this.model.move(speed, 0);
                 }
@@ -96,6 +107,11 @@ public class EnemyController extends Controller implements Body {
             } else if (this.getModel().getY() > checkPoints[4].getY() && this.getModel().getX() > checkPoints[3].getX()) {
                 if (slow) {
                     model.moveSlow(0, -speed);
+                    slowCount++;
+                    if (slowCount > 5) {
+                        slowCount = 0;
+                        slow = false;
+                    }
                 } else {
                     this.model.move(0, -speed);
                 }
@@ -105,6 +121,11 @@ public class EnemyController extends Controller implements Body {
             } else {
                 if (slow) {
                     model.moveSlow(speed, 0);
+                    slowCount++;
+                    if (slowCount > 5) {
+                        slowCount = 0;
+                        slow = false;
+                    }
                 } else {
                     this.model.move(speed, 0);
                 }
@@ -120,8 +141,18 @@ public class EnemyController extends Controller implements Body {
     public void moveEnemyFly(int speed) {
         count++;
         if (count > 3) {
-            this.model.move(speed, 0);
+            if (slow) {
+                model.moveSlow(speed, 0);
+                slowCount++;
+                if (slowCount > 5) {
+                    slowCount = 0;
+                    slow = false;
+                }
+            } else {
+                this.model.move(speed, 0);
+            }
             count = 0;
+
         }
     }
 

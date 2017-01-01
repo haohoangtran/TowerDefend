@@ -64,6 +64,11 @@ public class CellManager implements BaseController {
     public void run() {
 
     }
+    public void reset(){
+        for (int i = 0; i < cellControllers.size(); i++) {
+            cellControllers.get(i).setTowerController(null);
+        }
+    }
 
     public void draw(Graphics g) {
         for (int i = 0; i < cellControllers.size(); i++) {

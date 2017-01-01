@@ -52,7 +52,7 @@ public class PauseGameScene extends GameScene implements IconGame {
         if(restart.checkMouse()) {
             Utils.reset();
             isPause = false;
-            this.sceneListener.back();
+            this.sceneListener.replaceScene(new PlayGameScene(), false);
         }
     }
 

@@ -22,6 +22,7 @@ public class EnemyManager extends Manager {
     }
 
     public static EnemyController chooseFire(TowerController towerController) {
+        System.out.println(controllers.size());
         if(!towerController.isFire()){
             Iterator<Controller> iterator =controllers.iterator();
             while (iterator.hasNext()){

@@ -2,7 +2,11 @@ import controller.scenes.GameScene;
 import controller.scenes.LoadGameScene;
 import controller.scenes.MenuScene;
 import controller.scenes.SceneListener;
+import controller.towers.TowerController;
+import controller.towers.TowerType;
+import models.Model;
 import utils.Utils;
+import views.Animation;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +21,6 @@ public class GameWindow extends Frame implements Runnable, SceneListener {
     GameScene currenScene;
     BufferedImage backBuffer;
     Stack<GameScene> gameSceneStack;
-
     public GameWindow() {
         gameSceneStack = new Stack<>();
         this.replaceScene(new LoadGameScene(), false);

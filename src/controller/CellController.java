@@ -8,7 +8,7 @@ import java.awt.*;
 /**
  * Created by tranh on 12/19/2016.
  */
-public class CellController {
+public class CellController implements BaseController{
     private CellModel model;
     TowerController towerController;
 
@@ -34,12 +34,12 @@ public class CellController {
 
     public void draw(Graphics g) {
             if (model.isCanBuild()) {
-                g.setColor(Color.green);
-                g.drawRect(model.getX(), model.getY(), model.getWidth(), model.getHeight());
+                drawTower(g);
             }
     }
     public void drawPos(Graphics g,int i){
         g.drawString(i+"",model.getX()+10,model.getY()+10);
+        drawTower(g);
     }
 
 

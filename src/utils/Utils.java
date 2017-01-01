@@ -6,6 +6,8 @@ import controller.enemies.EnemyManager;
 import controller.enemies.EnemyType;
 import controller.enemies.SpawnEnemy;
 import controller.manager.BodyManager;
+import controller.manager.CellManager;
+import controller.scenes.GameScene;
 import controller.scenes.PlayGameScene;
 import models.CheckPoint;
 
@@ -137,11 +139,13 @@ public class Utils {
     }
 
     public static void reset() {
+        GameScene.SPEEDGAME = 25;
         HouseController.instance=HouseController.createHpFull(830,325);
         BodyManager.instance.setBodies(new Vector<>());
         BodyManager.instance.register(HouseController.instance);
         EnemyManager.instance.removeAll();
         PlayGameScene.second=0;
         PlayGameScene.timeCount=0;
+        CellManager.instance.reset();
     }
 }
