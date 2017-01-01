@@ -24,6 +24,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.Key;
@@ -34,7 +35,7 @@ import static utils.Utils.loadImage;
 /**
  * Created by DUC THANG on 12/28/2016.
  */
-public class PlayGameScene extends GameScene implements IconGame {
+public class PlayGameScene extends GameScene implements IconGame{
     Image image1;
     Image image2;
     public static int timeCount = 0;
@@ -44,11 +45,10 @@ public class PlayGameScene extends GameScene implements IconGame {
     Image background;
     Image backgroundBot;
     Image backgroundTop;
-    static boolean isPause = false;
+    public static boolean isPause = false;
     boolean check;
     Image snow;
-    public static Clip clip;
-    TowerController towerController;
+    public static Clip clip=Utils.readFile("res/sound/nennen.wav");
     Animation flag, windmill;
     CellController cellController;
     TowerController tower;
@@ -59,9 +59,8 @@ public class PlayGameScene extends GameScene implements IconGame {
     private PauseGame pauseGame;
 
     public PlayGameScene() {
-        clip = Utils.readFile("res/sound/nennen.wav");
+
         clip.start();
-        towerController = TowerController.createTower(400, 400, TowerType.NORMAL);
         try {
             snow = new ImageIcon(new URL("http://i.imgur.com/2nr0tS3.gif")).getImage();
         } catch (MalformedURLException e) {
@@ -110,6 +109,7 @@ public class PlayGameScene extends GameScene implements IconGame {
 
     @Override
     public void run() {
+
         if (!isPause) {
             timeCount++;
             if (timeCount > 60) {

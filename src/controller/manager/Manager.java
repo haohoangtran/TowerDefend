@@ -4,12 +4,13 @@ import controller.BaseController;
 import controller.Controller;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.Vector;
 
 /**
  * Created by Songt on 12/18/2016.
  */
-public class Manager implements BaseController{
+public class Manager implements BaseController,Serializable{
     public static Vector<Controller> controllers=new Vector<>();
 
     public void draw(Graphics g){

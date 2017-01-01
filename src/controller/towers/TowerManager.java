@@ -11,6 +11,14 @@ import java.util.Vector;
 public class TowerManager implements BaseController{
     private Vector<TowerController> towerControllers;
 
+    public void setTowerControllers(Vector<TowerController> towerControllers) {
+        this.towerControllers = towerControllers;
+    }
+
+    public Vector<TowerController> getTowerControllers() {
+        return towerControllers;
+    }
+
     public static final TowerManager instance = new TowerManager();
 
     private TowerManager() {

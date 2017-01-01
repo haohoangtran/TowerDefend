@@ -3,6 +3,7 @@ package controller.manager;
 import controller.Body;
 import models.Model;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Vector;
 
