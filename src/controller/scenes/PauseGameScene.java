@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
+import static controller.scenes.PlayGameScene.clip;
 import static controller.scenes.PlayGameScene.isPause;
 
 /**
@@ -22,6 +23,8 @@ public class PauseGameScene extends GameScene implements IconGame {
     public PauseGameScene() {
         restart = new Restart(450, 300);
         resumeGame = new ResumeGame(250, 300);
+        if (clip.isRunning())
+            clip.stop();
     }
 
     @Override
@@ -46,6 +49,8 @@ public class PauseGameScene extends GameScene implements IconGame {
     public void mouseClicked(MouseEvent e) {
         if(resumeGame.checkMouse() && isPause) {
             isPause = false;
+            if (!clip.isRunning())
+                clip.start();
             this.sceneListener.back();
         }
 

@@ -60,7 +60,8 @@ public class GameVictoryScene extends GameScene {
     public void mouseClicked(MouseEvent e) {
         if(restart.checkMouse()) {
             Utils.reset();
-            this.sceneListener.back();
+
+            this.sceneListener.replaceScene(new PlayGameScene(),false);
         }
     }
 
