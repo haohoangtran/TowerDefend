@@ -71,6 +71,7 @@ public class CellManager implements BaseController {
     }
 
     public void draw(Graphics g) {
+
         for (int i = 0; i < cellControllers.size(); i++) {
             if (!cellControllers.get(i).getModel().isUtil())
                 cellControllers.get(i).draw(g);

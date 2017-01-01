@@ -36,6 +36,7 @@ public class CellController implements BaseController{
             if (model.isCanBuild()) {
                 drawTower(g);
             }
+
     }
     public void drawPos(Graphics g,int i){
         g.drawString(i+"",model.getX()+10,model.getY()+10);
