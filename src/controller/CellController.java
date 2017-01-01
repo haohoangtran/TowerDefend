@@ -10,7 +10,7 @@ import java.awt.*;
  */
 public class CellController implements BaseController{
     private CellModel model;
-    TowerController towerController;
+    private TowerController towerController;
 
     public TowerController getTowerController() {
         return towerController;

@@ -159,7 +159,7 @@ public class PlayGameScene extends GameScene implements IconGame {
         check = true;
         System.out.println("press");
         cellController = CellManager.instance.findCell(e.getX(), e.getY());
-        if (cellController != null && cellController.getModel().isCanBuild()) {
+        if (cellController != null && cellController.getModel().isCanBuild()&&cellController.getTowerController()==null) {
             if (towerCreate == 1)
                 tower = TowerController.createTower(cellController.getModel().getX(), cellController.getModel().getY(), TowerType.NORMAL);
             else if (towerCreate == 2) {
@@ -169,7 +169,6 @@ public class PlayGameScene extends GameScene implements IconGame {
                 cellController.setTowerController(tower);
                 controllers.add(tower);
                 System.out.println("Da add");
-                controllers.add(cellController);
             }
         }
         CellManager.instance.run();
