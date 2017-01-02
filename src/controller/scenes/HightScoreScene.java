@@ -36,9 +36,7 @@ public class HightScoreScene extends GameScene {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if(backMenu.checkMouse()) {
-            this.sceneListener.back();
-        }
+
     }
 
     @Override
@@ -48,7 +46,9 @@ public class HightScoreScene extends GameScene {
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        if(backMenu.checkMouse()) {
+            this.sceneListener.back();
+        }
     }
 
     @Override

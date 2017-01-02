@@ -62,15 +62,15 @@ public class GameVictoryScene extends GameScene {
 
     @Override
     public void keyPressed(KeyEvent e) {
-
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
         if(restart.checkMouse()) {
             Utils.reset();
             this.sceneListener.back();
         }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
     }
 
     @Override

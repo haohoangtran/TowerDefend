@@ -47,10 +47,7 @@ public class GameOverScene extends GameScene {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (restart.checkMouse()) {
-            Utils.reset();
-            this.sceneListener.back();
-        }
+
     }
 
     @Override
@@ -60,7 +57,10 @@ public class GameOverScene extends GameScene {
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        if (restart.checkMouse()) {
+            Utils.reset();
+            this.sceneListener.back();
+        }
     }
 
     @Override

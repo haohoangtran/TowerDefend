@@ -17,8 +17,7 @@ import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -39,6 +38,22 @@ public class Utils {
             return ImageIO.read(new File(url));
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
+        }
+    }
+    public static Vector<String> createFactory(String path) {
+
+        try {
+            Vector<String> vector = new Vector<>();
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
+            String str;
+            while ((str=bufferedReader.readLine())!=null){
+                vector.add(str);
+            }
+            return vector;
+        } catch (FileNotFoundException e) {
+            return null;
+        } catch (IOException e) {
             return null;
         }
     }

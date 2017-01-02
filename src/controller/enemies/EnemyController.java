@@ -204,18 +204,11 @@ public class EnemyController extends Controller implements Body {
         super.draw(g);
 
         double leng = this.getModel().getWidth() * 0.8;
-//        if (hp / hpMax >= 0.6) {
-//            g.setColor(Color.green);
-//        } else if (hp / hpMax > 0.3) {
-//            g.setColor(Color.YELLOW);
-//        } else
-//            g.setColor(Color.red);
-//        g.fillRect(this.model.getX(), this.model.getY(), (int) ((hp / hpMax) * leng), 3);
-
         g.setColor(Color.red);
         g.fillRect(this.model.getX(), this.model.getY(), (int) leng, 3);
         g.setColor(Color.green);
         g.fillRect(this.model.getX(), this.model.getY(), (int) ((hp / hpMax) * leng), 3);
+
     }
 
     public EnemyType getEnemyType() {
@@ -233,36 +226,59 @@ public class EnemyController extends Controller implements Body {
         int hpSpeed = 100;
         int hpBot = 800;
         switch (type) {
-            case NORMAL:
+            case NORMAL://1
                 return new EnemyController(
                         new Model(checkPoints[0].getX(),
                                 checkPoints[0].getY(), 35, 35),
                         AnimationManager.normalRight, EnemyType.NORMAL, hpNormal);
-            case FLY:
+            case FLY://2
                 return new EnemyController(
                         new Model(0, HouseController.instance.getModel().getMidY(), 40, 35),
                         AnimationManager.flyRight, EnemyType.FLY, hpFLy);
-            case TANK:
+            case TANK://3
                 return new EnemyController(
                         new Model(checkPoints[0].getX(),
                                 checkPoints[0].getY(), 40, 35),
                         AnimationManager.tankRight, EnemyType.TANK, hpTank);
-            case HORSE:
+            case HORSE://4
                 return new EnemyController(
                         new Model(checkPoints[0].getX(),
                                 checkPoints[0].getY(), 30, 35),
                         AnimationManager.horseRight, EnemyType.HORSE, hpHores);
-            case SPEED:
+            case SPEED://5
                 return new EnemyController(
                         new Model(checkPoints[0].getX(),
                                 checkPoints[0].getY(), 35, 35),
                         AnimationManager.speedRight, EnemyType.SPEED, hpSpeed);
-            case BOT:
+            case BOT://6
                 return new EnemyController(new Model(checkPoints[0].getX(),
                         checkPoints[0].getY(), 60, 60),
                         AnimationManager.tankRight, EnemyType.BOT, hpBot);
         }
         return null;
+    }
+    public static EnemyController createEnemy(int type){
+        switch (type){
+            case 1:
+                return createEnemy(EnemyType.NORMAL);
+
+            case 2:
+                return createEnemy(EnemyType.FLY);
+
+            case 3:
+                return createEnemy(EnemyType.TANK);
+
+            case 4:
+                return createEnemy(EnemyType.HORSE);
+
+            case 5:
+               return createEnemy(EnemyType.SPEED);
+
+            case 6:
+                return createEnemy(EnemyType.BOT);
+
+        }
+       return null;
     }
     public static EnemyController createEnemy(int x,int y,int hp,EnemyType type){
         switch (type) {
