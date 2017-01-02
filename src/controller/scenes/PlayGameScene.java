@@ -36,7 +36,7 @@ import static utils.Utils.loadImage;
 /**
  * Created by DUC THANG on 12/28/2016.
  */
-public class PlayGameScene extends GameScene implements IconGame{
+public class PlayGameScene extends GameScene implements IconGame {
     Image image1;
     Image image2;
     public static int timeCount = 0;
@@ -49,7 +49,7 @@ public class PlayGameScene extends GameScene implements IconGame{
     public static boolean isPause = false;
     boolean check;
     Image snow;
-    public static Clip clip=Utils.readFile("res/sound/nennen.wav");
+    public static Clip clip = Utils.readFile("res/sound/nennen.wav");
     Animation flag, windmill;
     CellController cellController;
     TowerController tower;
@@ -168,11 +168,14 @@ public class PlayGameScene extends GameScene implements IconGame{
         check = true;
         cellController = CellManager.instance.findCell(e.getX(), e.getY());
         if (cellController != null && cellController.getModel().isCanBuild() && cellController.getTowerController() == null) {
-            if (towerCreate == 1)
+            if (towerCreate == 1) {
                 tower = TowerController.createTower(cellController.getModel().getX(), cellController.getModel().getY(), TowerType.NORMAL);
-            else if (towerCreate == 2) {
+            } else if (towerCreate == 2) {
                 tower = TowerController.createTower(cellController.getModel().getX(), cellController.getModel().getY(), TowerType.FIRE);
+            } else if (towerCreate == 3) {
+                tower = TowerController.createTower(cellController.getModel().getX(), cellController.getModel().getY(), TowerType.SLOW);
             }
+
             if (tower != null) {
                 cellController.setTowerController(tower);
                 controllers.add(tower);
@@ -204,14 +207,17 @@ public class PlayGameScene extends GameScene implements IconGame{
         if (e.getKeyCode() == KeyEvent.VK_2) {
             towerCreate = 2;
         }
-        if (e.getKeyCode()== KeyEvent.VK_S){
-            if (clip.isRunning()){
+        if (e.getKeyCode() == KeyEvent.VK_S) {
+            if (clip.isRunning()) {
                 clip.stop();
-            }else
+            } else
                 clip.start();
         }
         if (e.getKeyCode() == KeyEvent.VK_1) {
             towerCreate = 1;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_3) {
+            towerCreate = 3;
         }
 
     }
