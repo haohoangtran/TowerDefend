@@ -156,15 +156,20 @@ public class TowerController extends Controller {
     public static TowerController createTower(int x, int y, TowerType towerType) {
         switch (towerType) {
             case NORMAL:
-                TowerController t = new TowerController(new Model(x, y, 50, 50), new SingleView(
+                TowerController towerController = new TowerController(new Model(x, y, 50, 50), new SingleView(
                         Utils.loadImage("res/PNG/Towers (grey)/TowersLever2.png")), TowerType.NORMAL);
-                t.setRadiusFire(100);
-                return t;
+                towerController.setRadiusFire(100);
+                return towerController;
             case FIRE:
-                t = new TowerController(new Model(x, y, 50, 50), new SingleView(
+                towerController = new TowerController(new Model(x, y, 50, 50), new SingleView(
                         Utils.loadImage("res/image590.png")), TowerType.FIRE);
-                t.setRadiusFire(100);
-                return t;
+                towerController.setRadiusFire(100);
+                return towerController;
+            case SLOW:
+                towerController = new TowerController(new Model(x, y, 50, 50), new SingleView(
+                        Utils.loadImage("res/PNG/TowerDaw.png")), TowerType.SLOW);
+                towerController.setRadiusFire(100);
+                return towerController;
         }
         return null;
     }

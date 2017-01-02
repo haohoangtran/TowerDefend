@@ -20,8 +20,7 @@ import java.awt.*;
  */
 public class BulletTower extends Controller implements Body {
     private int atk;
-    public BulletType type;
-    private int time;
+    private BulletType type;
 
     public BulletTower(Model model, SingleView view, int atk) {
         super(model, view);
@@ -75,20 +74,27 @@ public class BulletTower extends Controller implements Body {
     public static int numberRun = 12;
 
     @Override
+    public void draw(Graphics g) {
+        if (isAlive()) {
+            super.draw(g);
+        }
+    }
+
+    @Override
     public void run() {
         switch (type) {
             case FIRE:
                 break;
             default:
-            if (enemyController != null && enemyController.enemyType!=EnemyType.BOT) {
-                int xE = enemyController.getModel().getX() + enemyController.getModel().getWidth() / 2;
-                int yE = enemyController.getModel().getY() + enemyController.getModel().getHeight() / 2;
-                int x = (xE - this.model.getX());
-                int y = (yE - this.model.getY());
-                this.model.move(x / numberRun, y / numberRun);
-            }
+                if (enemyController != null && enemyController.enemyType != EnemyType.BOT) {
+                    int xE = enemyController.getModel().getX() + enemyController.getModel().getWidth() / 2;
+                    int yE = enemyController.getModel().getY() + enemyController.getModel().getHeight() / 2;
+                    int x = (xE - this.model.getX());
+                    int y = (yE - this.model.getY());
+                    this.model.move(x / numberRun, y / numberRun);
+                }
         }
-        if(view.isAnimationReachEnd()){
+        if (view.isAnimationReachEnd()) {
             this.setAlive(false);
         }
 
@@ -101,7 +107,7 @@ public class BulletTower extends Controller implements Body {
                 b.setAtk(10);
                 return b;
             case SLOW:
-                BulletTower b2 = new BulletTower(new Model(x, y, 12, 12), new SingleView(Utils.loadImage("res/bullet.png")), BulletType.NORMAL);
+                BulletTower b2 = new BulletTower(new Model(x, y, 12, 12), new SingleView(Utils.loadImage("res/bullet.png")), BulletType.SLOW);
                 b2.setAtk(10);
                 return b2;
             case FIRE:
@@ -121,28 +127,28 @@ public class BulletTower extends Controller implements Body {
                     setAlive(false);
                     ((EnemyController) other).setHp(((EnemyController) other).getHp() - atk);
                     if (((EnemyController) other).getHp() <= 0) {
-                        PlayGameScene.controllers.add(CoinController.createCoin(this.getModel().getX(),this.getModel().getY()));
+                        PlayGameScene.controllers.add(CoinController.createCoin(this.getModel().getX(), this.getModel().getY()));
                         ((EnemyController) other).setAlive(false);
                     }
                     break;
                 case SLOW:
                     setAlive(false);
-
-                    ((EnemyController) other).setHp(((EnemyController) other).getHp() - atk);
+                    System.out.println(this.isAlive());
                     ((EnemyController) other).slow = true;
-                    if (((EnemyController) other).getHp() <= 0) {
-                        PlayGameScene.controllers.add(CoinController.createCoin(this.getModel().getX(),this.getModel().getY()));
-                        ((EnemyController) other).setAlive(false);
-                    }
+//                    ((EnemyController) other).setHp(((EnemyController) other).getHp() - atk);
+//                    if (((EnemyController) other).getHp() <= 0) {
+//                        PlayGameScene.controllers.add(CoinController.createCoin(this.getModel().getX(), this.getModel().getY()));
+//                        ((EnemyController) other).setAlive(false);
+//                    }
                     break;
                 case FIRE:
                     setAlive(false);
-                    if(((EnemyController) other).enemyType== EnemyType.BOT){
+                    if (((EnemyController) other).enemyType == EnemyType.BOT) {
                         ((EnemyController) other).setHp(((EnemyController) other).getHp() - atk);
                     }
                     ((EnemyController) other).setHp(((EnemyController) other).getHp() - atk);
                     if (((EnemyController) other).getHp() <= 0) {
-                        PlayGameScene.controllers.add(CoinController.createCoin(this.getModel().getX(),this.getModel().getY()));
+                        PlayGameScene.controllers.add(CoinController.createCoin(this.getModel().getX(), this.getModel().getY()));
                         ((EnemyController) other).setAlive(false);
                     }
                     break;

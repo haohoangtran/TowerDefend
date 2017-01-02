@@ -47,7 +47,9 @@ public class Controller implements BaseController,Serializable{
     }
 
     public void draw(Graphics g) {
-        view.draw(g, model);
+        if (isAlive()) {
+            view.draw(g, model);
+        }
     }
 
 }
