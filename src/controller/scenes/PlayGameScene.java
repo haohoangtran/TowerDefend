@@ -7,6 +7,7 @@ import controller.enemies.EnemyController;
 import controller.enemies.EnemyManager;
 import controller.enemies.EnemyType;
 import controller.enemies.SpawnEnemy;
+import controller.gifts.TotalCoin;
 import controller.manager.BodyManager;
 import controller.manager.CellManager;
 import controller.scenes.icon.*;
@@ -52,7 +53,7 @@ public class PlayGameScene extends GameScene implements IconGame{
     Animation flag, windmill;
     CellController cellController;
     TowerController tower;
-    Vector<BaseController> controllers;
+    public static Vector<BaseController> controllers;
     java.util.List<String> spawnEnemy = SpawnEnemy.instance.getListString(SpawnEnemy.instance.allFile.get(level));
 
     private BackMenu backMenu;
@@ -72,6 +73,8 @@ public class PlayGameScene extends GameScene implements IconGame{
         controllers = new Vector<>();
         controllers.add(EnemyManager.instance);
         controllers.add(TowerManager.instance);
+        controllers.add(TotalCoin.instance);
+        controllers.add(BodyManager.instance);
         flag = new Animation(Utils.realIInFoder("res/flag"));
         windmill = new Animation(Utils.realIInFoder("res/windmill"));
         backgroundBot = Utils.loadImage("res/bottom.png");
@@ -149,8 +152,6 @@ public class PlayGameScene extends GameScene implements IconGame{
                     }
                 }
             }
-
-            BodyManager.instance.checkContact();
 
             for (int i = 0; i < controllers.size(); i++) {
                 controllers.get(i).run();

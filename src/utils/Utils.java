@@ -37,6 +37,19 @@ public class Utils {
         }
     }
 
+    public static Vector<BufferedImage> loadSheet(String URL,int witdh,int height,int border,int imgeCount){
+        Vector<BufferedImage> imageVector = new Vector<>();
+        BufferedImage image = Utils.loadImage(URL);
+        for (int i = 0; i < imgeCount; i++) {
+            int x =i*witdh+border*(i+1);
+            int y = border;
+            BufferedImage subImage = image.getSubimage(x,y,witdh,height);
+            imageVector.add(subImage);
+        }
+
+        return imageVector;
+    }
+
     public static String pathImageEnemy(EnemyType enemyType) {
         switch (enemyType) {
             case NORMAL:
