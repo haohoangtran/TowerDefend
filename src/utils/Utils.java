@@ -5,6 +5,7 @@ import controller.enemies.EnemyController;
 import controller.enemies.EnemyManager;
 import controller.enemies.EnemyType;
 import controller.enemies.SpawnEnemy;
+import controller.gifts.TotalCoin;
 import controller.manager.BodyManager;
 import controller.manager.CellManager;
 import controller.scenes.GameScene;
@@ -124,12 +125,6 @@ public class Utils {
         return null;
     }
 
-    public static void restartSound()
-    {
-        clip.close();
-        clip  =  readFile("res/sound/nennen.wav");
-    }
-
     public static Vector<BufferedImage> loadSheetEnemy(EnemyType enemyType, int colum) {
         String URL = pathImageEnemy(enemyType);
         Vector<BufferedImage> imageVector = new Vector<>();
@@ -158,8 +153,6 @@ public class Utils {
             case BOT:
 
         }
-
-
         return imageVector;
     }
 
@@ -184,6 +177,10 @@ public class Utils {
     }
 
     public static void reset() {
+        if(clip.isRunning()) {
+            clip.stop();
+        }
+        TotalCoin.instance.setCoin(500);
         HouseController.instance = HouseController.createHpFull(830, 325);
         BodyManager.instance.setBodies(new Vector<>());
         BodyManager.instance.register(HouseController.instance);

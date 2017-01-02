@@ -68,10 +68,6 @@ public class GameVictoryScene extends GameScene {
     @Override
     public void mouseClicked(MouseEvent e) {
         if(restart.checkMouse()) {
-            if(Utils.clip.isRunning()) {
-                Utils.clip.stop();
-                Utils.restartSound();
-            }
             Utils.reset();
             this.sceneListener.back();
         }

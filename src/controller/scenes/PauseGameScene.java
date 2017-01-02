@@ -1,6 +1,5 @@
 package controller.scenes;
 
-import controller.scenes.icon.IconGame;
 import controller.scenes.icon.Restart;
 import controller.scenes.icon.ResumeGame;
 import utils.Utils;
@@ -50,9 +49,6 @@ public class PauseGameScene extends GameScene {
         if(restart.checkMouse()) {
             Utils.reset();
             isPause = false;
-
-            Utils.restartSound();
-
             this.sceneListener.back();
             this.sceneListener.replaceScene(new PlayGameScene(), false);
         }

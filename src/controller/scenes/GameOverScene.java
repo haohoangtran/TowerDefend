@@ -4,9 +4,12 @@ import com.sun.scenario.effect.impl.prism.PrImage;
 import controller.scenes.icon.Restart;
 import utils.Utils;
 
+import javax.sound.sampled.LineUnavailableException;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+
+import static utils.Utils.clip;
 import static utils.Utils.loadImage;
 
 /**
@@ -45,7 +48,6 @@ public class GameOverScene extends GameScene {
     @Override
     public void mouseClicked(MouseEvent e) {
         if (restart.checkMouse()) {
-            Utils.restartSound();
             Utils.reset();
             this.sceneListener.back();
         }

@@ -7,6 +7,7 @@ import controller.enemies.EnemyController;
 import controller.enemies.EnemyManager;
 import controller.enemies.EnemyType;
 import controller.enemies.SpawnEnemy;
+import controller.gifts.TotalCoin;
 import controller.manager.BodyManager;
 import controller.manager.CellManager;
 import controller.scenes.icon.*;
@@ -39,11 +40,10 @@ import static utils.Utils.loadImage;
 public class PlayGameScene extends GameScene {
     private Image image1;
     private Image image2;
-
     public static int timeCount = 0;
     public static int second = 0;
-    private static int level = 0;
-    private int towerCreate = 1;
+    public static int level = 0;
+    int towerCreate = 1;
     private Image background;
     private Image backgroundTop;
     public static boolean isPause = false;
@@ -51,18 +51,14 @@ public class PlayGameScene extends GameScene {
     private Image snow;
     private Animation flag, windmill;
     CellController cellController;
-<<<<<<< HEAD
-=======
-    private TowerController tower;
->>>>>>> e8b4e9638d6f73814551c2e50ddd4f5c9422f6de
     public static Vector<BaseController> controllers;
-    private java.util.List<String> spawnEnemy = SpawnEnemy.instance.getListString(SpawnEnemy.instance.allFile.get(level));
+    java.util.List<String> spawnEnemy = SpawnEnemy.instance.getListString(SpawnEnemy.instance.allFile.get(level));
 
     private BackMenu backMenu;
     private PauseGame pauseGame;
 
     public PlayGameScene() {
-        if(!clip.isRunning())
+        if(!clip.isOpen() || !clip.isRunning())
             clip.start();
 
         try {
@@ -76,26 +72,25 @@ public class PlayGameScene extends GameScene {
         controllers = new Vector<>();
         controllers.add(EnemyManager.instance);
         controllers.add(TowerManager.instance);
-
+        controllers.add(TotalCoin.instance);
+        controllers.add(BodyManager.instance);
         flag = new Animation(Utils.realIInFoder("res/flag"));
         windmill = new Animation(Utils.realIInFoder("res/windmill"));
-
         backgroundTop = Utils.loadImage("res/top.png");
 
         controllers.add(HouseController.instance);
         background = loadImage("res/Map1.png");
-
         backMenu = new BackMenu(830, 40);
         pauseGame = new PauseGame(40, 50);
     }
 
     @Override
     public void update(Graphics g) {
+
         g.drawImage(background, 0, 100, 930, 690, null);
         g.drawImage(backgroundTop, 0, 33, 930, 70, null);
         g.drawImage(image1, 20, 650, 50, 50, null);
         g.drawImage(image2, 80, 650, 50, 50, null);
-
         backMenu.update(g);
         pauseGame.update(g);
         for (BaseController controller : controllers) {
@@ -107,7 +102,6 @@ public class PlayGameScene extends GameScene {
         }
         flag.draw(g, new Model(20, 560, 60, 60), 2);
         windmill.draw(g, new Model(118, 620, 60, 60), 2);
-
         g.drawImage(snow, 0, 100, 450, 450, null);
         g.drawImage(snow, 450, 100, 450, 450, null);
         g.drawImage(snow, 450, 450, 450, 450, null);
@@ -157,8 +151,6 @@ public class PlayGameScene extends GameScene {
                 }
             }
 
-            BodyManager.instance.checkContact();
-
             for (int i = 0; i < controllers.size(); i++) {
                 controllers.get(i).run();
             }
@@ -174,7 +166,6 @@ public class PlayGameScene extends GameScene {
         check = true;
         cellController = CellManager.instance.findCell(e.getX(), e.getY());
         if (cellController != null && cellController.getModel().isCanBuild() && cellController.getTowerController() == null) {
-<<<<<<< HEAD
             TowerController tower=null;
             if (towerCreate == 1) {
 
@@ -200,19 +191,8 @@ public class PlayGameScene extends GameScene {
                 tower.setAlive(false);
 
 
-=======
-            if (towerCreate == 1)
-                tower = TowerController.createTower(cellController.getModel().getX(), cellController.getModel().getY(), TowerType.NORMAL);
-            else if (towerCreate == 2) {
-                tower = TowerController.createTower(cellController.getModel().getX(), cellController.getModel().getY(), TowerType.FIRE);
-            }
-            if (tower != null) {
-                cellController.setTowerController(tower);
-                controllers.add(tower);
->>>>>>> e8b4e9638d6f73814551c2e50ddd4f5c9422f6de
             }
         }
-        //CellManager.instance.run();
     }
 
     @Override
@@ -220,6 +200,13 @@ public class PlayGameScene extends GameScene {
         if (e.getKeyCode() == KeyEvent.VK_P && !isPause) {
             isPause = true;
             this.sceneListener.replaceScene(new PauseGameScene(), true);
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_W) {
+            if (clip.isRunning())
+                clip.stop();
+            else clip.start();
+            this.sceneListener.replaceScene(new GameVictoryScene(), false);
         }
 
         if (e.getKeyCode() == KeyEvent.VK_2) {
@@ -234,20 +221,21 @@ public class PlayGameScene extends GameScene {
         if (e.getKeyCode() == KeyEvent.VK_1) {
             towerCreate = 1;
         }
+        if (e.getKeyCode() == KeyEvent.VK_3) {
+            towerCreate = 3;
+        }
 
     }
 
     public void mouseClicked(MouseEvent e) {
         if (backMenu.checkMouse()) {
-            Utils.restartSound();
             Utils.reset();
-            this.sceneListener.back();
+            this.sceneListener.replaceScene(new MenuScene(), false);
         }
 
         if (pauseGame.checkMouse() && !isPause) {
             isPause = true;
             this.sceneListener.replaceScene(new PauseGameScene(), true);
-
         }
     }
 
