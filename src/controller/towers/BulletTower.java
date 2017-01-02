@@ -62,7 +62,7 @@ public class BulletTower extends Controller implements Body {
     public BulletTower(Model model, SingleView view, BulletType type) {
         super(model, view);
         this.type = type;
-        isAlive = true;
+        isAlive = TowerController.isBulletAlive;
         BodyManager.instance.register(this);
     }
 
@@ -93,6 +93,7 @@ public class BulletTower extends Controller implements Body {
                     int y = (yE - this.model.getY());
                     this.model.move(x / numberRun, y / numberRun);
                 }
+                break;
         }
         if (view.isAnimationReachEnd()) {
             this.setAlive(false);
@@ -133,16 +134,10 @@ public class BulletTower extends Controller implements Body {
                     break;
                 case SLOW:
                     setAlive(false);
-                    System.out.println(this.isAlive());
                     ((EnemyController) other).slow = true;
-//                    ((EnemyController) other).setHp(((EnemyController) other).getHp() - atk);
-//                    if (((EnemyController) other).getHp() <= 0) {
-//                        PlayGameScene.controllers.add(CoinController.createCoin(this.getModel().getX(), this.getModel().getY()));
-//                        ((EnemyController) other).setAlive(false);
-//                    }
                     break;
                 case FIRE:
-                    setAlive(false);
+                    //setAlive(false);
                     if (((EnemyController) other).enemyType == EnemyType.BOT) {
                         ((EnemyController) other).setHp(((EnemyController) other).getHp() - atk);
                     }

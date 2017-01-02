@@ -52,7 +52,6 @@ public class PlayGameScene extends GameScene implements IconGame {
     public static Clip clip = Utils.readFile("res/sound/nennen.wav");
     Animation flag, windmill;
     CellController cellController;
-    TowerController tower;
     public static Vector<BaseController> controllers;
     java.util.List<String> spawnEnemy = SpawnEnemy.instance.getListString(SpawnEnemy.instance.allFile.get(level));
 
@@ -168,20 +167,34 @@ public class PlayGameScene extends GameScene implements IconGame {
         check = true;
         cellController = CellManager.instance.findCell(e.getX(), e.getY());
         if (cellController != null && cellController.getModel().isCanBuild() && cellController.getTowerController() == null) {
+            TowerController tower=null;
             if (towerCreate == 1) {
+
+                System.out.println("tttttttt");
                 tower = TowerController.createTower(cellController.getModel().getX(), cellController.getModel().getY(), TowerType.NORMAL);
+
             } else if (towerCreate == 2) {
                 tower = TowerController.createTower(cellController.getModel().getX(), cellController.getModel().getY(), TowerType.FIRE);
+
             } else if (towerCreate == 3) {
                 tower = TowerController.createTower(cellController.getModel().getX(), cellController.getModel().getY(), TowerType.SLOW);
+
             }
 
-            if (tower != null) {
-                cellController.setTowerController(tower);
-                controllers.add(tower);
+            if (tower != null&&TotalCoin.instance.existCoin(tower)) {
+                if (TotalCoin.instance.existCoin(tower)) {
+                    TotalCoin.instance.setCoin(TotalCoin.instance.getCoin() - tower.getCoin());
+                    cellController.setTowerController(tower);
+                    controllers.add(tower);
+                }
+
+            }else {
+                tower.setAlive(false);
+
+
             }
         }
-        CellManager.instance.run();
+        //CellManager.instance.run();
     }
 
     @Override

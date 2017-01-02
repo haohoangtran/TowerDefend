@@ -53,7 +53,7 @@ public class CoinController extends Controller implements Body {
     public void onContact(Body other) {
         if (other instanceof TotalCoin) {
             System.out.println("AAAAAAAAAA");
-            TotalCoin.instance.setCoin(TotalCoin.instance.getCoin() + 10);
+            TotalCoin.instance.setCoin(TotalCoin.instance.getCoin() + 50);
             this.setAlive(false);
         }
 

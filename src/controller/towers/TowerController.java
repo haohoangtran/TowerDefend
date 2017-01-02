@@ -20,8 +20,8 @@ import java.util.Vector;
 public class TowerController extends Controller {
     private Vector<BulletTower> bulletTowers;
     private static int timeCount = 0;
-    private boolean isAlive;
-    private int money;
+    public static boolean isBulletAlive;
+    private int coin;
     private int radiusFire;
 
     public TowerType getTowerType() {
@@ -66,34 +66,30 @@ public class TowerController extends Controller {
         bulletTowers = new Vector<>();
     }
 
-    public TowerController(Model model, SingleView view, TowerType towerType) {
+    public TowerController(Model model, SingleView view, TowerType towerType, int coin) {
         super(model, view);
         this.towerType = towerType;
+        this.coin = coin;
         isAlive = true;
+        isBulletAlive = true;
         TowerManager.instance.add(this);
         bulletTowers = new Vector<>();
     }
 
-    public int sell() {
-        setAlive(false);
-        return (int) (getMoney() * 0.6);
+
+    public int getCoin() {
+        return coin;
     }
 
-    public void setMoney(int money) {
-        this.money = money;
-    }
-
-    private int getMoney() {
-        return money;
-
+    public void setCoin(int coin) {
+        this.coin = coin;
     }
 
     @Override
     public void run() {
         timeCount++;
         EnemyController e = EnemyManager.chooseFire(this);
-
-        if (e != null) {
+        if (e != null && this.isAlive()) {
             if (timeCount > 90) {
                 switch (towerType) {
                     case SLOW:
@@ -113,10 +109,10 @@ public class TowerController extends Controller {
                         }
                         break;
                     case FIRE:
-                            BulletTower bulletTower2 = BulletTower.createBullet(this.model.getX() - 25, this.model.getY() - 25, BulletType.FIRE);
-                            bulletTower2.setEnemyController(e);
-                            bulletTowers.add(bulletTower2);
-                            timeCount = 0;
+                        BulletTower bulletTower2 = BulletTower.createBullet(this.model.getX() - 25, this.model.getY() - 25, BulletType.FIRE);
+                        bulletTower2.setEnemyController(e);
+                        bulletTowers.add(bulletTower2);
+                        timeCount = 0;
 
                         break;
                 }
@@ -157,17 +153,17 @@ public class TowerController extends Controller {
         switch (towerType) {
             case NORMAL:
                 TowerController towerController = new TowerController(new Model(x, y, 50, 50), new SingleView(
-                        Utils.loadImage("res/PNG/Towers (grey)/TowersLever2.png")), TowerType.NORMAL);
+                        Utils.loadImage("res/PNG/Towers (grey)/TowersLever2.png")), TowerType.NORMAL, 100);
                 towerController.setRadiusFire(100);
                 return towerController;
             case FIRE:
                 towerController = new TowerController(new Model(x, y, 50, 50), new SingleView(
-                        Utils.loadImage("res/image590.png")), TowerType.FIRE);
+                        Utils.loadImage("res/image590.png")), TowerType.FIRE, 200);
                 towerController.setRadiusFire(100);
                 return towerController;
             case SLOW:
                 towerController = new TowerController(new Model(x, y, 50, 50), new SingleView(
-                        Utils.loadImage("res/PNG/TowerDaw.png")), TowerType.SLOW);
+                        Utils.loadImage("res/PNG/TowerDaw.png")), TowerType.SLOW, 150);
                 towerController.setRadiusFire(100);
                 return towerController;
         }
