@@ -1,8 +1,10 @@
 package controller.manager;
 
+import controller.BaseController;
 import controller.Body;
 import models.Model;
 
+import java.awt.*;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Vector;
@@ -10,7 +12,7 @@ import java.util.Vector;
 /**
  * Created by HieuIt on 12/17/2016.
  */
-public class BodyManager {
+public class BodyManager implements BaseController{
     private Vector<Body> bodies;
 
     public static final BodyManager instance=new BodyManager();
@@ -23,7 +25,7 @@ public class BodyManager {
         bodies=new Vector<>();
     }
 
-    public void checkContact() {
+    public void run() {
         for (int i = 0; i < bodies.size() - 1; i++) {
             for (int j = i + 1; j < bodies.size(); j++) {
                 Body bodyi = bodies.get(i);
@@ -45,6 +47,11 @@ public class BodyManager {
                 iterator.remove();
             }
         }
+    }
+
+    @Override
+    public void draw(Graphics g) {
+
     }
 
     public Vector<Body> getBodies() {

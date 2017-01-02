@@ -4,7 +4,9 @@ import controller.Body;
 import controller.Controller;
 import controller.enemies.EnemyController;
 import controller.enemies.EnemyType;
+import controller.gifts.CoinController;
 import controller.manager.BodyManager;
+import controller.scenes.PlayGameScene;
 import models.Model;
 import utils.Utils;
 import views.Animation;
@@ -119,6 +121,7 @@ public class BulletTower extends Controller implements Body {
                     setAlive(false);
                     ((EnemyController) other).setHp(((EnemyController) other).getHp() - atk);
                     if (((EnemyController) other).getHp() <= 0) {
+                        PlayGameScene.controllers.add(CoinController.createCoin(this.getModel().getX(),this.getModel().getY()));
                         ((EnemyController) other).setAlive(false);
                     }
                     break;
@@ -128,6 +131,7 @@ public class BulletTower extends Controller implements Body {
                     ((EnemyController) other).setHp(((EnemyController) other).getHp() - atk);
                     ((EnemyController) other).slow = true;
                     if (((EnemyController) other).getHp() <= 0) {
+                        PlayGameScene.controllers.add(CoinController.createCoin(this.getModel().getX(),this.getModel().getY()));
                         ((EnemyController) other).setAlive(false);
                     }
                     break;
@@ -138,6 +142,7 @@ public class BulletTower extends Controller implements Body {
                     }
                     ((EnemyController) other).setHp(((EnemyController) other).getHp() - atk);
                     if (((EnemyController) other).getHp() <= 0) {
+                        PlayGameScene.controllers.add(CoinController.createCoin(this.getModel().getX(),this.getModel().getY()));
                         ((EnemyController) other).setAlive(false);
                     }
                     break;

@@ -14,7 +14,6 @@ import java.io.Serializable;
  */
 public class Controller implements BaseController,Serializable{
     protected Model model;
-    //protected Animation animation;
     protected View view;
 
     public boolean isAlive() {
@@ -25,7 +24,7 @@ public class Controller implements BaseController,Serializable{
         isAlive = alive;
     }
 
-    protected boolean isAlive;
+    protected boolean isAlive = true;
 
 
     public Controller(Model model, Animation animation) {
