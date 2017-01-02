@@ -81,6 +81,7 @@ public class PlayGameScene extends GameScene {
 
         controllers.add(HouseController.instance);
         background = loadImage("res/Map1.png");
+
         backMenu = new BackMenu(830, 40);
         pauseGame = new PauseGame(40, 50);
     }
