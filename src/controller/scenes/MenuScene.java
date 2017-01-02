@@ -37,7 +37,7 @@ public class MenuScene extends GameScene {
     private static final int GUIDE_X = 775;
     private static final int GUIDE_Y = 110;
 
-    private static final int HIGHT_X = 340;
+    private static final int HIGHT_X = 344;
     private static final int HIGHT_Y = 470;
 
     private static final int START_X = 330;

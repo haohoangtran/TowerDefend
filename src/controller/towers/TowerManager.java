@@ -32,6 +32,11 @@ public class TowerManager implements BaseController{
 
     }
 
+    @Override
+    public void checkContact() {
+
+    }
+
 
     public void run() {
         for (int i = 0; i < towerControllers.size(); i++) {

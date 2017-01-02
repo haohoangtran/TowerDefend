@@ -8,4 +8,5 @@ import java.awt.*;
 public interface BaseController {
     void run();
     void draw(Graphics g);
+    void checkContact();
 }

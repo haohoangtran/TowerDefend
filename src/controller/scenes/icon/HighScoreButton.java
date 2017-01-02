@@ -9,6 +9,6 @@ public class HighScoreButton extends IconGame {
         urlImage1 = "res/icon/highscore1.png";
         urlImage2 = "res/icon/highscore2.png";
         this.width = 170;
-        this.height = 60;
+        this.height = 55;
     }
 }

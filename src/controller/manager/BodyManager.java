@@ -54,6 +54,11 @@ public class BodyManager implements BaseController{
 
     }
 
+    @Override
+    public void checkContact() {
+
+    }
+
     public Vector<Body> getBodies() {
         return bodies;
     }

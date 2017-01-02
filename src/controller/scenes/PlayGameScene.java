@@ -50,9 +50,9 @@ public class PlayGameScene extends GameScene {
     private boolean check;
     private Image snow;
     private Animation flag, windmill;
-    private CellController cellController;
+    CellController cellController;
     private TowerController tower;
-    Vector<BaseController> controllers;
+    public static Vector<BaseController> controllers;
     private java.util.List<String> spawnEnemy = SpawnEnemy.instance.getListString(SpawnEnemy.instance.allFile.get(level));
 
     private BackMenu backMenu;

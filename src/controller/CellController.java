@@ -39,6 +39,12 @@ public class CellController implements BaseController{
             g.drawRect(model.getX(),model.getY(),model.getWidth(),model.getHeight());
 
     }
+
+    @Override
+    public void checkContact() {
+
+    }
+
     public void drawPos(Graphics g,int i){
         g.drawString(i+"",model.getX()+10,model.getY()+10);
         drawTower(g);

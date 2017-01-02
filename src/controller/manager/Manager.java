@@ -18,6 +18,12 @@ public class Manager implements BaseController,Serializable{
             controller.draw(g);
         }
     }
+
+    @Override
+    public void checkContact() {
+
+    }
+
     public  void remove(Controller controller){
         controllers.remove(controller);
     }
