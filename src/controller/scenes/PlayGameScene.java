@@ -24,44 +24,44 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.Key;
 import java.util.Vector;
 
+import static utils.Utils.clip;
 import static utils.Utils.loadImage;
 
 /**
  * Created by DUC THANG on 12/28/2016.
  */
-public class PlayGameScene extends GameScene implements IconGame {
-    Image image1;
-    Image image2;
+public class PlayGameScene extends GameScene {
+    private Image image1;
+    private Image image2;
+
     public static int timeCount = 0;
     public static int second = 0;
-    public static int level = 0;
-    int towerCreate = 1;
-    Image background;
-    Image backgroundBot;
-    Image backgroundTop;
-    static boolean isPause = false;
-    boolean check;
-    Image snow;
-    public static Clip clip;
-    TowerController towerController;
-    Animation flag, windmill;
-    CellController cellController;
-    TowerController tower;
+    private static int level = 0;
+    private int towerCreate = 1;
+    private Image background;
+    private Image backgroundTop;
+    public static boolean isPause = false;
+    private boolean check;
+    private Image snow;
+    private Animation flag, windmill;
+    private CellController cellController;
+    private TowerController tower;
     Vector<BaseController> controllers;
-    java.util.List<String> spawnEnemy = SpawnEnemy.instance.getListString(SpawnEnemy.instance.allFile.get(level));
+    private java.util.List<String> spawnEnemy = SpawnEnemy.instance.getListString(SpawnEnemy.instance.allFile.get(level));
 
     private BackMenu backMenu;
     private PauseGame pauseGame;
 
     public PlayGameScene() {
-        clip = Utils.readFile("res/sound/nennen.wav");
-        clip.start();
-        towerController = TowerController.createTower(400, 400, TowerType.NORMAL);
+        if(!clip.isRunning())
+            clip.start();
+
         try {
             snow = new ImageIcon(new URL("http://i.imgur.com/2nr0tS3.gif")).getImage();
         } catch (MalformedURLException e) {
@@ -73,9 +73,10 @@ public class PlayGameScene extends GameScene implements IconGame {
         controllers = new Vector<>();
         controllers.add(EnemyManager.instance);
         controllers.add(TowerManager.instance);
+
         flag = new Animation(Utils.realIInFoder("res/flag"));
         windmill = new Animation(Utils.realIInFoder("res/windmill"));
-        backgroundBot = Utils.loadImage("res/bottom.png");
+
         backgroundTop = Utils.loadImage("res/top.png");
 
         controllers.add(HouseController.instance);
@@ -86,11 +87,11 @@ public class PlayGameScene extends GameScene implements IconGame {
 
     @Override
     public void update(Graphics g) {
-
         g.drawImage(background, 0, 100, 930, 690, null);
         g.drawImage(backgroundTop, 0, 33, 930, 70, null);
         g.drawImage(image1, 20, 650, 50, 50, null);
         g.drawImage(image2, 80, 650, 50, 50, null);
+
         backMenu.update(g);
         pauseGame.update(g);
         for (BaseController controller : controllers) {
@@ -102,6 +103,7 @@ public class PlayGameScene extends GameScene implements IconGame {
         }
         flag.draw(g, new Model(20, 560, 60, 60), 2);
         windmill.draw(g, new Model(118, 620, 60, 60), 2);
+
         g.drawImage(snow, 0, 100, 450, 450, null);
         g.drawImage(snow, 450, 100, 450, 450, null);
         g.drawImage(snow, 450, 450, 450, 450, null);
@@ -110,6 +112,7 @@ public class PlayGameScene extends GameScene implements IconGame {
 
     @Override
     public void run() {
+
         if (!isPause) {
             timeCount++;
             if (timeCount > 60) {
@@ -187,26 +190,13 @@ public class PlayGameScene extends GameScene implements IconGame {
             this.sceneListener.replaceScene(new PauseGameScene(), true);
         }
 
-        if (e.getKeyCode() == KeyEvent.VK_W) {
-            if (clip.isRunning())
-                clip.stop();
-            else clip.start();
-            this.sceneListener.replaceScene(new GameVictoryScene(), false);
-        }
-
-        if (e.getKeyCode() == KeyEvent.VK_UP && SPEEDGAME > 15) {
-            SPEEDGAME--;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_DOWN && SPEEDGAME <= 50) {
-            SPEEDGAME++;
-        }
         if (e.getKeyCode() == KeyEvent.VK_2) {
             towerCreate = 2;
         }
-        if (e.getKeyCode()== KeyEvent.VK_S){
-            if (clip.isRunning()){
+        if (e.getKeyCode() == KeyEvent.VK_S) {
+            if (clip.isRunning()) {
                 clip.stop();
-            }else
+            } else
                 clip.start();
         }
         if (e.getKeyCode() == KeyEvent.VK_1) {
@@ -217,21 +207,16 @@ public class PlayGameScene extends GameScene implements IconGame {
 
     public void mouseClicked(MouseEvent e) {
         if (backMenu.checkMouse()) {
+            Utils.restartSound();
             Utils.reset();
-            this.sceneListener.replaceScene(new MenuScene(), false);
+            this.sceneListener.back();
         }
 
         if (pauseGame.checkMouse() && !isPause) {
             isPause = true;
-
             this.sceneListener.replaceScene(new PauseGameScene(), true);
 
         }
-    }
-
-    @Override
-    public boolean checkMouse() {
-        return false;
     }
 
     @Override

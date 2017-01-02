@@ -7,11 +7,12 @@ import views.SingleView;
 import views.View;
 
 import java.awt.*;
+import java.io.Serializable;
 
 /**
  * Created by Khuong Duy on 12/17/2016.
  */
-public class Controller implements BaseController{
+public class Controller implements BaseController,Serializable{
     protected Model model;
     //protected Animation animation;
     protected View view;

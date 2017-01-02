@@ -9,18 +9,18 @@ import controller.manager.BodyManager;
 import controller.manager.CellManager;
 import controller.scenes.GameScene;
 import controller.scenes.PlayGameScene;
+import controller.towers.TowerManager;
 import models.CheckPoint;
-import sun.audio.AudioPlayer;
-import sun.audio.AudioStream;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
-import java.applet.AudioClip;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Vector;
 
 import static controller.enemies.EnemyType.*;
@@ -31,6 +31,7 @@ import static controller.towers.TowerType.NORMAL;
  */
 public class Utils {
     public static Point point = new Point();
+    public static Clip clip = readFile("res/sound/nennen.wav");
 
     public static BufferedImage loadImage(String url) {
         try {
@@ -71,47 +72,25 @@ public class Utils {
     }
 
 
-    public static void songs(String word) {
-        String temp = word;
-        FileInputStream blah = null;
-        if (temp.equals("start")) {
+    public static void playSound(String audioUrl, boolean repeat) {
 
-            try {
-
-                try {
-                    blah = new FileInputStream("res/sound/nhacnen.wav");
-
-                } catch (Throwable e) {
-                    e.printStackTrace();
-                }
-                AudioStream as = new AudioStream(blah);
-
-                AudioPlayer.player.start(as);
-                System.out.println("going");
-
-            } catch (IOException e) {
-                System.err.println(e);
+        File soundFile = new File(audioUrl);
+        try {
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioIn);
+            clip.start();
+            if (repeat) {
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
+            } else {
+                clip.loop(0);
             }
-        }
-
-        if (temp.equals("stop")) {
-
-            try {
-
-                try {
-                    blah = new FileInputStream("C:/Users/Austin/Desktop/Storage/programimages/game/silence.wav");
-
-                } catch (Throwable e) {
-                    e.printStackTrace();
-                }
-                AudioStream as = new AudioStream(blah);
-
-                AudioPlayer.player.stop(as);
-                System.out.println("stopping");
-
-            } catch (IOException e) {
-                System.err.println(e);
-            }
+        } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
         }
     }
 
@@ -130,6 +109,12 @@ public class Utils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static void restartSound()
+    {
+        clip.close();
+        clip  =  readFile("res/sound/nennen.wav");
     }
 
     public static Vector<BufferedImage> loadSheetEnemy(EnemyType enemyType, int colum) {
@@ -186,7 +171,6 @@ public class Utils {
     }
 
     public static void reset() {
-        GameScene.SPEEDGAME = 25;
         HouseController.instance = HouseController.createHpFull(830, 325);
         BodyManager.instance.setBodies(new Vector<>());
         BodyManager.instance.register(HouseController.instance);
@@ -194,5 +178,14 @@ public class Utils {
         PlayGameScene.second = 0;
         PlayGameScene.timeCount = 0;
         CellManager.instance.reset();
+        TowerManager.instance.setTowerControllers(new Vector<>());
+    }
+
+    public static void openWebpage(String urlString) {
+        try {
+            Desktop.getDesktop().browse(new URL(urlString).toURI());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -1,0 +1,8 @@
+tower
+enemy
+house
+100
+sound
+0
+pause
+0

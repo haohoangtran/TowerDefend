@@ -1,6 +1,6 @@
 package controller.scenes;
 
-import controller.scenes.icon.IconGame;
+import com.sun.scenario.effect.impl.prism.PrImage;
 import controller.scenes.icon.Restart;
 import utils.Utils;
 
@@ -13,31 +13,39 @@ import static utils.Utils.loadImage;
  * Created by DUC THANG on 12/30/2016.
  */
 
-public class GameOverScene extends GameScene implements IconGame {
+public class GameOverScene extends GameScene {
     private Restart restart;
+    private static final int RESTART_X = 350;
+    private static final int RESTART_Y = 450;
+
+    private static final Image gameOver = loadImage("res/icon/gameOver.png");
+    private static final int GAMEOVER_X = 160;
+    private static final int GAMEOVER_Y = 100;
+    private static final int G_WIDTH = 575;
+    private static final int G_HEIGHT = 310;
     //private Next next;
 
     public GameOverScene() {
-        restart = new Restart(350, 450);
+        Utils.clip.close();
+        restart = new Restart(RESTART_X, RESTART_Y);
         //next = new Next(200, 450);
     }
 
     @Override
     public void update(Graphics g) {
-        g.drawImage(loadImage("res/icon/gameOver.png"), 160, 100, 575, 310, null);
+        g.drawImage(gameOver, GAMEOVER_X, GAMEOVER_Y, G_WIDTH, G_HEIGHT, null);
         restart.update(g);
         //next.update(g);
     }
 
     @Override
     public void run() {
-        restart.checkMouse();
-        //next.checkMouse();
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         if (restart.checkMouse()) {
+            Utils.restartSound();
             Utils.reset();
             this.sceneListener.back();
         }
@@ -56,9 +64,5 @@ public class GameOverScene extends GameScene implements IconGame {
     @Override
     public void keyPressed(KeyEvent e) {
 
-    }
-
-    public boolean checkMouse() {
-       return false;
     }
 }

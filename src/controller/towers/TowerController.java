@@ -23,6 +23,11 @@ public class TowerController extends Controller {
     private boolean isAlive;
     private int money;
     private int radiusFire;
+
+    public TowerType getTowerType() {
+        return towerType;
+    }
+
     private TowerType towerType;
 
     public int getRadiusFire() {
@@ -65,6 +70,7 @@ public class TowerController extends Controller {
         super(model, view);
         this.towerType = towerType;
         isAlive = true;
+        TowerManager.instance.add(this);
         bulletTowers = new Vector<>();
     }
 

@@ -13,7 +13,7 @@ import java.awt.*;
  * Created by HieuIt on 12/17/2016.
  */
 public class HouseController extends Controller implements Body{
-    public static int hp;
+    private  int hp;
     public double hpMax;
     public boolean gameOn = true;
     private boolean ckech = false;
@@ -64,6 +64,13 @@ public class HouseController extends Controller implements Body{
     public static HouseController createHpFull(int x, int y) {
         HouseController h= new HouseController(new Model(x-20, y-20, 160, 170),
                 new SingleView(Utils.loadImage("res/houseController.png")));
+        h.setAlive(true);
+        return h;
+    }
+    public static HouseController createHpFull(int x, int y,int hp) {
+        HouseController h= new HouseController(new Model(x-20, y-20, 160, 170),
+                new SingleView(Utils.loadImage("res/houseController.png")));
+        h.setHp(hp);
         h.setAlive(true);
         return h;
     }
