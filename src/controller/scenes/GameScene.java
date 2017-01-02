@@ -1,5 +1,6 @@
 package controller.scenes;
 
+import javax.rmi.PortableRemoteObject;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -9,7 +10,10 @@ import java.awt.event.MouseEvent;
  */
 public abstract class GameScene {
     protected SceneListener sceneListener;
-    public static int SPEEDGAME = 25;
+    protected final int BACKGROUND_X = 0;
+    protected final int BACKGROUND_Y = 0;
+    protected final int WIDTH = 930;
+    protected final int HEIGHT = 690;
 
     public void setSceneListener(SceneListener sceneListener) {
         this.sceneListener = sceneListener;

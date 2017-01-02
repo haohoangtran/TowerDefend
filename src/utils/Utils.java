@@ -9,6 +9,7 @@ import controller.manager.BodyManager;
 import controller.manager.CellManager;
 import controller.scenes.GameScene;
 import controller.scenes.PlayGameScene;
+import controller.towers.TowerManager;
 import models.CheckPoint;
 
 import javax.imageio.ImageIO;
@@ -17,6 +18,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Vector;
 
 import static controller.enemies.EnemyType.*;
@@ -27,6 +31,7 @@ import static controller.towers.TowerType.NORMAL;
  */
 public class Utils {
     public static Point point = new Point();
+    public static Clip clip = readFile("res/sound/nennen.wav");
 
     public static BufferedImage loadImage(String url) {
         try {
@@ -119,6 +124,12 @@ public class Utils {
         return null;
     }
 
+    public static void restartSound()
+    {
+        clip.close();
+        clip  =  readFile("res/sound/nennen.wav");
+    }
+
     public static Vector<BufferedImage> loadSheetEnemy(EnemyType enemyType, int colum) {
         String URL = pathImageEnemy(enemyType);
         Vector<BufferedImage> imageVector = new Vector<>();
@@ -173,7 +184,6 @@ public class Utils {
     }
 
     public static void reset() {
-        GameScene.SPEEDGAME = 25;
         HouseController.instance = HouseController.createHpFull(830, 325);
         BodyManager.instance.setBodies(new Vector<>());
         BodyManager.instance.register(HouseController.instance);
@@ -181,5 +191,14 @@ public class Utils {
         PlayGameScene.second = 0;
         PlayGameScene.timeCount = 0;
         CellManager.instance.reset();
+        TowerManager.instance.setTowerControllers(new Vector<>());
+    }
+
+    public static void openWebpage(String urlString) {
+        try {
+            Desktop.getDesktop().browse(new URL(urlString).toURI());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

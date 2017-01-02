@@ -1,7 +1,6 @@
 package controller.scenes;
 
 import controller.scenes.icon.IconGame;
-import controller.scenes.icon.PauseButton;
 import controller.scenes.icon.Restart;
 import controller.scenes.icon.ResumeGame;
 import utils.Utils;
@@ -9,14 +8,13 @@ import utils.Utils;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-
-import static controller.scenes.PlayGameScene.clip;
 import static controller.scenes.PlayGameScene.isPause;
+import static utils.Utils.clip;
 
 /**
  * Created by DUC THANG on 1/1/2017.
  */
-public class PauseGameScene extends GameScene implements IconGame {
+public class PauseGameScene extends GameScene {
     private ResumeGame resumeGame;
     private Restart restart;
 
@@ -25,11 +23,6 @@ public class PauseGameScene extends GameScene implements IconGame {
         resumeGame = new ResumeGame(250, 300);
         if (clip.isRunning())
             clip.stop();
-    }
-
-    @Override
-    public boolean checkMouse() {
-        return false;
     }
 
     @Override
@@ -57,6 +50,10 @@ public class PauseGameScene extends GameScene implements IconGame {
         if(restart.checkMouse()) {
             Utils.reset();
             isPause = false;
+
+            Utils.restartSound();
+
+            this.sceneListener.back();
             this.sceneListener.replaceScene(new PlayGameScene(), false);
         }
     }

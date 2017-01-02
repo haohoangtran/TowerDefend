@@ -108,6 +108,11 @@ public class CellManager implements BaseController {
         }
     }
 
+    @Override
+    public void checkContact() {
+
+    }
+
     public static CellController findCell(int x, int y) {
         for (int i = 0; i < cellControllers.size(); i++) {
             if (x >= cellControllers.get(i).getModel().getX() && x <= cellControllers.get(i).getModel().getRight() &&

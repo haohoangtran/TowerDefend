@@ -81,6 +81,11 @@ public class BulletTower extends Controller implements Body {
     }
 
     @Override
+    public void checkContact() {
+
+    }
+
+    @Override
     public void run() {
         switch (type) {
             case FIRE:

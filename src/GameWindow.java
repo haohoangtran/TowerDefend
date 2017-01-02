@@ -26,6 +26,7 @@ public class GameWindow extends Frame implements Runnable, SceneListener {
     BufferedImage backBuffer;
     Stack<GameScene> gameSceneStack;
     BufferedWriter bufferedWriter;
+    public static int SPEEDGAME = 25;
 
     public GameWindow() {
 
@@ -113,7 +114,7 @@ public class GameWindow extends Frame implements Runnable, SceneListener {
                     bufferedWriter.flush();
                     bufferedWriter.write("sound");
                     bufferedWriter.newLine();
-                    if (PlayGameScene.clip.isRunning()) {
+                    if (Utils.clip.isRunning()) {
                         bufferedWriter.write("1");
                         bufferedWriter.newLine();
                     } else {
@@ -220,7 +221,6 @@ public class GameWindow extends Frame implements Runnable, SceneListener {
         if (!gameSceneStack.isEmpty()) {
             currenScene = gameSceneStack.pop();
         }
-        currenScene.setSceneListener(this);
     }
 
     public void update(Graphics g) {
@@ -235,7 +235,7 @@ public class GameWindow extends Frame implements Runnable, SceneListener {
         while (true) {
             try {
                 this.repaint();
-                Thread.sleep(GameScene.SPEEDGAME);
+                Thread.sleep(SPEEDGAME);
                 currenScene.run();
                 Point point = this.getLocation();
                 Utils.getLocation(MouseInfo.getPointerInfo().getLocation().x - (int) point.getX(),

@@ -1,44 +1,53 @@
 package controller.scenes;
 
 import controller.HouseController;
-import controller.scenes.GameScene;
-import controller.scenes.icon.Next;
 import controller.scenes.icon.Restart;
 import utils.Utils;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.util.Vector;
 
 /**
  * Created by Hieu It on 12/31/2016.
  */
 public class GameVictoryScene extends GameScene {
-    private Image backgroud;
+    private Image background;
     private Restart restart;
+
+    private static final int RESTART_X = 350;
+    private static final int RESTART_Y = 500;
+
+    private static final int BACKGROUND_X = 100;
+    private static final int BACKGROUND_Y = 50;
+    private static final int B_WIDTH = 700;
+    private static final int B_HEIGHT = 450;
+
+    private static final int START_X = 200;
+    private static final int START_Y = 300;
+    private static final int S_WIDTH = 163;
+    private static final int S_HEIGHT = 207;
+
+
     public GameVictoryScene() {
-        backgroud = Utils.loadImage("res/gameVictory.png");
-        restart = new Restart(350, 500);
+        Utils.clip.close();
+        background = Utils.loadImage("res/gameVictory.png");
+        restart = new Restart(RESTART_X, RESTART_Y);
     }
-
-
-
 
     @Override
     public void update(Graphics g) {
-        g.drawImage(backgroud,100,50,700,450,null);
-        restart.update(g);
+        g.drawImage(background, BACKGROUND_X, BACKGROUND_Y, B_WIDTH, B_HEIGHT,null);
 
         if (HouseController.instance.getHp()>75){
-            g.drawImage(Utils.loadImage("res/victory3.png"),200,300,489,207,null);
+            g.drawImage(Utils.loadImage("res/victory3.png"),START_X,START_Y,3 * S_WIDTH,S_HEIGHT,null);
         }else if (HouseController.instance.getHp()>=50){
-            g.drawImage(Utils.loadImage("res/victory2.png"),200,300,326,207,null);
+            g.drawImage(Utils.loadImage("res/victory2.png"),START_X,START_Y,2 * S_WIDTH,S_HEIGHT,null);
         }else {
-            g.drawImage(Utils.loadImage("res/victory1.png"),200,300,163,207,null);
-
+            g.drawImage(Utils.loadImage("res/victory1.png"),START_X,START_Y,S_WIDTH,S_HEIGHT,null);
         }
+
+        restart.update(g);
     }
 
     @Override
@@ -59,9 +68,12 @@ public class GameVictoryScene extends GameScene {
     @Override
     public void mouseClicked(MouseEvent e) {
         if(restart.checkMouse()) {
+            if(Utils.clip.isRunning()) {
+                Utils.clip.stop();
+                Utils.restartSound();
+            }
             Utils.reset();
-
-            this.sceneListener.replaceScene(new PlayGameScene(),false);
+            this.sceneListener.back();
         }
     }
 

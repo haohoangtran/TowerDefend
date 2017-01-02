@@ -52,4 +52,9 @@ public class Controller implements BaseController,Serializable{
         }
     }
 
+    @Override
+    public void checkContact() {
+
+    }
+
 }

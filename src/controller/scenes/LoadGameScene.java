@@ -10,10 +10,10 @@ import java.awt.event.MouseEvent;
  * Created by Hieu It on 12/31/2016.
  */
 public class LoadGameScene extends GameScene {
-    Image background;
+    private Image background;
+
     private int count;
-    private int countMax = 100;
-    boolean check;
+    private boolean check = true;
     int timeCount = 0;
 
     public LoadGameScene() {
@@ -23,33 +23,19 @@ public class LoadGameScene extends GameScene {
     @Override
     public void update(Graphics g) {
         timeCount++;
-        g.drawImage(background, 0, 0, 930, 690, null);
+        g.drawImage(background, BACKGROUND_X, BACKGROUND_Y, WIDTH, HEIGHT, null);
         int leng = 4;
         g.setColor(Color.green);
         if (!check) {
             g.drawString(count + "%", 460, 650);
-            g.fillRect(270, 660,  count*leng, 8);
-            if (count >=100) {
+            g.fillRect(270, 660, count * leng, 8);
+            if (count >= 100) {
                 this.sceneListener.replaceScene(new MenuScene(), false);
             }
         }
 
-        if (timeCount % 1 == 0) {
-            count++;
-            check = false;
-        }
-//        if (!check) {
-//            if (count % 20 == 0) {
-//                String temp = count / 4 + " %";
-//                g.drawString(temp, 460, 650);
-//            }
-//
-//            g.fillRect(270, 660, (int) ((count / countMax) * leng), 8);
-//            if (count > 410) {
-//                this.sceneListener.replaceScene(new MenuScene(), false);
-//            }
-//        }
-
+        count++;
+        check = false;
     }
 
     @Override
