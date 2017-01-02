@@ -33,32 +33,40 @@ import java.util.Vector;
 
 import static utils.Utils.clip;
 import static utils.Utils.loadImage;
+import static utils.Utils.point;
 
 /**
  * Created by DUC THANG on 12/28/2016.
  */
 public class PlayGameScene extends GameScene {
-    private Image image1;
-    private Image image2;
     public static int timeCount = 0;
     public static int second = 0;
     public static int level = 0;
+
     int towerCreate = 1;
+
     private Image background;
     private Image backgroundTop;
+
     public static boolean isPause = false;
+
     private boolean check;
     private Image snow;
     private Animation flag, windmill;
+
     CellController cellController;
+    CellController find;
+
     public static Vector<BaseController> controllers;
     java.util.List<String> spawnEnemy = SpawnEnemy.instance.getListString(SpawnEnemy.instance.allFile.get(level));
 
     private BackMenu backMenu;
     private PauseGame pauseGame;
 
+    private boolean checkCell = false;
+
     public PlayGameScene() {
-        if(!clip.isOpen() || !clip.isRunning())
+        if (!clip.isOpen() || !clip.isRunning())
             clip.start();
 
         try {
@@ -66,8 +74,6 @@ public class PlayGameScene extends GameScene {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        image1 = Utils.loadImage("res/PNG/Towers (grey)/TowersLever2.png");
-        image2 = Utils.loadImage("res/image590.png");
 
         controllers = new Vector<>();
         controllers.add(EnemyManager.instance);
@@ -89,8 +95,6 @@ public class PlayGameScene extends GameScene {
 
         g.drawImage(background, 0, 100, 930, 690, null);
         g.drawImage(backgroundTop, 0, 33, 930, 70, null);
-        g.drawImage(image1, 20, 650, 50, 50, null);
-        g.drawImage(image2, 80, 650, 50, 50, null);
         backMenu.update(g);
         pauseGame.update(g);
         for (BaseController controller : controllers) {
@@ -100,6 +104,17 @@ public class PlayGameScene extends GameScene {
         if (check) {
             CellManager.instance.draw(g);
         }
+
+        if (checkCell && find.getTowerController() != null) {
+            g.setColor(Color.red);
+            int r = (int) (find.getTowerController().getRadiusFire() * 1.5);
+            int x = find.getModel().getMidX() - r / 2 - 3;
+            int y = find.getModel().getMidY() - r / 2 - 3;
+
+            Image image = loadImage("res/Bullet/Fire/image 7415.png");
+            g.drawImage(image, x, y, r, r, null);
+        }
+
         flag.draw(g, new Model(20, 560, 60, 60), 2);
         windmill.draw(g, new Model(118, 620, 60, 60), 2);
         g.drawImage(snow, 0, 100, 450, 450, null);
@@ -110,7 +125,6 @@ public class PlayGameScene extends GameScene {
 
     @Override
     public void run() {
-
         if (!isPause) {
             timeCount++;
             if (timeCount > 60) {
@@ -157,6 +171,14 @@ public class PlayGameScene extends GameScene {
             if (!HouseController.instance.isAlive()) {
                 this.sceneListener.replaceScene(new GameOverScene(), false);
             }
+
+            find = CellManager.findCell((int) point.getX(), (int) point.getY());
+            if (find != null) {
+                if (find.getTowerController() != null) {
+                    checkCell = true;
+                }
+            } else
+                checkCell = false;
         }
     }
 
@@ -166,7 +188,7 @@ public class PlayGameScene extends GameScene {
         check = true;
         cellController = CellManager.instance.findCell(e.getX(), e.getY());
         if (cellController != null && cellController.getModel().isCanBuild() && cellController.getTowerController() == null) {
-            TowerController tower=null;
+            TowerController tower = null;
             if (towerCreate == 1) {
 
                 System.out.println("tttttttt");
@@ -180,14 +202,14 @@ public class PlayGameScene extends GameScene {
 
             }
 
-            if (tower != null&&TotalCoin.instance.existCoin(tower)) {
+            if (tower != null && TotalCoin.instance.existCoin(tower)) {
                 if (TotalCoin.instance.existCoin(tower)) {
                     TotalCoin.instance.setCoin(TotalCoin.instance.getCoin() - tower.getCoin());
                     cellController.setTowerController(tower);
                     controllers.add(tower);
                 }
 
-            }else {
+            } else {
                 tower.setAlive(false);
 
 

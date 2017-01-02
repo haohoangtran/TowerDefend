@@ -17,16 +17,17 @@ import java.util.Vector;
  */
 public class CellManager implements BaseController {
     public  static Vector<CellController> cellControllers=new Vector<>();
-    int[] road;// = {17, 26, 35, 44, 53, 62, 63, 64, 65, 66, 67, 76, 85, 94, 103, 112, 121, 130, 129, 128, 137, 146};
-    int[] build;/* = {1, 2, 3, 15, 24, 33, 42, 51, 69, 143, 134, 125, 80, 71, 72, 73, 74, 81, 18, 27, 36, 19, 28, 37, 20, 29, 38
-            , 30, 39, 48, 57, 40, 49, 58, 50, 59, 68, 70, 79, 77, 126, 135,
-            104, 122, 131, 140, 139, 138, 147, 109, 110, 111, 101, 102, 93, 84};*/
+    int[] road;
+    int[] build;
 
 
     public static final CellManager instance = new CellManager();
 
     private CellManager() {
+        createCell();
+    }
 
+    private void createCell() {
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(new File("res/Save/Map.txt")));
             String str = bufferedReader.readLine();

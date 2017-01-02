@@ -224,7 +224,6 @@ public class GameWindow extends Frame implements Runnable, SceneListener {
     }
 
     public void update(Graphics g) {
-
         Graphics backBufferGraphics = backBuffer.getGraphics();
         currenScene.update(backBufferGraphics);
         g.drawImage(backBuffer, 0, 0, 900, 700, null);

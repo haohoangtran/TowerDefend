@@ -108,4 +108,8 @@ public class CellModel {
     public int getMidX(){
         return x+width/2;
     }
+
+    public int getMidY() {
+        return y + height / 2;
+    }
 }

@@ -17,7 +17,6 @@ import java.util.Vector;
  * Created by HieuIt on 12/17/2016.
  */
 public class EnemyController extends Controller implements Body {
-
     public double hpMax;
     protected int hp;
 
@@ -205,12 +204,17 @@ public class EnemyController extends Controller implements Body {
         super.draw(g);
 
         double leng = this.getModel().getWidth() * 0.8;
-        if (hp / hpMax >= 0.6) {
-            g.setColor(Color.green);
-        } else if (hp / hpMax > 0.3) {
-            g.setColor(Color.YELLOW);
-        } else
-            g.setColor(Color.red);
+//        if (hp / hpMax >= 0.6) {
+//            g.setColor(Color.green);
+//        } else if (hp / hpMax > 0.3) {
+//            g.setColor(Color.YELLOW);
+//        } else
+//            g.setColor(Color.red);
+//        g.fillRect(this.model.getX(), this.model.getY(), (int) ((hp / hpMax) * leng), 3);
+
+        g.setColor(Color.red);
+        g.fillRect(this.model.getX(), this.model.getY(), (int) leng, 3);
+        g.setColor(Color.green);
         g.fillRect(this.model.getX(), this.model.getY(), (int) ((hp / hpMax) * leng), 3);
     }
 
