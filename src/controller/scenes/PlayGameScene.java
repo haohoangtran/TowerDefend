@@ -224,13 +224,6 @@ public class PlayGameScene extends GameScene {
             this.sceneListener.replaceScene(new PauseGameScene(), true);
         }
 
-        if (e.getKeyCode() == KeyEvent.VK_W) {
-            if (clip.isRunning())
-                clip.stop();
-            else clip.start();
-            this.sceneListener.replaceScene(new GameVictoryScene(), false);
-        }
-
         if (e.getKeyCode() == KeyEvent.VK_2) {
             towerCreate = 2;
         }
