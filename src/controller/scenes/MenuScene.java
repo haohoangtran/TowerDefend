@@ -43,9 +43,9 @@ public class MenuScene extends GameScene {
     private static final int START_X = 330;
     private static final int START_Y = 300;
 
+
     public MenuScene() {
         backgroud = loadImage("res/icon/backgroundMenu.bmp");
-
         start = new Start(START_X, START_Y);
         resumeGame = new ResumeGame(RESUME_X, RESUME_Y);
         facebook = new Facebook(FACEBOOK_X, FACEBOOK_Y);
@@ -80,25 +80,7 @@ public class MenuScene extends GameScene {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (start.checkMouse()) {
-            this.sceneListener.replaceScene(new PlayGameScene(), true);
-        }
 
-        if (resumeGame.checkMouse()) {
-            resume();
-        }
-
-        if(facebook.checkMouse()) {
-            Utils.openWebpage("https://www.facebook.com/groups/577054122491100/?fref=ts");
-        }
-
-        if(guideButton.checkMouse()) {
-            this.sceneListener.replaceScene(new GameInstructionScene(), true);
-        }
-
-        if(highScoreButton.checkMouse()) {
-            this.sceneListener.replaceScene(new HightScoreScene(), true);
-        }
     }
 
     public void resume() {
@@ -201,7 +183,25 @@ public class MenuScene extends GameScene {
 
     @Override
     public void mousePressed(MouseEvent e) {
+        if (start.checkMouse()) {
+            this.sceneListener.replaceScene(new PlayGameScene(), true);
+        }
 
+        if (resumeGame.checkMouse()) {
+            resume();
+        }
+
+        if(facebook.checkMouse()) {
+            Utils.openWebpage("https://www.facebook.com/groups/577054122491100/?fref=ts");
+        }
+
+        if(guideButton.checkMouse()) {
+            this.sceneListener.replaceScene(new GameInstructionScene(), true);
+        }
+
+        if(highScoreButton.checkMouse()) {
+            this.sceneListener.replaceScene(new HightScoreScene(), true);
+        }
     }
 
     @Override

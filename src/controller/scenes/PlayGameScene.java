@@ -3,10 +3,7 @@ package controller.scenes;
 import controller.BaseController;
 import controller.CellController;
 import controller.HouseController;
-import controller.enemies.EnemyController;
-import controller.enemies.EnemyManager;
-import controller.enemies.EnemyType;
-import controller.enemies.SpawnEnemy;
+import controller.enemies.*;
 import controller.gifts.TotalCoin;
 import controller.manager.BodyManager;
 import controller.manager.CellManager;
@@ -29,7 +26,7 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.Key;
-import java.util.Vector;
+import java.util.*;
 
 import static utils.Utils.clip;
 import static utils.Utils.loadImage;
@@ -42,8 +39,9 @@ public class PlayGameScene extends GameScene {
     public static int timeCount = 0;
     public static int second = 0;
     public static int level = 0;
-
+    private Vector<String> stringStage = Utils.createFactory("res/Stage/allstage.txt");
     int towerCreate = 1;
+    int posString = 0;
 
     private Image background;
     private Image backgroundTop;
@@ -62,13 +60,12 @@ public class PlayGameScene extends GameScene {
 
     private BackMenu backMenu;
     private PauseGame pauseGame;
-
+    private boolean checkStage = false;
     private boolean checkCell = false;
 
     public PlayGameScene() {
         if (!clip.isOpen() || !clip.isRunning())
             clip.start();
-
         try {
             snow = new ImageIcon(new URL("http://i.imgur.com/2nr0tS3.gif")).getImage();
         } catch (MalformedURLException e) {
@@ -121,13 +118,66 @@ public class PlayGameScene extends GameScene {
         g.drawImage(snow, 450, 100, 450, 450, null);
         g.drawImage(snow, 450, 450, 450, 450, null);
         g.drawImage(snow, 100, 450, 450, 450, null);
+        if (checkStage) {
+            g.setFont(new Font("Time new Romans", Font.BOLD, 36));
+            g.setColor(Color.red);
+            g.drawString(stringStage.get(posString ), 300, 500);
+        }
     }
 
     @Override
     public void run() {
         if (!isPause) {
+
+            //bat dau sua
+            if (timeCount % 60 == 0) {
+                String str = stringStage.get(posString);// lấy string từ file
+                System.out.println("str = " + str);
+                if (str.isEmpty()) {
+                    // nếu nó trống thì cộng lên
+                    posString++;
+                    return;
+                } else if (str.charAt(0) == 'S') {
+                    //các cửa bắt đầu bằng Stage
+                    checkStage = true;
+                    if (EnemyManager.instance.isEmpty()) {
+                        // nếu hết enemy mới đọc tiếp(Đang dở hơi)
+                        posString++;
+                    }
+                } else {
+                    checkStage = false;
+                    System.out.println();
+                    EnemyController e = EnemyController.createEnemy(Integer.valueOf(str));
+                    if (e != null) {
+                        EnemyManager.instance.register(e);
+                    }
+                    posString++;
+                }
+
+                if (posString == stringStage.size() - 2) {
+                    this.sceneListener.replaceScene(new GameVictoryScene(), false);
+                }
+            }
             timeCount++;
-            if (timeCount > 60) {
+        }
+        for (int i = 0; i < controllers.size(); i++) {
+            controllers.get(i).run();
+        }
+        if (!HouseController.instance.isAlive()) {
+            this.sceneListener.replaceScene(new GameOverScene(), false);
+        }
+
+        find = CellManager.findCell((int) point.getX(), (int) point.getY());
+        if (find != null) {
+            if (find.getTowerController() != null) {
+                checkCell = true;
+            }
+        } else
+            checkCell = false;
+
+    }
+    /*
+    if (timeCount > 60) {
                 second = timeCount / 60;
             }
             if (second >= spawnEnemy.size() && EnemyManager.instance.isEmpty()) {
@@ -179,8 +229,7 @@ public class PlayGameScene extends GameScene {
                 }
             } else
                 checkCell = false;
-        }
-    }
+     */
 
 
     @Override
@@ -215,6 +264,15 @@ public class PlayGameScene extends GameScene {
 
             }
         }
+        if (backMenu.checkMouse()) {
+            Utils.reset();
+            this.sceneListener.replaceScene(new MenuScene(), false);
+        }
+
+        if (pauseGame.checkMouse() && !isPause) {
+            isPause = true;
+            this.sceneListener.replaceScene(new PauseGameScene(), true);
+        }
     }
 
     @Override
@@ -243,15 +301,7 @@ public class PlayGameScene extends GameScene {
     }
 
     public void mouseClicked(MouseEvent e) {
-        if (backMenu.checkMouse()) {
-            Utils.reset();
-            this.sceneListener.replaceScene(new MenuScene(), false);
-        }
 
-        if (pauseGame.checkMouse() && !isPause) {
-            isPause = true;
-            this.sceneListener.replaceScene(new PauseGameScene(), true);
-        }
     }
 
     @Override

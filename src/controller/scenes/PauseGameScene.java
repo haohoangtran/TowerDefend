@@ -39,6 +39,16 @@ public class PauseGameScene extends GameScene {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
         if(resumeGame.checkMouse() && isPause) {
             isPause = false;
             if (!clip.isRunning())
@@ -52,16 +62,6 @@ public class PauseGameScene extends GameScene {
             this.sceneListener.back();
             this.sceneListener.replaceScene(new PlayGameScene(), false);
         }
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
     }
 
     @Override

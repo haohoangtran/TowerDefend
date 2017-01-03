@@ -2,7 +2,6 @@ package controller.scenes;
 
 import controller.scenes.icon.BackMenu;
 import utils.Utils;
-
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -20,12 +19,15 @@ public class GameInstructionScene extends GameScene {
     public GameInstructionScene() {
         background = Utils.loadImage("res/icon/backgroundGuide.png");
         backMenu = new BackMenu(X, Y);
+
+
     }
 
     @Override
     public void update(Graphics g) {
         g.drawImage(background, BACKGROUND_X, BACKGROUND_Y, WIDTH, HEIGHT, null);
         backMenu.update(g);
+
     }
 
     @Override
@@ -35,9 +37,7 @@ public class GameInstructionScene extends GameScene {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if(backMenu.checkMouse()) {
-            this.sceneListener.back();
-        }
+
     }
 
     @Override
@@ -47,7 +47,9 @@ public class GameInstructionScene extends GameScene {
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        if (backMenu.checkMouse()) {
+            this.sceneListener.back();
+        }
     }
 
     @Override
