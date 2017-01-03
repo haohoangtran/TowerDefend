@@ -28,6 +28,10 @@ public class TowerManager implements BaseController{
     public void draw(Graphics g) {
         for (int i = 0; i < towerControllers.size(); i++) {
             towerControllers.get(i).draw(g);
+            if (towerControllers.get(i).isAlive()) {
+                g.setColor(Color.RED);
+                g.drawString(towerControllers.get(i).getName(), towerControllers.get(i).getModel().getX(), towerControllers.get(i).getModel().getY());
+            }
         }
 
     }

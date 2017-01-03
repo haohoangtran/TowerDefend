@@ -42,7 +42,8 @@ public class PlayGameScene extends GameScene {
     private Vector<String> stringStage = Utils.createFactory("res/Stage/allstage.txt");
     int towerCreate = 1;
     int posString = 0;
-
+    boolean checkCoint = true;
+    String str = "Stage 1";
     private Image background;
     private Image backgroundTop;
 
@@ -64,8 +65,10 @@ public class PlayGameScene extends GameScene {
     private boolean checkCell = false;
 
     public PlayGameScene() {
-        if (!clip.isOpen() || !clip.isRunning())
-            clip.start();
+        if(!clip.isRunning()) {
+            Utils.clip.start();
+        }
+
         try {
             snow = new ImageIcon(new URL("http://i.imgur.com/2nr0tS3.gif")).getImage();
         } catch (MalformedURLException e) {
@@ -118,17 +121,26 @@ public class PlayGameScene extends GameScene {
         g.drawImage(snow, 450, 100, 450, 450, null);
         g.drawImage(snow, 450, 450, 450, 450, null);
         g.drawImage(snow, 100, 450, 450, 450, null);
+
         if (checkStage) {
-            g.setFont(new Font("Time new Romans", Font.BOLD, 36));
-            g.setColor(Color.red);
-            g.drawString(stringStage.get(posString ), 300, 500);
+
+            str = stringStage.get(posString);
         }
+        if (!checkCoint) {
+            g.setFont(new Font("Time new Romans", Font.BOLD, 20));
+            g.setColor(Color.red);
+            g.drawString("Not Enought Money!", 400, 350);
+        }
+
+        g.setFont(new Font("Time new Romans", Font.PLAIN, 15));
+        g.setColor(Color.red);
+        g.drawString(str, 150, 60);
+
     }
 
     @Override
     public void run() {
         if (!isPause) {
-
             //bat dau sua
             if (timeCount % 60 == 0) {
                 String str = stringStage.get(posString);// lấy string từ file
@@ -142,6 +154,7 @@ public class PlayGameScene extends GameScene {
                     checkStage = true;
                     if (EnemyManager.instance.isEmpty()) {
                         // nếu hết enemy mới đọc tiếp(Đang dở hơi)
+                        str = stringStage.get(posString);
                         posString++;
                     }
                 } else {
@@ -174,7 +187,6 @@ public class PlayGameScene extends GameScene {
             }
         } else
             checkCell = false;
-
     }
     /*
     if (timeCount > 60) {
@@ -239,8 +251,6 @@ public class PlayGameScene extends GameScene {
         if (cellController != null && cellController.getModel().isCanBuild() && cellController.getTowerController() == null) {
             TowerController tower = null;
             if (towerCreate == 1) {
-
-                System.out.println("tttttttt");
                 tower = TowerController.createTower(cellController.getModel().getX(), cellController.getModel().getY(), TowerType.NORMAL);
 
             } else if (towerCreate == 2) {
@@ -256,17 +266,17 @@ public class PlayGameScene extends GameScene {
                     TotalCoin.instance.setCoin(TotalCoin.instance.getCoin() - tower.getCoin());
                     cellController.setTowerController(tower);
                     controllers.add(tower);
+                    checkCoint = true;
                 }
 
             } else {
                 tower.setAlive(false);
-
-
+                checkCoint = false;
             }
         }
         if (backMenu.checkMouse()) {
             Utils.reset();
-            this.sceneListener.replaceScene(new MenuScene(), false);
+            this.sceneListener.back();
         }
 
         if (pauseGame.checkMouse() && !isPause) {

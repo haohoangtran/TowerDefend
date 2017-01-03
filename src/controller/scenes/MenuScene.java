@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.io.*;
 import java.util.Vector;
 
+import static utils.Utils.clip;
 import static utils.Utils.loadImage;
 
 /**

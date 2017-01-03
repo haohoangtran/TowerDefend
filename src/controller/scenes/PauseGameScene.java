@@ -59,6 +59,7 @@ public class PauseGameScene extends GameScene {
         if(restart.checkMouse()) {
             Utils.reset();
             isPause = false;
+            Utils.openSound();
             this.sceneListener.back();
             this.sceneListener.replaceScene(new PlayGameScene(), false);
         }

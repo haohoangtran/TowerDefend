@@ -21,7 +21,9 @@ public class TowerController extends Controller {
     private Vector<BulletTower> bulletTowers;
     private static int timeCount = 0;
     public static boolean isBulletAlive;
+    private boolean isFire;
     private int coin;
+    private String name;
     private int radiusFire;
 
     public TowerType getTowerType() {
@@ -59,10 +61,21 @@ public class TowerController extends Controller {
         isFire = fire;
     }
 
-    private boolean isFire;
+    public String getName() {
+        return name;
+    }
 
-    public TowerController(Model model, Animation animation) {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public TowerController(Model model, Animation animation, TowerType towerType, int coin) {
         super(model, animation);
+        this.towerType = towerType;
+        this.coin = coin;
+        isAlive = true;
+        isBulletAlive = true;
+        TowerManager.instance.add(this);
         bulletTowers = new Vector<>();
     }
 
@@ -152,19 +165,22 @@ public class TowerController extends Controller {
     public static TowerController createTower(int x, int y, TowerType towerType) {
         switch (towerType) {
             case NORMAL:
-                TowerController towerController = new TowerController(new Model(x, y, 50, 50), new SingleView(
-                        Utils.loadImage("res/PNG/Towers (grey)/TowersLever2.png")), TowerType.NORMAL, 100);
+                TowerController towerController = new TowerController(new Model(x, y, 50, 50),
+                        new Animation(Utils.realIInFoder("res/tower/tower1")), TowerType.NORMAL, 100);
+                towerController.setName("T.Normal");
                 towerController.setRadiusFire(100);
                 return towerController;
             case FIRE:
-                towerController = new TowerController(new Model(x, y, 50, 50), new SingleView(
-                        Utils.loadImage("res/image590.png")), TowerType.FIRE, 200);
+                towerController = new TowerController(new Model(x, y, 50, 50),
+                        new Animation(Utils.realIInFoder("res/tower/tower2")), TowerType.FIRE, 200);
                 towerController.setRadiusFire(100);
+                towerController.setName("   T.Fire");
                 return towerController;
             case SLOW:
-                towerController = new TowerController(new Model(x, y, 50, 50), new SingleView(
-                        Utils.loadImage("res/PNG/TowerDaw.png")), TowerType.SLOW, 150);
+                towerController = new TowerController(new Model(x, y, 50, 50),
+                        new Animation(Utils.realIInFoder("res/tower/tower3")), TowerType.SLOW, 150);
                 towerController.setRadiusFire(100);
+                towerController.setName("   T.Slow");
                 return towerController;
         }
         return null;

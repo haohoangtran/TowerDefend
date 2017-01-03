@@ -142,10 +142,10 @@ public class BulletTower extends Controller implements Body {
                     ((EnemyController) other).slow = true;
                     break;
                 case FIRE:
-                    //setAlive(false);
-                    if (((EnemyController) other).enemyType == EnemyType.BOT) {
-                        ((EnemyController) other).setHp(((EnemyController) other).getHp() - atk);
-                    }
+//                    if (((EnemyController) other).enemyType == EnemyType.BOT) {
+//                        ((EnemyController) other).setHp(((EnemyController) other).getHp() - atk);
+//                        //setAlive(false);
+//                    }
                     ((EnemyController) other).setHp(((EnemyController) other).getHp() - atk);
                     if (((EnemyController) other).getHp() <= 0) {
                         PlayGameScene.controllers.add(CoinController.createCoin(this.getModel().getX(), this.getModel().getY()));

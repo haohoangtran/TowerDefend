@@ -140,6 +140,22 @@ public class Utils {
         return null;
     }
 
+    public static void openSound() {
+        AudioInputStream inputStream= null;
+        try {
+            inputStream = AudioSystem.getAudioInputStream(new File("res/sound/nennen.wav"));
+            clip = AudioSystem.getClip();
+            clip.open(inputStream);
+        } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public static Vector<BufferedImage> loadSheetEnemy(EnemyType enemyType, int colum) {
         String URL = pathImageEnemy(enemyType);
         Vector<BufferedImage> imageVector = new Vector<>();
@@ -195,6 +211,7 @@ public class Utils {
         if(clip.isRunning()) {
             clip.stop();
         }
+
         TotalCoin.instance.setCoin(500);
         HouseController.instance = HouseController.createHpFull(830, 325);
         BodyManager.instance.setBodies(new Vector<>());
