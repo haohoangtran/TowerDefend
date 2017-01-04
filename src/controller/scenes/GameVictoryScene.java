@@ -64,7 +64,6 @@ public class GameVictoryScene extends GameScene {
     public void keyPressed(KeyEvent e) {
         if(restart.checkMouse()) {
             Utils.reset();
-            Utils.openSound();
             this.sceneListener.back();
         }
     }

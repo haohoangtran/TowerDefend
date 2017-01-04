@@ -29,7 +29,7 @@ public class GameOverScene extends GameScene {
     //private Next next;
 
     public GameOverScene() {
-        clip.close();
+        Utils.clip.close();
         restart = new Restart(RESTART_X, RESTART_Y);
         //next = new Next(200, 450);
     }
@@ -59,7 +59,6 @@ public class GameOverScene extends GameScene {
     public void mousePressed(MouseEvent e) {
         if (restart.checkMouse()) {
             Utils.reset();
-            Utils.openSound();
             this.sceneListener.back();
         }
     }

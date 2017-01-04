@@ -12,5 +12,4 @@ import java.awt.*;
 public interface View {
     void draw(Graphics g,Model model);
     boolean isAnimationReachEnd();
-
 }

@@ -15,17 +15,14 @@ import controller.towers.TowerType;
 import models.Model;
 import utils.Utils;
 import views.Animation;
+import views.SingleView;
 
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.Key;
 import java.util.*;
 
 import static utils.Utils.clip;
@@ -39,13 +36,17 @@ public class PlayGameScene extends GameScene {
     public static int timeCount = 0;
     public static int second = 0;
     public static int level = 0;
+    int countOfMoney = 0;
+    Vector<Model> cloudModels;
     private Vector<String> stringStage = Utils.createFactory("res/Stage/allstage.txt");
     int towerCreate = 1;
-    int posString = 0;
+    public static int posString = 0;
+    String stage = null;
     boolean checkCoint = true;
     String str = "Stage 1";
     private Image background;
     private Image backgroundTop;
+    SingleView cloudView;
 
     public static boolean isPause = false;
 
@@ -57,7 +58,6 @@ public class PlayGameScene extends GameScene {
     CellController find;
 
     public static Vector<BaseController> controllers;
-    java.util.List<String> spawnEnemy = SpawnEnemy.instance.getListString(SpawnEnemy.instance.allFile.get(level));
 
     private BackMenu backMenu;
     private PauseGame pauseGame;
@@ -65,16 +65,15 @@ public class PlayGameScene extends GameScene {
     private boolean checkCell = false;
 
     public PlayGameScene() {
-        if(!clip.isRunning()) {
-            Utils.clip.start();
-        }
-
+        Utils.openSound();
         try {
             snow = new ImageIcon(new URL("http://i.imgur.com/2nr0tS3.gif")).getImage();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
+        cloudModels=new Vector<>();
 
+        cloudView=new SingleView(Utils.loadImage("res/util/could.png"));
         controllers = new Vector<>();
         controllers.add(EnemyManager.instance);
         controllers.add(TowerManager.instance);
@@ -121,9 +120,7 @@ public class PlayGameScene extends GameScene {
         g.drawImage(snow, 450, 100, 450, 450, null);
         g.drawImage(snow, 450, 450, 450, 450, null);
         g.drawImage(snow, 100, 450, 450, 450, null);
-
         if (checkStage) {
-
             str = stringStage.get(posString);
         }
         if (!checkCoint) {
@@ -131,16 +128,44 @@ public class PlayGameScene extends GameScene {
             g.setColor(Color.red);
             g.drawString("Not Enought Money!", 400, 350);
         }
-
         g.setFont(new Font("Time new Romans", Font.PLAIN, 15));
         g.setColor(Color.red);
-        g.drawString(str, 150, 60);
-
+        if (stage != null)
+            g.drawString(stage, 150, 60);
+        for (int i = 0; i < cloudModels.size(); i++) {
+            cloudView.draw(g,cloudModels.get(i));
+        }
     }
 
     @Override
     public void run() {
+        Random r=new Random();
+        while (cloudModels.size()<3){
+            int y=Math.abs(r.nextInt()%450)+100;
+            cloudModels.add(new Model(0,y,100,100));
+        }
+        runAll();
+        if (!checkCoint) {
+            countOfMoney++;
+        }
+        if (countOfMoney > 60) {
+            checkCoint = true;
+            countOfMoney = 0;
+        }
+        for (int i = 0; i < cloudModels.size(); i++) {
+            cloudModels.get(i).move(1,0);
+        }
+        for (int i = 0; i < cloudModels.size(); i++) {
+            if (cloudModels.get(i).getX()>1200){
+                cloudModels.remove(i);
+            }
+        }
+
+    }
+
+    private void runAll() {
         if (!isPause) {
+
             //bat dau sua
             if (timeCount % 60 == 0) {
                 String str = stringStage.get(posString);// lấy string từ file
@@ -148,18 +173,18 @@ public class PlayGameScene extends GameScene {
                 if (str.isEmpty()) {
                     // nếu nó trống thì cộng lên
                     posString++;
-                    return;
+                } else if (str.charAt(0) == 'S') {
+                    stage = str;
+                    posString++;
                 } else if (str.charAt(0) == 'S') {
                     //các cửa bắt đầu bằng Stage
                     checkStage = true;
                     if (EnemyManager.instance.isEmpty()) {
                         // nếu hết enemy mới đọc tiếp(Đang dở hơi)
-                        str = stringStage.get(posString);
                         posString++;
                     }
                 } else {
                     checkStage = false;
-                    System.out.println();
                     EnemyController e = EnemyController.createEnemy(Integer.valueOf(str));
                     if (e != null) {
                         EnemyManager.instance.register(e);
@@ -177,6 +202,7 @@ public class PlayGameScene extends GameScene {
             controllers.get(i).run();
         }
         if (!HouseController.instance.isAlive()) {
+            Utils.playSound("res/sound/over.wav",false);
             this.sceneListener.replaceScene(new GameOverScene(), false);
         }
 
@@ -188,61 +214,6 @@ public class PlayGameScene extends GameScene {
         } else
             checkCell = false;
     }
-    /*
-    if (timeCount > 60) {
-                second = timeCount / 60;
-            }
-            if (second >= spawnEnemy.size() && EnemyManager.instance.isEmpty()) {
-                this.sceneListener.replaceScene(new GameVictoryScene(), false);
-            }
-            if (timeCount % 60 == 0 && second < spawnEnemy.size() - 1) {
-                System.out.println(second);
-                String[] listNumber = spawnEnemy.get(second).split(",");
-                for (String s : listNumber) {
-
-                    try {
-                        switch (Integer.parseInt(s)) {
-                            case 1:
-                                EnemyManager.instance.register(EnemyController.createEnemy(EnemyType.NORMAL));
-                                break;
-                            case 2:
-                                EnemyManager.instance.register(EnemyController.createEnemy(EnemyType.TANK));
-                                break;
-                            case 3:
-                                EnemyManager.instance.register(EnemyController.createEnemy(EnemyType.SPEED));
-                                break;
-                            case 4:
-                                EnemyManager.instance.register(EnemyController.createEnemy(EnemyType.FLY));
-                                break;
-                            case 5:
-                                EnemyManager.instance.register(EnemyController.createEnemy(EnemyType.HORSE));
-                                break;
-                            case 6:
-                                EnemyManager.instance.register(EnemyController.createEnemy(EnemyType.BOT));
-                                break;
-                        }
-                    } catch (Exception e) {
-                        System.out.println("bo qua");
-                    }
-                }
-            }
-
-            for (int i = 0; i < controllers.size(); i++) {
-                controllers.get(i).run();
-            }
-            if (!HouseController.instance.isAlive()) {
-                this.sceneListener.replaceScene(new GameOverScene(), false);
-            }
-
-            find = CellManager.findCell((int) point.getX(), (int) point.getY());
-            if (find != null) {
-                if (find.getTowerController() != null) {
-                    checkCell = true;
-                }
-            } else
-                checkCell = false;
-     */
-
 
     @Override
     public void mousePressed(MouseEvent e) {
@@ -266,13 +237,16 @@ public class PlayGameScene extends GameScene {
                     TotalCoin.instance.setCoin(TotalCoin.instance.getCoin() - tower.getCoin());
                     cellController.setTowerController(tower);
                     controllers.add(tower);
-                    checkCoint = true;
+
                 }
 
             } else {
                 tower.setAlive(false);
                 checkCoint = false;
             }
+
+            System.out.println(countOfMoney);
+
         }
         if (backMenu.checkMouse()) {
             Utils.reset();
@@ -307,7 +281,6 @@ public class PlayGameScene extends GameScene {
         if (e.getKeyCode() == KeyEvent.VK_3) {
             towerCreate = 3;
         }
-
     }
 
     public void mouseClicked(MouseEvent e) {

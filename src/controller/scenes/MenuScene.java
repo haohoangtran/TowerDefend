@@ -14,7 +14,6 @@ import java.awt.event.MouseEvent;
 import java.io.*;
 import java.util.Vector;
 
-import static utils.Utils.clip;
 import static utils.Utils.loadImage;
 
 /**
@@ -185,7 +184,9 @@ public class MenuScene extends GameScene {
     @Override
     public void mousePressed(MouseEvent e) {
         if (start.checkMouse()) {
+            Utils.playSound("res/sound/menu.wav",false);
             this.sceneListener.replaceScene(new PlayGameScene(), true);
+
         }
 
         if (resumeGame.checkMouse()) {

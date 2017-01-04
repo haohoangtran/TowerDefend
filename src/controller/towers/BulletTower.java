@@ -3,6 +3,7 @@ package controller.towers;
 import controller.Body;
 import controller.Controller;
 import controller.enemies.EnemyController;
+import controller.enemies.EnemyManager;
 import controller.enemies.EnemyType;
 import controller.gifts.CoinController;
 import controller.manager.BodyManager;
@@ -32,6 +33,7 @@ public class BulletTower extends Controller implements Body {
     public BulletTower(Model model, Animation animation, BulletType type) {
         super(model, animation);
         this.type = type;
+        Utils.playSound("res/sound/fire1.wav",false);
         isAlive = true;
         BodyManager.instance.register(this);
     }
@@ -60,8 +62,12 @@ public class BulletTower extends Controller implements Body {
     private EnemyController enemyController;
 
     public BulletTower(Model model, SingleView view, BulletType type) {
+
         super(model, view);
+
         this.type = type;
+            Utils.playSound("res/sound/fire.wav", false);
+
         isAlive = TowerController.isBulletAlive;
         BodyManager.instance.register(this);
     }
@@ -134,22 +140,43 @@ public class BulletTower extends Controller implements Body {
                     ((EnemyController) other).setHp(((EnemyController) other).getHp() - atk);
                     if (((EnemyController) other).getHp() <= 0) {
                         PlayGameScene.controllers.add(CoinController.createCoin(this.getModel().getX(), this.getModel().getY()));
+                        if (((EnemyController) other).enemyType!=EnemyType.FLY) {
+                            Utils.playSound("res/sound/die.wav", false);
+                        }else {
+
+                            Utils.playSound("res/sound/Die_a.wav", false);
+                        }
                         ((EnemyController) other).setAlive(false);
                     }
                     break;
                 case SLOW:
+
                     setAlive(false);
                     ((EnemyController) other).slow = true;
+
                     break;
                 case FIRE:
-//                    if (((EnemyController) other).enemyType == EnemyType.BOT) {
-//                        ((EnemyController) other).setHp(((EnemyController) other).getHp() - atk);
-//                        //setAlive(false);
-//                    }
-                    ((EnemyController) other).setHp(((EnemyController) other).getHp() - atk);
-                    if (((EnemyController) other).getHp() <= 0) {
-                        PlayGameScene.controllers.add(CoinController.createCoin(this.getModel().getX(), this.getModel().getY()));
-                        ((EnemyController) other).setAlive(false);
+                    BodyManager.instance.remove(this);
+                    for (int i = 0; i < EnemyManager.instance.getControllers().size(); i++) {
+                        EnemyController enemyController = (EnemyController) EnemyManager.instance.getControllers().get(i);
+                        int x = this.model.getX() + 25 - enemyController.getModel().getX();
+                        int y = this.model.getY() + 25 - enemyController.getModel().getY();
+                        double r = Math.sqrt(x * x + y * y);
+                        if (r <= 100) {
+                            enemyController.setHp(enemyController.getHp() - atk);
+                            if (enemyController.getHp() <= 0) {
+                                PlayGameScene.controllers.add(CoinController.createCoin(this.getModel().getX(), this.getModel().getY()));
+
+                                Utils.playSound("res/sound/die.wav",false);
+                                if (((EnemyController) other).enemyType!=EnemyType.FLY) {
+                                    Utils.playSound("res/sound/die.wav", false);
+                                }else {
+
+                                    Utils.playSound("res/sound/Die_a.wav", false);
+                                }
+                                enemyController.setAlive(false);
+                            }
+                        }
                     }
                     break;
             }

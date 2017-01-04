@@ -1,14 +1,11 @@
 package utils;
 
 import controller.HouseController;
-import controller.enemies.EnemyController;
 import controller.enemies.EnemyManager;
 import controller.enemies.EnemyType;
-import controller.enemies.SpawnEnemy;
 import controller.gifts.TotalCoin;
 import controller.manager.BodyManager;
 import controller.manager.CellManager;
-import controller.scenes.GameScene;
 import controller.scenes.PlayGameScene;
 import controller.towers.TowerManager;
 import models.CheckPoint;
@@ -18,13 +15,8 @@ import javax.sound.sampled.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Vector;
-
-import static controller.enemies.EnemyType.*;
-import static controller.towers.TowerType.NORMAL;
 
 /**
  * Created by DUC THANG on 12/17/2016.
@@ -90,14 +82,21 @@ public class Utils {
     }
 
     public static CheckPoint[] createCheckpoint() {
-        CheckPoint[] checkPoints = new CheckPoint[6];
-        checkPoints[0] = new CheckPoint(8, 280);
-        checkPoints[1] = new CheckPoint(322, 295);
-        checkPoints[2] = new CheckPoint(330, 582);
-        checkPoints[3] = new CheckPoint(720, 602);
-        checkPoints[4] = new CheckPoint(735, 425);
-        checkPoints[5] = new CheckPoint(907, 445);
-        return checkPoints;
+        try {
+            BufferedReader bufferedReader=new BufferedReader(new FileReader("res/CheckPoint/lv1.txt"));
+
+            CheckPoint[] checkPoints = new CheckPoint[Integer.valueOf(bufferedReader.readLine())];
+            for (int i = 0; i < checkPoints.length; i++) {
+                String[] str=bufferedReader.readLine().split(" ");
+                checkPoints[i]=new CheckPoint(Integer.valueOf(str[0]),Integer.valueOf(str[1]));
+            }
+            return checkPoints;
+        } catch (FileNotFoundException e) {
+            return null;
+        } catch (IOException e) {
+            return null;
+        }
+
     }
 
 
@@ -141,11 +140,12 @@ public class Utils {
     }
 
     public static void openSound() {
-        AudioInputStream inputStream= null;
+        AudioInputStream inputStream;
         try {
             inputStream = AudioSystem.getAudioInputStream(new File("res/sound/nennen.wav"));
             clip = AudioSystem.getClip();
             clip.open(inputStream);
+            clip.start();
         } catch (UnsupportedAudioFileException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -208,14 +208,12 @@ public class Utils {
     }
 
     public static void reset() {
-        if(clip.isRunning()) {
-            clip.stop();
-        }
-
+        clip.close();
         TotalCoin.instance.setCoin(500);
         HouseController.instance = HouseController.createHpFull(830, 325);
         BodyManager.instance.setBodies(new Vector<>());
         BodyManager.instance.register(HouseController.instance);
+        BodyManager.instance.register(TotalCoin.instance);
         EnemyManager.instance.removeAll();
         PlayGameScene.second = 0;
         PlayGameScene.timeCount = 0;

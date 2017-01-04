@@ -16,6 +16,10 @@ public class Controller implements BaseController,Serializable{
     protected Model model;
     protected View view;
 
+    public View getView() {
+        return view;
+    }
+
     public boolean isAlive() {
         return isAlive;
     }

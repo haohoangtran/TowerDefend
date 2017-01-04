@@ -3,7 +3,9 @@ package controller.enemies;
 import controller.Body;
 import controller.Controller;
 import controller.HouseController;
+import controller.gifts.CoinController;
 import controller.manager.BodyManager;
+import controller.scenes.PlayGameScene;
 import models.CheckPoint;
 import models.Model;
 import utils.AnimationManager;
@@ -157,6 +159,7 @@ public class EnemyController extends Controller implements Body {
     }
 
     public void run() {
+
         switch (enemyType) {
             case FLY:
                 moveEnemyFly(speedFly);
@@ -288,25 +291,30 @@ public class EnemyController extends Controller implements Body {
                                 y, 35, 35),
                         AnimationManager.normalRight, EnemyType.NORMAL, hp);
             case FLY:
+
                 return new EnemyController(
                         new Model(x, y, 40, 35),
                         AnimationManager.flyRight, EnemyType.FLY, hp);
             case TANK:
+
                 return new EnemyController(
                         new Model(x,
                                 y, 40, 35),
                         AnimationManager.tankRight, EnemyType.TANK, hp);
             case HORSE:
+
                 return new EnemyController(
                         new Model(x,
                                 y, 30, 35),
                         AnimationManager.horseRight, EnemyType.HORSE, hp);
             case SPEED:
+
                 return new EnemyController(
                         new Model(x,
                                 y, 35, 35),
                         AnimationManager.speedRight, EnemyType.SPEED, hp);
             case BOT:
+
                 return new EnemyController(new Model(x,
                         y, 60, 60),
                         AnimationManager.tankRight, EnemyType.BOT, hp);

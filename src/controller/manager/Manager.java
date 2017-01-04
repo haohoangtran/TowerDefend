@@ -11,7 +11,13 @@ import java.util.Vector;
  * Created by Songt on 12/18/2016.
  */
 public class Manager implements BaseController,Serializable{
-    public static Vector<Controller> controllers=new Vector<>();
+
+
+    public Vector<Controller> getControllers() {
+        return controllers;
+    }
+
+    public  static Vector<Controller> controllers=new Vector<>();
 
     public void draw(Graphics g){
         for (Controller controller : controllers) {

@@ -20,6 +20,9 @@ public class BodyManager implements BaseController{
     public void register(Body other){
         this.bodies.add(other);
     }
+    public void remove(Body other){
+        bodies.remove(other);
+    }
 
     public BodyManager() {
         bodies=new Vector<>();

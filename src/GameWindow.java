@@ -78,7 +78,7 @@ public class GameWindow extends Frame implements Runnable, SceneListener {
                     }
                     bufferedWriter.write("enemy");
                     bufferedWriter.newLine();
-                    for (Controller controller : EnemyManager.controllers) {
+                    for (Controller controller : EnemyManager.instance.getControllers()) {
                         if (controller instanceof EnemyController) {
                             switch (((EnemyController) controller).enemyType) {
                                 case NORMAL:
@@ -131,6 +131,10 @@ public class GameWindow extends Frame implements Runnable, SceneListener {
                         bufferedWriter.write("0");
                         bufferedWriter.newLine();
                     }
+                    bufferedWriter.write(PlayGameScene.posString+"");
+                    bufferedWriter.newLine();
+                    System.out.println(PlayGameScene.posString);
+                    bufferedWriter.flush();
                     bufferedWriter.close();
                 } catch (IOException e1) {
                     e1.printStackTrace();
